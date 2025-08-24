@@ -9,7 +9,7 @@
 - **Duración limitada**: El servidor se estructura en temporadas de 35 días.
 - **Narrativa inmersiva**: Temática de apocalipsis con lore progresivo y eventos en vivo.
 - **Comunidad activa**: Integración con Discord para coordinación, aplicación de jugadores y comunicación directa.
-
+- 
 ---
 
 ## 🚀 Objetivos del proyecto
