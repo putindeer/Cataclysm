@@ -17,15 +17,11 @@ import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.game.raids.bosses.calamity_hydra.rage.HydraRageManager;
 import org.cataclysm.global.utils.math.MathUtils;
 
-import java.util.List;
-import java.util.SplittableRandom;
-import java.util.concurrent.ThreadLocalRandom;
-
 public class HydraListener implements Listener {
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent event) {
         Entity damager = event.getDamager();
-        CataclysmBoss boss = Cataclysm.getBossFight();
+        CataclysmBoss boss = Cataclysm.getBoss();
 
         if (!(boss instanceof CalamityHydra hydra) || !(damager instanceof Player player) || !CataclysmBoss.isController(player)) return;
 
@@ -38,7 +34,7 @@ public class HydraListener implements Listener {
     private void onEntityDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
 
-        var bossFight = Cataclysm.getBossFight();
+        var bossFight = Cataclysm.getBoss();
         if (bossFight == null || !bossFight.getController().equals(player)) return;
 
         if (!(bossFight instanceof CalamityHydra hydra)) return;

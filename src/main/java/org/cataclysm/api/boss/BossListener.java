@@ -17,18 +17,14 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.boss.ability.Ability;
 import org.cataclysm.api.boss.ability.AbilityBooster;
-import org.cataclysm.api.boss.ability.AbilityUltimate;
 import org.cataclysm.api.boss.events.BossCastAbilityEvent;
 import org.cataclysm.api.boss.events.BossChannelAbilityEvent;
-import org.cataclysm.api.color.CataclysmColor;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.game.raids.bosses.calamity_hydra.rage.RageAbility;
 import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
-import org.cataclysm.game.raids.bosses.pale_king.abilities.PaleAbility;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.cataclysm.global.utils.text.TextUtils;
-import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -40,7 +36,7 @@ public class BossListener implements Listener {
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
 
-        var bossFight = Cataclysm.getBossFight();
+        var bossFight = Cataclysm.getBoss();
         var damager = event.getDamager();
 
         if (bossFight == null || !bossFight.controller.equals(damager)) return;
@@ -60,7 +56,7 @@ public class BossListener implements Listener {
     private void onEntityDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
 
-        var bossFight = Cataclysm.getBossFight();
+        var bossFight = Cataclysm.getBoss();
         if (bossFight == null || !bossFight.controller.equals(player)) return;
 
         var cause = event.getCause();
@@ -95,7 +91,7 @@ public class BossListener implements Listener {
     private void onFoodLevelChange(FoodLevelChangeEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
 
-        var bossFight = Cataclysm.getBossFight();
+        var bossFight = Cataclysm.getBoss();
         if (bossFight == null || !bossFight.controller.equals(player)) return;
 
         event.setFoodLevel(20);
@@ -166,7 +162,7 @@ public class BossListener implements Listener {
         var isController = CataclysmBoss.isController(player);
         if (!isController || player.hasCooldown(itemStack)) return;
 
-        var bossFight = Cataclysm.getBossFight();
+        var bossFight = Cataclysm.getBoss();
         if (bossFight == null) return;
 
         var abilities = bossFight.abilityManager.getAbilities();
@@ -181,7 +177,7 @@ public class BossListener implements Listener {
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent event) {
         var player = event.getPlayer();
-        var bossFight = Cataclysm.getBossFight();
+        var bossFight = Cataclysm.getBoss();
 
         if (bossFight != null) {
             bossFight.bossBar.addViewer(player);
@@ -197,7 +193,7 @@ public class BossListener implements Listener {
 
     @EventHandler
     private void onEntityTargetBoss(EntityTargetEvent event) {
-        var bossFight = Cataclysm.getBossFight();
+        var bossFight = Cataclysm.getBoss();
         if (bossFight == null) return;
 
         if (event.getTarget() != null && event.getTarget() == bossFight.controller) event.setCancelled(true);

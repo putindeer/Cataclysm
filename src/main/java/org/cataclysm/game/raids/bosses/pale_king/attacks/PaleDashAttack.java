@@ -7,7 +7,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
-import org.cataclysm.game.raids.bosses.pale_king.PaleKingUtils;
 
 import java.util.UUID;
 
@@ -69,11 +68,11 @@ public class PaleDashAttack extends PaleAttack {
             world.spawnParticle(Particle.END_ROD, location, 2, 0, 0, 0, 0, null, true);
 
             if (controller.getLocation().clone().add(0, -.01, 0).getBlock().isSolid()) {
-                Bukkit.getScheduler().cancelTask(Cataclysm.getBukkitTasks().get(uuid));
+                Bukkit.getScheduler().cancelTask(Cataclysm.getTasks().get(uuid));
                 if (super.king.phase.getCurrent() == 1) super.king.phase.updateModel(controller, "Pale King");
                 else super.king.phase.updateModel(controller, "Void Lord");
             }
         }, 2, 1);
-        Cataclysm.getBukkitTasks().put(uuid, task);
+        Cataclysm.getTasks().put(uuid, task);
     }
 }

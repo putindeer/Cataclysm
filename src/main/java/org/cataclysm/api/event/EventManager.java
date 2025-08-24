@@ -9,7 +9,7 @@ import org.cataclysm.api.event.data.EventData;
 import org.cataclysm.api.event.data.EventLoader;
 import org.jetbrains.annotations.NotNull;
 
-public class CataclysmEvent {
+public class EventManager {
     public final EventBossBar barManager;
     public final EventThread thread;
     public EventData data;
@@ -19,15 +19,15 @@ public class CataclysmEvent {
     public final int duration;
     public int timeLeft;
 
-    public CataclysmEvent(@NotNull EventData data) {
+    public EventManager(@NotNull EventData data) {
         this(data.id, data.duration, data.timeLeft, BossBar.Color.RED, CataclysmColor.valueOf(data.colorValue.toUpperCase()));
     }
 
-    public CataclysmEvent(String id, int duration, BossBar.Color barColor, CataclysmColor color) {
+    public EventManager(String id, int duration, BossBar.Color barColor, CataclysmColor color) {
         this(id, duration, duration, barColor, color);
     }
 
-    public CataclysmEvent(String id, int duration, int timeLeft, BossBar.Color barColor, CataclysmColor color) {
+    public EventManager(String id, int duration, int timeLeft, BossBar.Color barColor, CataclysmColor color) {
         this.id = id;
         this.duration = duration;
         this.timeLeft = timeLeft;
@@ -42,7 +42,7 @@ public class CataclysmEvent {
             this.barManager.bossBar.addViewer(player);
         }
 
-        Cataclysm.setEvent(this);
+        Cataclysm.setEventManager(this);
 
         this.thread.runTimer();
     }
@@ -52,7 +52,7 @@ public class CataclysmEvent {
             this.barManager.bossBar.removeViewer(player);
         }
 
-        Cataclysm.setEvent(null);
+        Cataclysm.setEventManager(null);
 
         this.thread.shutdown();
 
@@ -75,9 +75,9 @@ public class CataclysmEvent {
 
     public static void restore(@NotNull JsonConfig jsonConfig) {
         if (!jsonConfig.getJsonObject().entrySet().isEmpty()) {
-            var event = new CataclysmEvent(Cataclysm.getGson().fromJson(jsonConfig.getJsonObject(), EventData.class));
+            var event = new EventManager(Cataclysm.getGson().fromJson(jsonConfig.getJsonObject(), EventData.class));
             event.thread.runTimer();
-            Cataclysm.setEvent(event);
+            Cataclysm.setEventManager(event);
         }
     }
 }

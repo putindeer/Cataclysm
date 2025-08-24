@@ -38,7 +38,7 @@ public class DeathSequence {
 
     private final Audience audience;
 
-    private final ScheduledExecutorService service = Cataclysm.getScheduledExecutorService();
+    private final ScheduledExecutorService service = Cataclysm.getService();
 
     private final List<ScheduledFuture<?>> futures = new ArrayList<>();
 
@@ -75,7 +75,7 @@ public class DeathSequence {
         Component deathMessage = this.event.deathMessage();
         if (deathMessage == null) return;
         var plainDeathMessage = PlainTextComponentSerializer.plainText().serialize(deathMessage);
-        var bossFight = Cataclysm.getBossFight();
+        var bossFight = Cataclysm.getBoss();
         if (bossFight != null && plainDeathMessage.contains(bossFight.getController().getName())) {
             var bossName = bossFight.getName();
             plainDeathMessage = plainDeathMessage.replace(bossFight.getController().getName(), bossName);

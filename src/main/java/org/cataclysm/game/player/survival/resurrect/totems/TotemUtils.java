@@ -83,8 +83,8 @@ public class TotemUtils {
                 if (event instanceof EntityDamageByEntityEvent entityDamageByEntityEvent) {
                     var name = entityDamageByEntityEvent.getDamager().name();
                     if (entityDamageByEntityEvent.getDamager() instanceof Player player && CataclysmBoss.isController(player)) {
-                        if (Cataclysm.getBossFight() != null) {
-                            var stringName = Cataclysm.getBossFight().getName();
+                        if (Cataclysm.getBoss() != null) {
+                            var stringName = Cataclysm.getBoss().getName();
                             if (stringName.contains("ch")) name = MiniMessage.miniMessage().deserialize("Calamity Hydra");
                             else name = MiniMessage.miniMessage().deserialize(stringName);
                         }

@@ -10,7 +10,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,22 +22,21 @@ import org.cataclysm.game.player.tag.role.RoleManager;
 import org.cataclysm.game.player.tag.team.TeamManager;
 import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
 import org.cataclysm.global.utils.chat.ChatMessenger;
-import org.cataclysm.server.chat.head.ChatHeadUtils;
 
 @Registrable
 public class ChatListener implements Listener {
 
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
-        if (Cataclysm.getBossFight() != null
-                && Cataclysm.getBossFight() instanceof PaleKing paleKing
+        if (Cataclysm.getBoss() != null
+                && Cataclysm.getBoss() instanceof PaleKing paleKing
                 && paleKing.phase.getCurrent() > 1
                 && !event.getPlayer().isOp()) event.setCancelled(true);
     }
 
     @EventHandler
     private void onAsync(AsyncChatEvent event) {
-        if (Cataclysm.getBossFight() != null && Cataclysm.getBossFight() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) {
+        if (Cataclysm.getBoss() != null && Cataclysm.getBoss() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) {
             event.setCancelled(true);
             return;
         }

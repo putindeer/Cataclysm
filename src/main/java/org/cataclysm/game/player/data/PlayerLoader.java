@@ -17,7 +17,7 @@ public class PlayerLoader {
     }
 
     public static void saveAll() throws Exception {
-        for (CataclysmPlayer cataclysmPlayer : Cataclysm.getPlayerHashMap().values()) {
+        for (CataclysmPlayer cataclysmPlayer : Cataclysm.getCataclysmPlayers().values()) {
             new PlayerLoader(cataclysmPlayer.getData().getNickname()).save(cataclysmPlayer);
         }
     }

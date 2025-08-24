@@ -1,6 +1,6 @@
 package org.cataclysm.api.event.data;
 
-import org.cataclysm.api.event.CataclysmEvent;
+import org.cataclysm.api.event.EventManager;
 
 public class EventData {
     public String id;
@@ -8,7 +8,7 @@ public class EventData {
     public int timeLeft;
     public int duration;
 
-    public EventData(CataclysmEvent event) {
+    public EventData(EventManager event) {
         this.id = event.id;
         this.timeLeft = event.timeLeft;
         this.duration =  event.duration;

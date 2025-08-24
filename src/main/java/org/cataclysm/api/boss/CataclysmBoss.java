@@ -83,7 +83,7 @@ public abstract class CataclysmBoss implements Cloneable {
             this.healthBar.addViewer(player);
         }
 
-        Cataclysm.setBossFight(this);
+        Cataclysm.setBoss(this);
 
         this.onStart();
     }
@@ -111,7 +111,7 @@ public abstract class CataclysmBoss implements Cloneable {
             this.healthBar.removeViewer(player);
         }
 
-        Cataclysm.setBossFight(null);
+        Cataclysm.setBoss(null);
 
         new BossFightStopEvent().callEvent();
 

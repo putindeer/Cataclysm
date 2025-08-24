@@ -23,8 +23,8 @@ public class PaleTeleportAttack extends PaleAttack {
         Player controller = super.king.getController();
         controller.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, (super.channelTime * 20) + 10, 0, false, false));
 
-        assert Cataclysm.getBossFight() != null;
-        List<Ability> abilities = Cataclysm.getBossFight().getAbilityManager().getAbilities();
+        assert Cataclysm.getBoss() != null;
+        List<Ability> abilities = Cataclysm.getBoss().getAbilityManager().getAbilities();
         abilities.forEach(ability -> controller.setCooldown(ability.getTrigger().getType(), (this.channelTime * 20) + 10));
         controller.setCooldown(super.king.getSword(), this.channelTime * 20);
 

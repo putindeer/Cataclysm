@@ -232,7 +232,7 @@ public class Paragon extends CataclysmMob {
                 this.paragon.death();
                 event.setDropItems(false);
                 location.getWorld().dropItem(location, CataclysmItems.PARAGON_QUARTZ.build());
-                if (Cataclysm.getEvent() != null) location.getWorld().dropItem(location, CataclysmItems.PARAGON_QUARTZ.build());
+                if (Cataclysm.getEventManager() != null) location.getWorld().dropItem(location, CataclysmItems.PARAGON_QUARTZ.build());
 
                 var player = event.getPlayer();
                 new CataclysmAdvancement("the_beginning/one_shot_survivor").grant(player);

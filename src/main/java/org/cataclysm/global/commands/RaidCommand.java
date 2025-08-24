@@ -5,22 +5,16 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Description;
 import co.aikar.commands.annotation.Subcommand;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.persistence.PersistentDataType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.boss.CataclysmBoss;
-import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.structure.raid.RaidStructure;
 import org.cataclysm.game.mob.custom.cataclysm.mirage.MirageShulker;
@@ -28,7 +22,6 @@ import org.cataclysm.game.raids.bosses.RaidBosses;
 import org.cataclysm.game.raids.bosses.calamity_hydra.CalamityHydra;
 import org.cataclysm.game.raids.bosses.calamity_hydra.HydraPhase;
 import org.cataclysm.game.raids.bosses.calamity_hydra.entity.SleepingHydra;
-import org.cataclysm.game.raids.bosses.calamity_hydra.rage.HydraRage;
 import org.cataclysm.game.raids.structures.RaidStructures;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 
@@ -68,7 +61,7 @@ public class RaidCommand extends BaseCommand {
     private void stop(CommandSender commandSender) {
         if (!(commandSender instanceof Player player)) return;
 
-        CataclysmBoss manager = Cataclysm.getBossFight();
+        CataclysmBoss manager = Cataclysm.getBoss();
         if (manager == null) {
             ChatMessenger.sendStaffMessage(player, "No hay un jefe activo.");
             return;
@@ -82,7 +75,7 @@ public class RaidCommand extends BaseCommand {
     private void setHealth(CommandSender commandSender, int health) {
         if (!(commandSender instanceof Player player)) return;
 
-        CataclysmBoss manager = Cataclysm.getBossFight();
+        CataclysmBoss manager = Cataclysm.getBoss();
         if (manager == null) {
             ChatMessenger.sendStaffMessage(player, "No hay un jefe activo.");
             return;
@@ -96,7 +89,7 @@ public class RaidCommand extends BaseCommand {
     private void testHydraSetModel(CommandSender commandSender, int ordinal) {
         if (!(commandSender instanceof Player player)) return;
 
-        CataclysmBoss manager = Cataclysm.getBossFight();
+        CataclysmBoss manager = Cataclysm.getBoss();
         if (manager == null) {
             ChatMessenger.sendStaffMessage(player, "No hay un jefe activo.");
             return;
@@ -115,7 +108,7 @@ public class RaidCommand extends BaseCommand {
     private void testHydraSetPhase(CommandSender commandSender, int phase) {
         if (!(commandSender instanceof Player player)) return;
 
-        CataclysmBoss manager = Cataclysm.getBossFight();
+        CataclysmBoss manager = Cataclysm.getBoss();
         if (manager == null) {
             ChatMessenger.sendStaffMessage(player, "No hay un jefe activo.");
             return;
@@ -134,7 +127,7 @@ public class RaidCommand extends BaseCommand {
     private void testHydraSetFury(CommandSender commandSender, double fury) {
         if (!(commandSender instanceof Player player)) return;
 
-        CataclysmBoss manager = Cataclysm.getBossFight();
+        CataclysmBoss manager = Cataclysm.getBoss();
         if (manager == null) {
             ChatMessenger.sendStaffMessage(player, "No hay un jefe activo.");
             return;
@@ -164,7 +157,7 @@ public class RaidCommand extends BaseCommand {
     private void testHydraRestoreRage(CommandSender commandSender) {
         if (!(commandSender instanceof Player player)) return;
 
-        CataclysmBoss manager = Cataclysm.getBossFight();
+        CataclysmBoss manager = Cataclysm.getBoss();
         if (manager == null) {
             ChatMessenger.sendStaffMessage(player, "No hay un jefe activo.");
             return;

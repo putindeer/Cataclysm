@@ -3,7 +3,7 @@ package org.cataclysm.api.event.data;
 import lombok.Getter;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.json.JsonConfig;
-import org.cataclysm.api.event.CataclysmEvent;
+import org.cataclysm.api.event.EventManager;
 
 @Getter
 public class EventLoader {
@@ -14,12 +14,12 @@ public class EventLoader {
     }
 
     public void save() {
-        var event = Cataclysm.getEvent();
+        var event = Cataclysm.getEventManager();
         if (event == null) return;
         event.save(this.jsonConfig);
     }
 
     public void restore() {
-        CataclysmEvent.restore(this.jsonConfig);
+        EventManager.restore(this.jsonConfig);
     }
 }

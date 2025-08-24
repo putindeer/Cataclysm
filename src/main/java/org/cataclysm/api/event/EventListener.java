@@ -11,7 +11,7 @@ public class EventListener implements Listener {
 
     @EventHandler
     private void onPlayerJoinEvent(PlayerJoinEvent event) {
-        var cataclysmEvent = Cataclysm.getEvent();
+        var cataclysmEvent = Cataclysm.getEventManager();
         if (cataclysmEvent == null) return;
         cataclysmEvent.barManager.bossBar.addViewer(event.getPlayer());
     }

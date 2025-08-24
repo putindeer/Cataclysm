@@ -1,4 +1,4 @@
-package org.cataclysm.game.world.generator;
+package org.cataclysm.game.world.generator.the_end;
 
 import org.bukkit.Material;
 import org.bukkit.generator.BlockPopulator;

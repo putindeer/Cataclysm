@@ -253,7 +253,7 @@ public abstract class CataclysmMob implements Serializable {
         this.setToken(new CataclysmToken(this.tokenKey));
         if (this.listener != null) Bukkit.getPluginManager().registerEvents(this.listener, Cataclysm.getInstance());
 
-        var store = Cataclysm.getMobStore();
+        var store = Cataclysm.getStore();
         if (this.getStructure() != null) {
             store = this.getStructure().getMobStore();
             try {

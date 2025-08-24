@@ -63,7 +63,7 @@ public class RagnarokListener implements Listener {
 
     @EventHandler
     private void onLightningStrike(LightningStrikeEvent event) {
-        if (Cataclysm.getBossFight() != null) return;
+        if (Cataclysm.getBoss() != null) return;
         var ragnarok = Cataclysm.getRagnarok();
         if (ragnarok == null) return;
         var ragnarokLevel = ragnarok.getData().getLevel();

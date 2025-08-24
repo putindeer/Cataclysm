@@ -1,7 +1,6 @@
 package org.cataclysm.game.raids.bosses.pale_king.abilities;
 
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -13,7 +12,6 @@ import org.bukkit.util.Vector;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.particle.ParticleHandler;
-import org.cataclysm.game.raids.bosses.calamity_hydra.attacks.CalamityExplosion;
 import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
 import org.cataclysm.game.raids.bosses.pale_king.PaleKingUtils;
 import org.jetbrains.annotations.NotNull;
@@ -79,12 +77,12 @@ public class TerracismaAbility extends PaleAbility {
             world.spawnParticle(Particle.EXPLOSION, location, 5, 0.25, 0.25, 0.25, 0, null, true);
 
             if (livingEntity.getLocation().clone().add(0, -.01, 0).getBlock().isSolid()) {
-                Bukkit.getScheduler().cancelTask(Cataclysm.getBukkitTasks().get(uuid));
+                Bukkit.getScheduler().cancelTask(Cataclysm.getTasks().get(uuid));
                 this.castEarthquake(location, 20);
                 super.king.damage(livingEntity, 180);
             };
         }, 2, 1);
-        Cataclysm.getBukkitTasks().put(uuid, task);
+        Cataclysm.getTasks().put(uuid, task);
     }
 
     private void castEarthquake(Location location, int radius) {

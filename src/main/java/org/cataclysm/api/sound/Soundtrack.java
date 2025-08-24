@@ -47,7 +47,7 @@ public class Soundtrack {
     }
 
     public void loop(Sound sound, int duration) {
-        var bossFight = Cataclysm.getBossFight();
+        var bossFight = Cataclysm.getBoss();
         if (bossFight == null) return;
 
         var arena = bossFight.getArena();

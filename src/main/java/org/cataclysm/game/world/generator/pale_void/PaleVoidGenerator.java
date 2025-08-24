@@ -1,4 +1,4 @@
-package org.cataclysm.game.world.generator;
+package org.cataclysm.game.world.generator.pale_void;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -19,21 +19,33 @@ public class PaleVoidGenerator extends ChunkGenerator {
 
     @Override
     public void generateNoise(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ, @NotNull ChunkData chunkData) {
-        SimplexOctaveGenerator gen = new SimplexOctaveGenerator(worldInfo.getSeed(), 11);
-        gen.setScale(0.005725);
-        for(int x = 0; x < 16; x++) {
-            for (int z = 0; z < 16; z++) {
-                double noise = (gen.noise((chunkX * 16 + x), (chunkZ * 16 + z), .777D, .000323D) * 45.75D);
+        SimplexOctaveGenerator generator = new SimplexOctaveGenerator(worldInfo.getSeed(), 11);
+        generator.setScale(0.015725);
 
-                for(int i = 0; i < noise/2.5; i++) if (15+i <= 25) chunkData.setBlock(x, 15+i, z, getMaterial(i));
-                for(int i = 0; i < noise/1.87; i++) chunkData.setBlock(x, 15-i, z, getMaterial(-i));
+        int y = 60;
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                double noise = (generator.noise((chunkX * 16 + x), (chunkZ * 16 + z), .777D, .000423D) * 45.75D); //45 -> 55
+                for (int i = 0; i < (noise/2.5); i++) if ((15 + i) <= 45) chunkData.setBlock(x, (y + i), z, this.getMaterial(i));
+                for (int i = 0; i < (noise/0.5); i++) {
+                    if (i == 0) chunkData.setBlock(x, (y - i), z, this.getMaterial(0));
+                    chunkData.setBlock(x, (y - 1 - i), z, this.getMaterial(-i));
+                }
             }
         }
     }
 
     public Material getMaterial(int y) {
-        return (y >= 3 ? (new Random().nextInt(100) > 65 ? Material.PALE_MOSS_BLOCK : Material.GRASS_BLOCK) : Material.PALE_MOSS_BLOCK);
+        Material material;
 
+        int random = new Random().nextInt(100);
+        if (y >= 3) {
+            if (random > 40) material = Material.PALE_MOSS_BLOCK;
+            else material = Material.PALE_OAK_WOOD;
+        } else if (y < 0) material = Material.STRIPPED_PALE_OAK_WOOD;
+        else material = Material.PALE_OAK_WOOD;
+
+        return material;
     }
 
     @Override
@@ -48,7 +60,6 @@ public class PaleVoidGenerator extends ChunkGenerator {
 
     @Override
     public @Nullable BiomeProvider getDefaultBiomeProvider(@NotNull WorldInfo worldInfo) {
-
         return new BiomeProvider() {
             @Override
             public @NotNull Biome getBiome(@NotNull WorldInfo worldInfo, int x, int y, int z) {

@@ -25,7 +25,7 @@ public class DeathAltar {
     }
 
     public void placeSimple() {
-        if (Cataclysm.getBossFight() != null && Cataclysm.getBossFight() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
+        if (Cataclysm.getBoss() != null && Cataclysm.getBoss() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
 
         this.location.clone().getBlock().setType(Material.NETHER_BRICK_FENCE);
         this.location.clone().add(0, -1, 0).getBlock().setType(Material.BEDROCK);

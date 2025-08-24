@@ -14,7 +14,6 @@ import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
-import java.util.stream.Collectors;
 
 @Registrable
 public class DeathListener implements Listener {
@@ -26,7 +25,7 @@ public class DeathListener implements Listener {
         var world = player.getWorld();
         if (world.getName().equals("world_beta")) return;
 
-        if (Cataclysm.getBossFight() != null && Cataclysm.getBossFight().getController().equals(player)) {
+        if (Cataclysm.getBoss() != null && Cataclysm.getBoss().getController().equals(player)) {
             event.deathMessage(null);
             event.setCancelled(true);
             return;
@@ -38,7 +37,7 @@ public class DeathListener implements Listener {
         data.setDeathCount(data.getDeathCount() + 1);
 
         var deathInChamber = PersistentData.get(player, "DEATH-IN-CHAMBER", PersistentDataType.BOOLEAN);
-        var bossfight = Cataclysm.getBossFight() != null;
+        var bossfight = Cataclysm.getBoss() != null;
 
         DeathAltar altar = new DeathAltar(player);
         if ((deathInChamber == null || !deathInChamber) && !bossfight) altar.placeComplex();
@@ -50,7 +49,7 @@ public class DeathListener implements Listener {
         if (currentSequence != null) currentSequence.stop();
         Cataclysm.setDeathSequence(sequence);
 
-        if (Cataclysm.getBossFight() != null && Cataclysm.getBossFight() instanceof PaleKing king && king.phase.getCurrent() > 1) {
+        if (Cataclysm.getBoss() != null && Cataclysm.getBoss() instanceof PaleKing king && king.phase.getCurrent() > 1) {
             sequence.paleVoid();
             sequence.cast(DeathTitleType.SIMPLE);
             event.deathMessage(null);

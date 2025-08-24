@@ -11,8 +11,8 @@ public enum Dimensions {
 
     OVERWORLD(new WorldCreator("world")),
     NETHER(new WorldCreator("world_nether")),
-    PALE_VOID(new WorldCreator("pale_void")),
     THE_END(new WorldCreator("custom_end")),
+    PALE_VOID(new WorldCreator("world_pale_void")),
     ;
 
     private final WorldCreator worldCreator;

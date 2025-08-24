@@ -31,7 +31,7 @@ public class DeathListener implements Listener {
         switch (entity.getType()) {
             case SHULKER -> {
                 event.getDrops().clear();
-                if (new Random().nextInt(100) >= 66 || Cataclysm.getEvent() != null) {
+                if (new Random().nextInt(100) >= 66 || Cataclysm.getEventManager() != null) {
                     Item shulkerShell = location.getWorld().dropItemNaturally(location, new ItemStack(Material.SHULKER_SHELL));
                     shulkerShell.setInvulnerable(true);
                 }

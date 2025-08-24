@@ -7,10 +7,10 @@ import org.cataclysm.Cataclysm;
 
 public class EventThread {
 
-    private final @Getter CataclysmEvent event;
+    private final @Getter EventManager event;
     private BukkitTask task;
 
-    public EventThread(CataclysmEvent event) {
+    public EventThread(EventManager event) {
         this.event = event;
     }
 
@@ -18,7 +18,7 @@ public class EventThread {
         // Runs every 20 ticks (1 second)
         this.task = Bukkit.getScheduler().runTaskTimer(Cataclysm.getInstance(), () -> {
             if (this.event.timeLeft <= 0) {
-                Cataclysm.getEvent().stop();
+                Cataclysm.getEventManager().stop();
             } else {
                 this.event.timeLeft -= 1;
                 this.event.data.timeLeft = this.event.timeLeft;

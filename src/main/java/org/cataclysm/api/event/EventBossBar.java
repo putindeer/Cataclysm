@@ -7,11 +7,11 @@ import org.cataclysm.global.utils.math.MathUtils;
 import org.cataclysm.global.utils.text.TextUtils;
 
 public class EventBossBar {
-    private final CataclysmEvent event;
+    private final EventManager event;
     public BossBar bossBar;
     private final CataclysmColor color;
 
-    public EventBossBar(CataclysmEvent event, BossBar.Color barColor, CataclysmColor color) {
+    public EventBossBar(EventManager event, BossBar.Color barColor, CataclysmColor color) {
         this.event = event;
         this.bossBar = BossBar.bossBar(MiniMessage.miniMessage().deserialize(" "), 1, barColor, BossBar.Overlay.PROGRESS);
         this.color = color;

@@ -16,6 +16,6 @@ public enum DiscordChannels {
     private final TextChannel textChannel;
 
     DiscordChannels(String channelId) {
-        this.textChannel = Cataclysm.getDiscordConnection().getJda().getTextChannelById(channelId);
+        this.textChannel = Cataclysm.getDiscord().getJda().getTextChannelById(channelId);
     }
 }

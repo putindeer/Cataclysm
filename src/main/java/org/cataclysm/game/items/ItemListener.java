@@ -130,7 +130,7 @@ public class ItemListener implements Listener {
         var player = event.getPlayer();
         var day = Cataclysm.getDay();
         if (id.equals("lemegeton")) {
-            if (Cataclysm.getBossFight() != null && Cataclysm.getBossFight() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
+            if (Cataclysm.getBoss() != null && Cataclysm.getBoss() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
 
             if (!player.isSneaking()) return;
 
@@ -203,7 +203,7 @@ public class ItemListener implements Listener {
             }
 
             case "lemegeton": {
-                if (Cataclysm.getBossFight() != null && Cataclysm.getBossFight() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
+                if (Cataclysm.getBoss() != null && Cataclysm.getBoss() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
 
                 cooldown = 6000;
 
@@ -241,7 +241,7 @@ public class ItemListener implements Listener {
             }
 
             case "paragons_blessing": {
-                if (Cataclysm.getBossFight() != null && Cataclysm.getBossFight() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
+                if (Cataclysm.getBoss() != null && Cataclysm.getBoss() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
 
                 if (event.getClickedBlock() != null) {
                     var block = event.getClickedBlock();
@@ -312,7 +312,7 @@ public class ItemListener implements Listener {
                 break;
             }
             case "mirages_blessing": {
-                if (Cataclysm.getBossFight() != null && Cataclysm.getBossFight() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
+                if (Cataclysm.getBoss() != null && Cataclysm.getBoss() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
 
                 if (event.getClickedBlock() != null) {
                     var block = event.getClickedBlock();
@@ -386,7 +386,7 @@ public class ItemListener implements Listener {
         ItemBuilder builder = new ItemBuilder(event.getItemStack());
         String id = builder.getID();
         if (id != null && id.equalsIgnoreCase("paragon_pearl")) {
-            if (Cataclysm.getBossFight() != null && Cataclysm.getBossFight() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
+            if (Cataclysm.getBoss() != null && Cataclysm.getBoss() instanceof PaleKing paleKing && paleKing.phase.getCurrent() > 1) return;
             PersistentData.set(event.getProjectile(), "paragon_pearl", PersistentDataType.BOOLEAN, true);
         }
     }

@@ -54,9 +54,6 @@ import org.cataclysm.global.utils.chat.ChatMessenger;
 import java.util.List;
 import java.util.SplittableRandom;
 import java.util.UUID;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Registrable
@@ -243,10 +240,10 @@ public class PlayerListener implements Listener {
                                 Location location = player.getLocation();
                                 world.spawnParticle(Particle.END_ROD, location, 2, 0, 0, 0, 0, null, true);
                                 if (location.clone().add(0, -.05, 0).getBlock().isSolid()) {
-                                    Bukkit.getScheduler().cancelTask(Cataclysm.getBukkitTasks().get(uuid));
+                                    Bukkit.getScheduler().cancelTask(Cataclysm.getTasks().get(uuid));
                                 };
                             }, 2, 1);
-                            Cataclysm.getBukkitTasks().put(uuid, task);
+                            Cataclysm.getTasks().put(uuid, task);
 
                             world.playSound(player, org.bukkit.Sound.ITEM_MACE_SMASH_AIR, 0.75F, 1.17F);
                             world.spawnParticle(Particle.EXPLOSION, player.getLocation(), 3);

@@ -107,7 +107,7 @@ public class LootListener implements Listener {
         List<ItemStack> list = new ArrayList<>();
         list.add(new ItemStack(Material.ANCIENT_DEBRIS, 4));
         list.add(new ItemStack(Material.TURTLE_SCUTE, 6));
-        if (Cataclysm.getEvent() != null) list.add(CataclysmItems.CALAMITY_KEY.build()); //XDDDDDDDDDDDDDDDD
+        if (Cataclysm.getEventManager() != null) list.add(CataclysmItems.CALAMITY_KEY.build());
         return list;
     }
 

@@ -48,7 +48,7 @@ public class CataclysmPlayer {
             cataclysmPlayer = new CataclysmPlayer(new PlayerData(nickname));
         }
 
-        Cataclysm.getPlayerHashMap().put(cataclysmPlayer.getData().getNickname().toUpperCase(), cataclysmPlayer);
+        Cataclysm.getCataclysmPlayers().put(cataclysmPlayer.getData().getNickname().toUpperCase(), cataclysmPlayer);
     }
 
     public static CataclysmPlayer getCataclysmPlayer(@NotNull Player player) {
@@ -56,6 +56,6 @@ public class CataclysmPlayer {
     }
 
     public static CataclysmPlayer getCataclysmPlayer(@NotNull String nickname) {
-        return Cataclysm.getPlayerHashMap().get(nickname.toUpperCase());
+        return Cataclysm.getCataclysmPlayers().get(nickname.toUpperCase());
     }
 }

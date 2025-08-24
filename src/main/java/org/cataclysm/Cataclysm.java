@@ -9,10 +9,9 @@ import me.libraryaddict.disguise.DisguiseConfig;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.cataclysm.api.boss.CataclysmBoss;
-import org.cataclysm.api.event.CataclysmEvent;
+import org.cataclysm.api.event.EventManager;
 import org.cataclysm.api.event.data.EventLoader;
 import org.cataclysm.api.item.crafting.CataclysmRecipes;
 import org.cataclysm.api.listener.registrable.RegistrableUtils;
@@ -33,8 +32,7 @@ import org.cataclysm.game.player.survival.death.DeathSequence;
 import org.cataclysm.game.raids.structures.RaidStructures;
 import org.cataclysm.game.world.day.DayLoader;
 import org.cataclysm.game.world.day.DayManager;
-import org.cataclysm.game.world.generator.EndGenerator;
-import org.cataclysm.game.world.generator.PaleVoidGenerator;
+import org.cataclysm.game.world.generator.CataclysmGenerator;
 import org.cataclysm.game.world.ragnarok.Ragnarok;
 import org.cataclysm.game.world.ragnarok.RagnarokLoader;
 import org.cataclysm.global.commands.RaidCommand;
@@ -46,24 +44,23 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 
 public final class Cataclysm extends JavaPlugin {
-    private static final @Getter ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-    private static final @Getter HashMap<UUID, Integer> bukkitTasks = new HashMap<>();
+    private static final @Getter ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    private static final @Getter HashMap<UUID, Integer> tasks = new HashMap<>();
 
     private static final @Getter Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
-    private static final @Getter HashMap<String, CataclysmPlayer> playerHashMap = new HashMap<>();
+    private static final @Getter HashMap<String, CataclysmPlayer> cataclysmPlayers = new HashMap<>();
 
     private static @Getter Cataclysm instance;
-    private static @Getter MobStore mobStore;
+    private static @Getter MobStore store;
 
-    private static @Getter @Setter @Nullable CataclysmBoss bossFight;
-    private static @Getter @Setter DiscordConnection discordConnection;
+    private static @Getter @Setter @Nullable CataclysmBoss boss;
+    private static @Getter @Setter DiscordConnection discord;
     private static @Getter @Setter DeathSequence deathSequence;
     private static @Getter @Setter GameManager gameManager;
     private static @Getter @Setter DayManager dayManager;
-    private static @Getter @Setter CataclysmEvent event;
+    private static @Getter @Setter EventManager eventManager;
     private static @Getter @Setter Ragnarok ragnarok;
     private static @Getter @Setter int day;
 
@@ -71,8 +68,8 @@ public final class Cataclysm extends JavaPlugin {
     public void onEnable() {
         CataclysmMob.initializeMobConstructors();
         instance = this;
-        mobStore = new MobStore();
-        if (isMainHost()) discordConnection = new DiscordConnection();
+        store = new MobStore();
+        if (isMainHost()) discord = new DiscordConnection();
         try {
             StructureLoader.loadAll();
             PlayerLoader.loadAll();
@@ -86,7 +83,7 @@ public final class Cataclysm extends JavaPlugin {
 
         for (var player : Bukkit.getOnlinePlayers()) {
             if (ragnarok != null) ragnarok.getBossBar().addViewer(player);
-            if (event != null) event.barManager.bossBar.addViewer(player);
+            if (eventManager != null) eventManager.barManager.bossBar.addViewer(player);
         }
 
         PaperCommandManager paperCommandManager = new PaperCommandManager(this);
@@ -112,9 +109,7 @@ public final class Cataclysm extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(listener, Cataclysm.getInstance());
         }
 
-        setUpWorld("custom_end", new EndGenerator(), World.Environment.THE_END);
-        setUpWorld("pale_void", new PaleVoidGenerator(), World.Environment.NORMAL);
-
+        CataclysmGenerator.setUp();
         DisguiseConfig.setPlayerNameType(DisguiseConfig.PlayerNameType.VANILLA);
 
         Bukkit.getConsoleSender().sendMessage("   ___   _ _____ _   ___ _ __   _____ __  __ ");
@@ -123,22 +118,6 @@ public final class Cataclysm extends JavaPlugin {
         Bukkit.getConsoleSender().sendMessage("  \\___/_/ \\_\\_/_/ \\_\\___|____|_| |___/_|  |_|");
         Bukkit.getConsoleSender().sendMessage("");
         Bukkit.getConsoleSender().sendMessage("Cataclysm has been succesfully enabled.");
-    }
-
-    private void setUpWorld(String worldID, ChunkGenerator generator, World.Environment environment) {
-
-        if(Bukkit.getWorld(worldID) == null) {
-            WorldCreator wc = new WorldCreator(worldID);
-            wc.generator(generator);
-            wc.environment(environment);
-            wc.generateStructures(false);
-            wc.createWorld();
-        }
-
-        if (Bukkit.getWorld(worldID) != null) {
-            Objects.requireNonNull(Bukkit.getWorld(worldID)).setDifficulty(Difficulty.HARD);
-
-        }
     }
 
     @Override
@@ -151,7 +130,7 @@ public final class Cataclysm extends JavaPlugin {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (ragnarok != null) ragnarok.getBossBar().removeViewer(player);
-            if (event != null) event.barManager.bossBar.removeViewer(player);
+            if (eventManager != null) eventManager.barManager.bossBar.removeViewer(player);
         }
 
         try {
