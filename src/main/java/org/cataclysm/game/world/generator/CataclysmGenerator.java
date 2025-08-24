@@ -1,9 +1,6 @@
 package org.cataclysm.game.world.generator;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
+import org.bukkit.*;
 import org.bukkit.generator.ChunkGenerator;
 import org.cataclysm.game.world.generator.pale_void.PaleVoidGenerator;
 import org.cataclysm.game.world.generator.the_end.EndGenerator;
@@ -24,6 +21,11 @@ public class CataclysmGenerator {
             creator.environment(environment);
             creator.generateStructures(false);
             creator.createWorld();
-        } else world.setDifficulty(Difficulty.HARD);
+        }
+
+        if (world != null) {
+            world.setDifficulty(Difficulty.HARD);
+            world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+        }
     }
 }
