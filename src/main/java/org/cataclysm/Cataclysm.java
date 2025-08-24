@@ -1,0 +1,184 @@
+package org.cataclysm;
+
+import co.aikar.commands.PaperCommandManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import lombok.Getter;
+import lombok.Setter;
+import me.libraryaddict.disguise.DisguiseConfig;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.cataclysm.api.boss.CataclysmBoss;
+import org.cataclysm.api.event.CataclysmEvent;
+import org.cataclysm.api.event.data.EventLoader;
+import org.cataclysm.api.item.crafting.CataclysmRecipes;
+import org.cataclysm.api.listener.registrable.RegistrableUtils;
+import org.cataclysm.api.mob.CataclysmMob;
+import org.cataclysm.api.mob.MobUtils;
+import org.cataclysm.api.mob.store.MobStore;
+import org.cataclysm.api.structure.StructureManager;
+import org.cataclysm.api.structure.data.StructureLoader;
+import org.cataclysm.discord.DiscordConnection;
+import org.cataclysm.discord.DiscordListener;
+import org.cataclysm.game.GameManager;
+import org.cataclysm.game.data.GameDataManager;
+import org.cataclysm.game.mob.task.MobTask;
+import org.cataclysm.game.player.CataclysmPlayer;
+import org.cataclysm.game.player.PlayerTask;
+import org.cataclysm.game.player.data.PlayerLoader;
+import org.cataclysm.game.player.survival.death.DeathSequence;
+import org.cataclysm.game.raids.structures.RaidStructures;
+import org.cataclysm.game.world.day.DayLoader;
+import org.cataclysm.game.world.day.DayManager;
+import org.cataclysm.game.world.generator.EndGenerator;
+import org.cataclysm.game.world.generator.PaleVoidGenerator;
+import org.cataclysm.game.world.ragnarok.Ragnarok;
+import org.cataclysm.game.world.ragnarok.RagnarokLoader;
+import org.cataclysm.global.commands.RaidCommand;
+import org.cataclysm.global.commands.CataclysmCommand;
+import org.cataclysm.global.commands.PodiumCommand;
+import org.cataclysm.global.commands.StaffCommand;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+
+public final class Cataclysm extends JavaPlugin {
+    private static final @Getter ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+    private static final @Getter HashMap<UUID, Integer> bukkitTasks = new HashMap<>();
+
+    private static final @Getter Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+    private static final @Getter HashMap<String, CataclysmPlayer> playerHashMap = new HashMap<>();
+
+    private static @Getter Cataclysm instance;
+    private static @Getter MobStore mobStore;
+
+    private static @Getter @Setter @Nullable CataclysmBoss bossFight;
+    private static @Getter @Setter DiscordConnection discordConnection;
+    private static @Getter @Setter DeathSequence deathSequence;
+    private static @Getter @Setter GameManager gameManager;
+    private static @Getter @Setter DayManager dayManager;
+    private static @Getter @Setter CataclysmEvent event;
+    private static @Getter @Setter Ragnarok ragnarok;
+    private static @Getter @Setter int day;
+
+    @Override
+    public void onEnable() {
+        CataclysmMob.initializeMobConstructors();
+        instance = this;
+        mobStore = new MobStore();
+        if (isMainHost()) discordConnection = new DiscordConnection();
+        try {
+            StructureLoader.loadAll();
+            PlayerLoader.loadAll();
+            new DayLoader().restore();
+            new GameDataManager().restore();
+            new RagnarokLoader().restore();
+            new EventLoader().restore();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        for (var player : Bukkit.getOnlinePlayers()) {
+            if (ragnarok != null) ragnarok.getBossBar().addViewer(player);
+            if (event != null) event.barManager.bossBar.addViewer(player);
+        }
+
+        PaperCommandManager paperCommandManager = new PaperCommandManager(this);
+        paperCommandManager.getCommandCompletions().registerAsyncCompletion("@CataclysmMobs", c -> MobUtils.getMobNames());
+        paperCommandManager.registerCommand(new CataclysmCommand());
+        paperCommandManager.registerCommand(new StaffCommand());
+        paperCommandManager.registerCommand(new PodiumCommand());
+        paperCommandManager.registerCommand(new RaidCommand());
+
+        if (isMainHost()) {
+            Bukkit.getPluginManager().registerEvents(new DiscordListener(), this);
+        }
+
+        RegistrableUtils.registerListeners();
+        CataclysmRecipes.updateRecipes();
+
+        new PlayerTask().startTickTask(20);
+        new MobTask().startTickTask(40);
+
+        for (RaidStructures raidStructures : RaidStructures.values()) {
+            Listener listener = raidStructures.getStructure().getListener();
+            if (listener == null) continue;
+            Bukkit.getPluginManager().registerEvents(listener, Cataclysm.getInstance());
+        }
+
+        setUpWorld("custom_end", new EndGenerator(), World.Environment.THE_END);
+        setUpWorld("pale_void", new PaleVoidGenerator(), World.Environment.NORMAL);
+
+        DisguiseConfig.setPlayerNameType(DisguiseConfig.PlayerNameType.VANILLA);
+
+        Bukkit.getConsoleSender().sendMessage("   ___   _ _____ _   ___ _ __   _____ __  __ ");
+        Bukkit.getConsoleSender().sendMessage("  / __| /_\\_   _/_\\ / __| |\\ \\ / / __|  \\/  |");
+        Bukkit.getConsoleSender().sendMessage(" | (__ / _ \\| |/ _ \\ (__| |_\\ V /\\__ \\ |\\/| |");
+        Bukkit.getConsoleSender().sendMessage("  \\___/_/ \\_\\_/_/ \\_\\___|____|_| |___/_|  |_|");
+        Bukkit.getConsoleSender().sendMessage("");
+        Bukkit.getConsoleSender().sendMessage("Cataclysm has been succesfully enabled.");
+    }
+
+    private void setUpWorld(String worldID, ChunkGenerator generator, World.Environment environment) {
+
+        if(Bukkit.getWorld(worldID) == null) {
+            WorldCreator wc = new WorldCreator(worldID);
+            wc.generator(generator);
+            wc.environment(environment);
+            wc.generateStructures(false);
+            wc.createWorld();
+        }
+
+        if (Bukkit.getWorld(worldID) != null) {
+            Objects.requireNonNull(Bukkit.getWorld(worldID)).setDifficulty(Difficulty.HARD);
+
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        if (ragnarok != null) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                ragnarok.getBossBar().removeViewer(player);
+            }
+        }
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (ragnarok != null) ragnarok.getBossBar().removeViewer(player);
+            if (event != null) event.barManager.bossBar.removeViewer(player);
+        }
+
+        try {
+            StructureManager.getInstance().shutdown();
+            StructureLoader.saveAll();
+            PlayerLoader.saveAll();
+
+            new DayLoader().save();
+            new GameDataManager().save();
+            new RagnarokLoader().save();
+            new EventLoader().save();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        Bukkit.getConsoleSender().sendMessage("Cataclysm has been succesfully disabled.");
+    }
+
+    public static void debug(String info) {
+        Bukkit.getConsoleSender().sendMessage("[Cataclysm Debug] " + info);
+    }
+
+    /**
+     * Verifies if the server is the main Cataclysm's host or the BETA.
+     * @return If the server is Cataclysm's main host.
+     */
+    public static boolean isMainHost() {
+        return Bukkit.getServer().getMaxPlayers() >= 135;
+    }
+}
