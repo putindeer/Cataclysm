@@ -48,6 +48,7 @@ import org.cataclysm.game.player.tag.role.RoleManager;
 import org.cataclysm.game.player.tag.role.RoleType;
 import org.cataclysm.game.player.tag.team.TeamManager;
 import org.cataclysm.game.player.tag.team.Teams;
+import org.cataclysm.game.raids.bosses.pale_king.PaleKingUtils;
 import org.cataclysm.game.world.Dimensions;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 
@@ -241,7 +242,7 @@ public class PlayerListener implements Listener {
                                 world.spawnParticle(Particle.END_ROD, location, 2, 0, 0, 0, 0, null, true);
                                 if (location.clone().add(0, -.05, 0).getBlock().isSolid()) {
                                     Bukkit.getScheduler().cancelTask(Cataclysm.getTasks().get(uuid));
-                                };
+                                }
                             }, 2, 1);
                             Cataclysm.getTasks().put(uuid, task);
 
@@ -295,6 +296,11 @@ public class PlayerListener implements Listener {
             if (cause == EntityDamageEvent.DamageCause.DROWNING) {
                 if (!PlayerUtils.hasMirageHelmet(player)) damageMultiplier += 2;
             }
+        }
+
+        if (day >= 28) {
+            if (cause == EntityDamageEvent.DamageCause.VOID) event.setDamage(999);
+            PaleKingUtils.breakElytras(player, 0);
         }
 
         event.setDamage((event.getDamage() + extraDamage) * damageMultiplier);
@@ -380,7 +386,7 @@ public class PlayerListener implements Listener {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 400, 2));
                     player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 20 * 120, 4));
                     player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20 * 300, 1));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 20 * 15, 2));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 20 * 15, day < 28 ? 2 : 0));
                     return;
                 }
 
@@ -518,9 +524,7 @@ public class PlayerListener implements Listener {
             event.setCancelled(true);
 
             // Teleport diferido para evitar recursión infinita
-            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-                player.teleport(new Location(Dimensions.THE_END.getWorld(), 0, -56, -290));
-            });
+            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> player.teleport(new Location(Dimensions.THE_END.getWorld(), 0, -56, -290)));
         }
     }
 

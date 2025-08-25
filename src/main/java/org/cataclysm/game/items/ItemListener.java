@@ -177,7 +177,7 @@ public class ItemListener implements Listener {
         if (id == null) return;
 
         int cooldown = 0;
-
+        int day = Cataclysm.getDay();
         switch (id) {
             case "dungeon_compass": {
                 if (builder.hasLodestone()) {
@@ -258,6 +258,7 @@ public class ItemListener implements Listener {
                 cooldown = 20;
 
                 int duration = 300;
+                if (day >= 28) duration = duration / 2;
 
                 PotionEffect currentEffect = player.getPotionEffect(ImmunityEffect.EFFECT_TYPE);
                 if (currentEffect != null) {
@@ -275,15 +276,16 @@ public class ItemListener implements Listener {
                 var cataclysmPlayer = CataclysmPlayer.getCataclysmPlayer(player);
                 var mortalityManager = cataclysmPlayer.getMortalityManager();
 
-                if (Cataclysm.getDay() >= 21) {
+                if (day >= 21) {
                     float currentValue = mortalityManager.getValue();
-                    float newValue = currentValue - 0.0025f;
+                    float mortalityToReduce = day < 28 ? 0.0025f : 0.01f;
+                    float newValue = currentValue - mortalityToReduce;
                     DecimalFormat df = new DecimalFormat("#.####");
                     // Round to 3 decimal places to eliminate floating point errors
 
                     var ragnarok = Cataclysm.getRagnarok();
                     if (ragnarok != null && ragnarok.getData().getLevel() >= 8) {
-                        newValue = currentValue - 0.0075f;
+                        newValue = currentValue - (mortalityToReduce * 3);
                     }
 
                     newValue = Float.parseFloat(df.format(newValue));
@@ -395,10 +397,12 @@ public class ItemListener implements Listener {
     public void onPlayerHitPearl(ProjectileHitEvent event) {
         if (!(event.getEntity().getShooter() instanceof Player player)) return;
         if (event.getEntity().getType() != EntityType.ENDER_PEARL) return;
+        int day = Cataclysm.getDay();
 
         var enderPearl = event.getEntity();
         if (PersistentData.has(enderPearl, "paragon_pearl", PersistentDataType.BOOLEAN)) {
             int duration = 140;
+            if (day >= 28) duration = duration / 2;
 
             PotionEffect currentEffect = player.getPotionEffect(ImmunityEffect.EFFECT_TYPE);
             if (currentEffect != null) {
@@ -408,9 +412,27 @@ public class ItemListener implements Listener {
             player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, duration, 0, false));
             player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, duration, 0, true, true, false));
 
+            var cataclysmPlayer = CataclysmPlayer.getCataclysmPlayer(player);
+            var mortalityManager = cataclysmPlayer.getMortalityManager();
+            if (day >= 28) {
+                float currentValue = mortalityManager.getValue();
+                float mortalityToReduce = 0.005f;
+                float newValue = currentValue - mortalityToReduce;
+                DecimalFormat df = new DecimalFormat("#.####");
+                // Round to 3 decimal places to eliminate floating point errors
+
+                var ragnarok = Cataclysm.getRagnarok();
+                if (ragnarok != null && ragnarok.getData().getLevel() >= 8) {
+                    newValue = currentValue - (mortalityToReduce * 3);
+                }
+
+                newValue = Float.parseFloat(df.format(newValue));
+                mortalityManager.setValue(newValue);
+            }
+
             for (var onlinePlayers : Bukkit.getOnlinePlayers()) {
                 ChatMessenger.sendMessage(onlinePlayers, MiniMessage.miniMessage()
-                        .deserialize( player.getName() + " utilizó una <#c6a96e>Paragon Pearl" + ChatMessenger.getTextColor() + "."));
+                        .deserialize( player.getName() + " utilizó una <#c6a96e>Paragon Pearl" + ChatMessenger.getTextColor() + ". ").append(MiniMessage.miniMessage().deserialize(mortalityManager.getPercentage())));
                 onlinePlayers.playSound(Sound.sound(Key.key("entity.guardian.death"), Sound.Source.MASTER, 0.75F, 1.855F));
             }
 

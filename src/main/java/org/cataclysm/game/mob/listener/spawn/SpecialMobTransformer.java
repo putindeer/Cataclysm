@@ -3,6 +3,8 @@ package org.cataclysm.game.mob.listener.spawn;
 import org.bukkit.World;
 import org.bukkit.entity.Endermite;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
@@ -10,22 +12,103 @@ import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.game.mob.custom.cataclysm.QuantumReactor;
 import org.cataclysm.game.mob.custom.cataclysm.arcane.ArcaneEvoker;
 import org.cataclysm.game.mob.custom.cataclysm.mirage.*;
+import org.cataclysm.game.mob.custom.cataclysm.twisted.TwistedBlaze;
+import org.cataclysm.game.mob.custom.cataclysm.twisted.TwistedEnderman;
 import org.cataclysm.game.mob.custom.cataclysm.wandering.WanderingFaith;
 import org.cataclysm.game.mob.custom.cataclysm.wandering.WanderingSoul;
+import org.cataclysm.game.mob.custom.dungeon.monolith.Termite;
 import org.cataclysm.game.mob.custom.dungeon.monolith.Trickster;
 import org.cataclysm.game.mob.custom.dungeon.temple.Enchanter;
+import org.cataclysm.game.mob.custom.dungeon.temple.Headsman;
+import org.cataclysm.game.mob.custom.dungeon.temple.Sentinel;
 import org.cataclysm.game.mob.custom.vanilla.AggressiveLlama;
 import org.cataclysm.game.mob.custom.vanilla.CustomElderGuardian;
+import org.cataclysm.game.mob.custom.vanilla.CustomWarden;
 import org.cataclysm.game.mob.custom.vanilla.ExplosivePufferfish;
 import org.cataclysm.game.mob.custom.vanilla.ghast.Ur_Ghast;
 import org.cataclysm.game.mob.custom.vanilla.phantom.ToxicTerror;
+import org.cataclysm.game.mob.custom.vanilla.skeleton.standard.CataclystSkeleton;
 import org.cataclysm.game.mob.custom.vanilla.skeleton.wither.NetherNightmare;
 import org.cataclysm.game.world.Dimensions;
 
 public class SpecialMobTransformer {
 
     public boolean replace(SpawnContext ctx) {
-        return replaceEndMobs(ctx) ||  replaceNetherMobs(ctx) || replaceOverworldMobs(ctx);
+        return replacePaleMobs(ctx) || replaceEndMobs(ctx) ||  replaceNetherMobs(ctx) || replaceOverworldMobs(ctx);
+    }
+
+    private boolean replacePaleMobs(SpawnContext ctx) {
+        if (ctx.entity instanceof Endermite) return false;
+        if (!ctx.location.getWorld().equals(Dimensions.PALE_VOID.getWorld())) return false;
+        if (Math.abs(ctx.location.getX()) < 100 && Math.abs(ctx.location.getZ()) < 100) { // Avoid spawning mobs in a radius of 100 blocks of 0 0
+            ctx.entity.remove();
+            return true;
+        }
+
+        CataclysmMob mobToSpawn = null;
+        int mobsPerPlayer = 20;
+        int maxPerChunk = 5;
+        CataclysmMob[] mobList = {
+                new Headsman(ctx.level),
+                new Sentinel(ctx.level),
+                new CustomWarden(ctx.level),
+                new TwistedEnderman(ctx.level),
+                new AggressiveLlama(ctx.level),
+                new Termite(ctx.level),
+                new NetherNightmare(ctx.level),
+                new Ur_Ghast(ctx.level),
+                new CataclystSkeleton(ctx.level),
+                new ToxicTerror(ctx.level),
+                new MirageGhast(ctx.level),
+                new WanderingFaith(ctx.level),
+                new WanderingSoul(ctx.level),
+                new TwistedBlaze(ctx.level)
+        };
+        int randomIndex = ctx.random.nextInt(mobList.length + 1);
+        if (randomIndex < mobList.length) mobToSpawn = mobList[randomIndex];
+
+        ctx.entity.remove();
+        LivingEntity livingEntity;
+        if (mobToSpawn == null) livingEntity = (LivingEntity) ctx.location.getWorld().spawnEntity(ctx.location, EntityType.CREAKING, CreatureSpawnEvent.SpawnReason.DEFAULT);
+        else {
+            mobToSpawn.addFreshEntity(ctx.location);
+            livingEntity = mobToSpawn.getBukkitLivingEntity();
+        }
+        switch (livingEntity.getType()) {
+            case ENDERMAN -> mobsPerPlayer = mobsPerPlayer / 5;
+            case PHANTOM -> {
+                mobsPerPlayer = mobsPerPlayer / 6;
+                maxPerChunk = 4;
+            }
+            case SKELETON, ZOMBIE -> {
+                mobsPerPlayer = mobsPerPlayer / 6;
+            }
+            case BLAZE, WITHER_SKELETON -> {
+                mobsPerPlayer = mobsPerPlayer / 8;
+            }
+            case GHAST -> {
+                mobsPerPlayer = mobsPerPlayer / 10;
+                maxPerChunk = 2;
+            }
+            case CREAKING, WARDEN -> {
+                mobsPerPlayer = mobsPerPlayer / 12;
+                maxPerChunk = 1;
+            }
+            case RAVAGER, WITHER -> {
+                mobsPerPlayer = 2;
+                maxPerChunk = 1;
+            }
+        }
+
+        var ragnarok = Cataclysm.getRagnarok();
+        if (ragnarok != null && ragnarok.getData().getLevel() >= 9) {
+            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, PotionEffect.INFINITE_DURATION, 1));
+            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, PotionEffect.INFINITE_DURATION, 1));
+        }
+
+        SpawnUtils.setMobCap(livingEntity, mobsPerPlayer, maxPerChunk, 1.0);
+
+        return true;
     }
 
     private boolean replaceEndMobs(SpawnContext ctx) {
@@ -67,7 +150,6 @@ public class SpecialMobTransformer {
                     mobsPerPlayer = mobsPerPlayer / 6;
                     maxPerChunk = 2;
                 }
-
                 case GHAST, CREEPER -> {
                     mobsPerPlayer = mobsPerPlayer / 10;
                     maxPerChunk = 2;

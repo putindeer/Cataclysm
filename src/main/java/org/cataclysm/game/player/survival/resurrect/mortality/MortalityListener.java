@@ -71,18 +71,23 @@ public class MortalityListener implements Listener {
 
     private static float getNewValue(PlayerUseTotemEvent event, MortalityManager mortalityManager, int day) {
         float currentValue = mortalityManager.getValue();
-        float decreaseValue = day < 21 ? 0.010f : 0.020f;
+        float decreaseValue = day < 21 ? 0.010f : day < 28 ? 0.020f : 0.1f;
         var totemId = event.getTotemId();
 
         if (totemId != null) {
             switch (totemId) {
                 case "arcane_totem" -> {
                     decreaseValue = 0.0f;
-                    if (day > 14) decreaseValue = 0.005f;
-                    if (day > 21) decreaseValue = 0.010f;
+                    if (day >= 14) decreaseValue = 0.005f;
+                    if (day >= 21) decreaseValue = 0.010f;
+                    if (day >= 28) decreaseValue = 0.05f;
                 }
 
-                case "calamity_totem" -> decreaseValue = day < 21 ? 0.0f : 0.005f;
+                case "calamity_totem" -> {
+                    decreaseValue = 0.0f;
+                    if (day >= 21) decreaseValue = 0.005f;
+                    if (day >= 28) decreaseValue = 0.02f;
+                }
             }
         }
 

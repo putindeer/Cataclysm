@@ -21,6 +21,7 @@ import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.mob.custom.dungeon.temple.Paragon;
 import org.cataclysm.game.mob.utils.TeleportUtils;
 import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
+import org.cataclysm.game.raids.bosses.pale_king.PaleKingUtils;
 import org.cataclysm.game.world.Dimensions;
 
 public class PlayerTask {
@@ -38,6 +39,7 @@ public class PlayerTask {
             handleTeleports(day, player);
             handleDisper(player);
             handleAchievements(player);
+            handleElytra(day, player);
         }
     }
 
@@ -223,8 +225,7 @@ public class PlayerTask {
         var enderpearls = player.getEnderPearls();
 
         for (var enderpearl : enderpearls) {
-            //enderpearl.getTicksLived() > 3600
-            if (enderpearl.isInLava() || enderpearl.isInWater() || enderpearl.getFireTicks() > 0) enderpearl.remove();
+            if (day >= 28 && enderpearl.getTicksLived() >= 200 || enderpearl.isInLava() || enderpearl.isInWater() || enderpearl.getFireTicks() > 0) enderpearl.remove();
         }
 
         if (day < 21) return;
@@ -246,6 +247,10 @@ public class PlayerTask {
                 if (teleportToMaze) new CataclysmAdvancement("the_end/maze_runner").grant(player);
             }
         }
+    }
+
+    private void handleElytra(int day, Player player) {
+        if (day >= 28 && player.getLocation().getBlock().isLiquid()) PaleKingUtils.breakElytras(player, 0);
     }
 
 }
