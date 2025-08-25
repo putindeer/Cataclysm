@@ -17,7 +17,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionEffectTypeCategory;
 import org.cataclysm.Cataclysm;
+import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.game.effect.DisperEffect;
+import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,7 +63,7 @@ public class PlayerUtils {
         ChatMessenger.sendMessage(player, ChatMessenger.getTextColor() + "Tu insomnia se ha reiniciado.");
     }
 
-    public static boolean hasFullArmor(@NotNull Player player) {
+    public static boolean hasArmor(ItemFamily family, Player player) {
         var inventory = player.getInventory();
 
         var head = inventory.getHelmet();
@@ -69,7 +71,7 @@ public class PlayerUtils {
         var legs = inventory.getLeggings();
         var feet = inventory.getBoots();
 
-        return isFullyUnbreakable(head, chest, legs, feet);
+        return isFamilyMember(family, head, chest, legs, feet);
     }
 
     public static boolean hasTwistedHoe(@NotNull Player player) {
@@ -91,11 +93,10 @@ public class PlayerUtils {
         return head.getItemMeta().isUnbreakable();
     }
 
-    private static boolean isFullyUnbreakable(ItemStack... items) {
+    private static boolean isFamilyMember(ItemFamily itemFamily, ItemStack @NotNull ... items) {
         for (ItemStack item : items) {
-            if (item == null) return false;
-            ItemMeta meta = item.getItemMeta();
-            if (meta == null || !meta.isUnbreakable()) return false;
+            ItemBuilder builder = new ItemBuilder(item);
+            if (builder.getFamily() == null || !builder.getFamily().equals(itemFamily)) return false;
         }
         return true;
     }

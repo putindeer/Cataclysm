@@ -29,7 +29,13 @@ public class TotemListener implements Listener {
 
         if (!(itemInMainHand.getType().equals(Material.TOTEM_OF_UNDYING)) && !(itemInOffHand.getType().equals(Material.TOTEM_OF_UNDYING))) return;
 
-        if (player.hasPotionEffect(MortemEffect.EFFECT_TYPE)) return;
+        var totem = itemInMainHand;
+        if (totem.getType() != Material.TOTEM_OF_UNDYING) totem = itemInOffHand;
+
+        var builder = new ItemBuilder(totem);
+        var id = builder.getID();
+
+        if (player.hasPotionEffect(MortemEffect.EFFECT_TYPE) && id != null && !id.contains("paragon")) return;
 
         CataclysmPlayer cataclysmPlayer = CataclysmPlayer.getCataclysmPlayer(player);
         TotemManager totemManager = cataclysmPlayer.getTotemManager();
@@ -41,17 +47,12 @@ public class TotemListener implements Listener {
         EntityDamageEvent lastDamageCause = player.getLastDamageCause();
         if (lastDamageCause != null) cause = TotemUtils.formatDamageCause(lastDamageCause);
 
-        var totem = itemInMainHand;
-        if (totem.getType() != Material.TOTEM_OF_UNDYING) totem = itemInOffHand;
-
-        var builder = new ItemBuilder(totem);
-
         var mortalityManager = cataclysmPlayer.getMortalityManager();
         var mortalityPercentage = mortalityManager.getPercentage();
 
         var poppedTotems = totemManager.getPoppedTotems();
 
-        new PlayerUseTotemEvent(player, cause, builder.getID(), poppedTotems, mortalityPercentage).callEvent();
+        new PlayerUseTotemEvent(player, cause, id, poppedTotems, mortalityPercentage).callEvent();
 
         Location location = player.getLocation();
         Bukkit.getConsoleSender().sendMessage(player.getName() + " used a totem. " + " (" + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ() + ")");

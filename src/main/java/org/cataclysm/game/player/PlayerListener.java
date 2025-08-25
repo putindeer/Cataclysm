@@ -43,6 +43,7 @@ import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.item.ItemRestorer;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.game.items.CataclysmItems;
+import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.game.player.data.PlayerLoader;
 import org.cataclysm.game.player.tag.role.RoleManager;
 import org.cataclysm.game.player.tag.role.RoleType;
@@ -284,7 +285,7 @@ public class PlayerListener implements Listener {
             }
 
             if (cause.name().contains("FIRE") || cause == EntityDamageEvent.DamageCause.LAVA || cause == EntityDamageEvent.DamageCause.POISON) {
-                if (!PlayerUtils.hasFullArmor(player)) damageMultiplier += 4;
+                if (!PlayerUtils.hasArmor(ItemFamily.CALAMITY_ARMOR, player) && !PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) damageMultiplier += 4;
             }
         }
 

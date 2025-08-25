@@ -16,6 +16,7 @@ import org.cataclysm.Cataclysm;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.game.effect.DisperEffect;
+import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.effect.MortemEffect;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerUtils;
@@ -39,6 +40,7 @@ public class MortalityListener implements Listener {
         var day = Cataclysm.getDay();
         var cataclysmPlayer = CataclysmPlayer.getCataclysmPlayer(player);
         var mortalityManager = cataclysmPlayer.getMortalityManager();
+
         float newValue = getNewValue(event, mortalityManager, day);
         mortalityManager.setValue(newValue);
 
@@ -47,6 +49,7 @@ public class MortalityListener implements Listener {
             this.handlePlayerEffects(player, mortality);
             this.applyEnemyEffects(player, mortality);
             this.applyHealthEffects(player, mortality);
+            this.handleParagonTotemEffect(event);
         }, 1);
 
         var totem = itemInMainHand;
@@ -69,6 +72,19 @@ public class MortalityListener implements Listener {
 
     }
 
+    private void handleParagonTotemEffect(PlayerUseTotemEvent event) {
+        Player player = event.getPlayer();
+        String totemId = event.getTotemId();
+
+        if (totemId != null && totemId.contains("paragon")) {
+            player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, 150, 0, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 150, 0, true, true, false));
+            player.playSound(Sound.sound(Key.key("block.beacon.activate"), Sound.Source.MASTER, 1.0F, 0.655F));
+            player.playSound(Sound.sound(Key.key("entity.iron_golem.death"), Sound.Source.MASTER, 1.0F, 0.855F));
+            player.playSound(Sound.sound(Key.key("item.totem.use"), Sound.Source.MASTER, 1.0F, 1.355F));
+        }
+    }
+
     private static float getNewValue(PlayerUseTotemEvent event, MortalityManager mortalityManager, int day) {
         float currentValue = mortalityManager.getValue();
         float decreaseValue = day < 21 ? 0.010f : day < 28 ? 0.020f : 0.1f;
@@ -82,12 +98,12 @@ public class MortalityListener implements Listener {
                     if (day >= 21) decreaseValue = 0.010f;
                     if (day >= 28) decreaseValue = 0.05f;
                 }
-
                 case "calamity_totem" -> {
                     decreaseValue = 0.0f;
                     if (day >= 21) decreaseValue = 0.005f;
                     if (day >= 28) decreaseValue = 0.02f;
                 }
+                case "pale_totem" -> decreaseValue = 0.0f;
             }
         }
 

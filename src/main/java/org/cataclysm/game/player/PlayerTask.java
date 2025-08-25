@@ -18,6 +18,7 @@ import org.cataclysm.game.effect.DisperEffect;
 import org.cataclysm.game.effect.MortemEffect;
 import org.cataclysm.game.effect.PaleCorrosionEffect;
 import org.cataclysm.game.items.CataclysmItems;
+import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.game.mob.custom.dungeon.temple.Paragon;
 import org.cataclysm.game.mob.utils.TeleportUtils;
 import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
@@ -80,9 +81,7 @@ public class PlayerTask {
         
         if (day >= 21) defaultHealth-=4.0;
         // Custom Armor
-        if (PlayerUtils.hasFullArmor(player)) {
-            defaultHealth += 8.0;
-        }
+        if (PlayerUtils.hasArmor(ItemFamily.CALAMITY_ARMOR, player) || PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) defaultHealth += 8.0;
 
         if (ragnarok != null && ragnarok.getData().getLevel() >= 5) defaultHealth -= 4.0;
 

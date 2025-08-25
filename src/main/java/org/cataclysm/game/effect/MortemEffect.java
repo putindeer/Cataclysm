@@ -12,6 +12,7 @@ import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
+import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 
@@ -30,7 +31,13 @@ public class MortemEffect implements Listener {
 
         if (!(itemInMainHand.getType().equals(Material.TOTEM_OF_UNDYING)) && !(itemInOffHand.getType().equals(Material.TOTEM_OF_UNDYING))) return;
 
-        if (!player.hasPotionEffect(MortemEffect.EFFECT_TYPE)) return;
+        var totem = itemInMainHand;
+        if (totem.getType() != Material.TOTEM_OF_UNDYING) totem = itemInOffHand;
+
+        var builder = new ItemBuilder(totem);
+        var id = builder.getID();
+        player.sendMessage("ID del tótem: " + id);
+        if (!player.hasPotionEffect(MortemEffect.EFFECT_TYPE) || (id != null && id.contains("paragon"))) return;
 
         for (var onlinePlayers : Bukkit.getOnlinePlayers()) {
             ChatMessenger.sendMessage(onlinePlayers, player.getName() + " intentó usar un tótem con " + ChatMessenger.getCataclysmColor() + "MORTEM" + ChatMessenger.getTextColor() + ".");
