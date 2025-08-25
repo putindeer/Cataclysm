@@ -32,6 +32,9 @@ import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.mob.MobUtils;
+import org.cataclysm.game.effect.MortemEffect;
+import org.cataclysm.game.effect.PaleCorrosionEffect;
+import org.cataclysm.game.world.Dimensions;
 import org.cataclysm.global.utils.security.CataclysmToken;
 import org.jetbrains.annotations.NotNull;
 
@@ -106,6 +109,10 @@ public class Sentinel extends CataclysmMob {
 
             if (!(event.getEntity() instanceof org.bukkit.entity.Player player)) return;
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 200, 2));
+            if (player.getWorld() == Dimensions.PALE_VOID.getWorld()) {
+                player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 100, 0));
+                player.addPotionEffect(new PotionEffect(PaleCorrosionEffect.EFFECT_TYPE, 100, 0));
+            }
         }
 
         @EventHandler

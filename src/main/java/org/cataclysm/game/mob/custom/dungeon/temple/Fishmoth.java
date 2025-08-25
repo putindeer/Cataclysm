@@ -4,16 +4,23 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Silverfish;
 import net.minecraft.world.level.Level;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.mob.CataclysmMob;
+import org.cataclysm.game.effect.DisperEffect;
 import org.cataclysm.game.mob.utils.MobUtils;
+import org.cataclysm.game.world.Dimensions;
 import org.cataclysm.global.utils.security.CataclysmToken;
 
 public class Fishmoth extends CataclysmMob {
@@ -49,6 +56,20 @@ public class Fishmoth extends CataclysmMob {
             if (!org.cataclysm.api.mob.MobUtils.hasNearbyPlayer(livingEntity, 20, 3, 20)) return;
 
             PersistentData.set(livingEntity, "hasTracked", PersistentDataType.BOOLEAN, true);
+        }
+
+        @EventHandler
+        public void onAttack(EntityDamageByEntityEvent event) {
+            if (!(event.getDamager() instanceof LivingEntity damager)) return;
+
+            CataclysmToken token = CataclysmMob.getToken(damager);
+            if (token == null || !token.key().equals(this.fishmoth.getMobToken().key())) return;
+
+            if (damager.getWorld() != Dimensions.PALE_VOID.getWorld()) return;
+            if (!(event.getEntity() instanceof Player player)) return;
+
+            player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 100, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 100, 0));
         }
 
         @EventHandler

@@ -14,6 +14,8 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.listener.registrable.Registrable;
+import org.cataclysm.game.items.ItemFamily;
+import org.cataclysm.game.player.PlayerUtils;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 
 @Registrable
@@ -23,7 +25,7 @@ public class MortemEffect implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     private void entityResurrectEvent(EntityResurrectEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
-
+        if (PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) return;
         PlayerInventory inventory = player.getInventory();
 
         ItemStack itemInMainHand = inventory.getItemInMainHand();

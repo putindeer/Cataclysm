@@ -20,6 +20,7 @@ import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.effect.MortemEffect;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerUtils;
+import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
 import org.cataclysm.game.player.survival.resurrect.totems.events.PlayerUseTotemEvent;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 
@@ -82,6 +83,8 @@ public class MortalityListener implements Listener {
             player.playSound(Sound.sound(Key.key("block.beacon.activate"), Sound.Source.MASTER, 1.0F, 0.655F));
             player.playSound(Sound.sound(Key.key("entity.iron_golem.death"), Sound.Source.MASTER, 1.0F, 0.855F));
             player.playSound(Sound.sound(Key.key("item.totem.use"), Sound.Source.MASTER, 1.0F, 1.355F));
+
+            new CataclysmAdvancement("the_pale/immortal").grant(player);
         }
     }
 

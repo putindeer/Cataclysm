@@ -10,6 +10,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.listener.registrable.Registrable;
+import org.cataclysm.game.items.ItemFamily;
+import org.cataclysm.game.player.PlayerUtils;
 
 @Registrable
 public class PaleCorrosionEffect implements Listener {
@@ -19,6 +21,7 @@ public class PaleCorrosionEffect implements Listener {
     private void onPlayerDamage(EntityDamageEvent event) {
         var entity = event.getEntity();
         if (entity instanceof Player player) {
+            if (PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) return;
             if (player.hasPotionEffect(EFFECT_TYPE)) {
                 var corrosionDebuff = PersistentData.get(player, "PALE_CORROSION_HEALTH_DEBUFF", PersistentDataType.DOUBLE);
                 if (corrosionDebuff != null) PersistentData.set(player, "PALE_CORROSION_HEALTH_DEBUFF", PersistentDataType.DOUBLE, corrosionDebuff + 2.0);
@@ -31,6 +34,7 @@ public class PaleCorrosionEffect implements Listener {
         PotionEffect newEffect = event.getNewEffect();
         if (newEffect == null) return;
         if (!(event.getEntity() instanceof Player player)) return;
+        if (PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) return;
         if (newEffect.getType().equals(EFFECT_TYPE)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, newEffect.getDuration(), 0));
         }

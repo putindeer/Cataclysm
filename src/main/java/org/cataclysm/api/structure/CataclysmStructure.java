@@ -18,10 +18,7 @@ import org.cataclysm.api.mob.store.MobStore;
 import org.cataclysm.api.structure.data.StructureConfig;
 import org.cataclysm.api.structure.data.StructureLevel;
 import org.cataclysm.api.structure.data.StructureLoader;
-import org.cataclysm.game.world.dungeons.CalamityChamber;
-import org.cataclysm.game.world.dungeons.MirageCitadel;
-import org.cataclysm.game.world.dungeons.Monolith;
-import org.cataclysm.game.world.dungeons.ParagonTemple;
+import org.cataclysm.game.world.dungeons.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -132,7 +129,7 @@ public abstract class CataclysmStructure {
                     }
 
                     var state = block.getState();
-                    if (state instanceof BlockInventoryHolder inventoryHolder) structureLoot.apply(inventoryHolder);
+                    if (state instanceof BlockInventoryHolder inventoryHolder && !inventoryHolder.getInventory().isEmpty()) structureLoot.apply(inventoryHolder);
                 }
             }
         }
@@ -169,6 +166,7 @@ public abstract class CataclysmStructure {
             case "MONOLITH" -> new Monolith(level);
             case "CALAMITY_CHAMBER" -> new CalamityChamber(level);
             case "MIRAGE_CITADEL" -> new MirageCitadel(level);
+            case "PALE_TEMPLE" -> new PaleTemple(level);
             default -> throw new IllegalStateException("Unexpected value: " + level.id);
         };
     }
@@ -207,6 +205,7 @@ public abstract class CataclysmStructure {
             case "MONOLITH" -> structure = new Monolith(this.level);
             case "CALAMITY_CHAMBER" -> structure = new CalamityChamber(this.level);
             case "MIRAGE_CITADEL" -> structure = new MirageCitadel(this.level);
+            case "PALE_TEMPLE" -> structure = new PaleTemple(this.level);
             default -> structure = null;
         }
 

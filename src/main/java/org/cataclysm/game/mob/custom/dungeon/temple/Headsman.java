@@ -18,9 +18,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.persistence.PersistentDataType;
@@ -28,6 +30,7 @@ import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.mob.MobUtils;
+import org.cataclysm.game.world.Dimensions;
 import org.cataclysm.global.utils.security.CataclysmToken;
 import org.jetbrains.annotations.NotNull;
 
@@ -91,6 +94,17 @@ public class Headsman extends CataclysmMob {
             if (!MobUtils.hasNearbyPlayer(livingEntity, 20, 3, 20)) return;
 
             PersistentData.set(livingEntity, "hasTracked", PersistentDataType.BOOLEAN, true);
+        }
+
+        @EventHandler
+        public void onAttack(EntityDamageByEntityEvent event) {
+            if (!(event.getDamager() instanceof LivingEntity damager)) return;
+
+            CataclysmToken token = CataclysmMob.getToken(damager);
+            if (token == null || !token.key().equals(this.headsman.getMobToken().key())) return;
+
+            if (damager.getWorld() != Dimensions.PALE_VOID.getWorld()) return;
+            event.setDamage(event.getDamage() * 2);
         }
 
         @EventHandler

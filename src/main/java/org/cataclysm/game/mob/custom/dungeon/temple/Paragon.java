@@ -3,6 +3,7 @@ package org.cataclysm.game.mob.custom.dungeon.temple;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.sound.SoundStop;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
@@ -29,8 +30,10 @@ import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.particle.ParticleHandler;
 import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.items.CataclysmItems;
+import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.game.mob.utils.MobUtils;
 import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
+import org.cataclysm.game.world.Dimensions;
 import org.cataclysm.global.utils.security.CataclysmToken;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -71,12 +74,11 @@ public class Paragon extends CataclysmMob {
         var structure = super.getStructure();
         if (structure == null) return;
 
-
         this.task = Bukkit.getScheduler().runTaskTimer(Cataclysm.getInstance(), () -> {
             var livingEntity = super.getBukkitLivingEntity();
             if (this.mob.getTarget() != null) {
                 var speedAmplifier = livingEntity.getLocation().distance(this.coreLocation);
-                super.setAttribute(Attributes.MOVEMENT_SPEED, Paragon.getBaseSpeed() + (speedAmplifier / 275));
+                super.setAttribute(Attributes.MOVEMENT_SPEED, this.getBaseSpeed() + (speedAmplifier / 275));
             }
         }, 0, 20L);
     }
@@ -250,6 +252,9 @@ public class Paragon extends CataclysmMob {
                 Location location = MobUtils.getNearestBlock(livingEntity.getLocation(), CORE_BLOCK_TYPE, DISPER_RADIUS);
                 if (location != null) {
                     this.paragon.setCoreBlock(location);
+                    if (location.getWorld() == Dimensions.PALE_VOID.getWorld()) {
+                        livingEntity.customName(MiniMessage.miniMessage().deserialize("<" + ItemFamily.PALE_ARMOR.getColor() + ">Pale Paragon"));
+                    }
                 } else Bukkit.getConsoleSender().sendMessage("Paragon location was null");
                 if (Cataclysm.getDay() >= 7) MobUtils.speedBoost(livingEntity, 1);
             }, 60L);
@@ -268,8 +273,10 @@ public class Paragon extends CataclysmMob {
         }
     }
 
-    public static double getBaseSpeed() {
-        if (Cataclysm.getDay() >= 7) return 0.35;
-        return 0.25;
+    public double getBaseSpeed() {
+        float velocity = 0.25F;
+        if (Cataclysm.getDay() >= 7) velocity += 0.10F;
+        if (this.getBukkitLivingEntity().getWorld() == Dimensions.PALE_VOID.getWorld()) velocity *= 2;
+        return velocity;
     }
 }

@@ -143,6 +143,7 @@ public class PlayerTask {
             var id = CataclysmMob.getID(livingEntity);
             if (id != null && id.equalsIgnoreCase("PARAGON")) {
                 player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 60, 0));
+                if (player.getWorld() == Dimensions.PALE_VOID.getWorld()) player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 60, 0));
             }
         }
 

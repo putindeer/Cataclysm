@@ -14,7 +14,7 @@ public enum ItemFamily {
     TWISTED_TOOLS(CataclysmColor.TWISTED, "the_twisted/you_feel_twisted"),
     CALAMITY_ARMOR(CataclysmColor.CALAMITY, "the_nether/calamity"),
     MIRAGE_TOOLS(CataclysmColor.MIRAGE, "the_end/mirage"),
-    PALE_ARMOR(CataclysmColor.PALE, "the_nether/pale_armor"),
+    PALE_ARMOR(CataclysmColor.PALE, "the_pale/final_form"),
 
     ;
 
@@ -28,7 +28,6 @@ public enum ItemFamily {
 
     public @NotNull List<CataclysmItems> getMembers() {
         var result = new ArrayList<CataclysmItems>();
-        var lowerKey = this.getKey().toLowerCase();
 
         for (var item : CataclysmItems.values()) {
             var builder = item.getBuilder();
