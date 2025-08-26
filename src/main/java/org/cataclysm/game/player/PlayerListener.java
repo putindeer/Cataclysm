@@ -43,6 +43,7 @@ import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.item.ItemRestorer;
 import org.cataclysm.api.listener.registrable.Registrable;
+import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.game.player.data.PlayerLoader;
@@ -69,11 +70,14 @@ public class PlayerListener implements Listener {
         if (Cataclysm.getDay() < 28) return;
 
         Player player = event.getPlayer();
+
         Boolean paleVoid = PersistentData.get(player, "HAS-ENTERED-PALE-VOID", PersistentDataType.BOOLEAN);
         if (paleVoid != null && paleVoid) return;
 
         Location location = Dimensions.PALE_VOID.getWorld().getSpawnLocation().clone();
         player.teleport(location.add(0, 15, 0));
+        player.clearActivePotionEffects();
+        player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, 200, 0, false, false, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 200, 0, false, false, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, false, false, false));
         player.setGameMode(GameMode.SURVIVAL);
@@ -327,6 +331,10 @@ public class PlayerListener implements Listener {
 
         if (day >= 28) {
             if (cause == EntityDamageEvent.DamageCause.VOID) event.setDamage(999);
+
+            var distance = player.getLocation().distance(Dimensions.PALE_VOID.getWorld().getSpawnLocation());
+            if (distance <= 150) return;
+
             PaleKingUtils.breakElytras(player, 0);
         }
 
