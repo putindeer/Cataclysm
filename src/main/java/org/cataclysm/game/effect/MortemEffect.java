@@ -38,7 +38,6 @@ public class MortemEffect implements Listener {
 
         var builder = new ItemBuilder(totem);
         var id = builder.getID();
-        player.sendMessage("ID del tótem: " + id);
         if (!player.hasPotionEffect(MortemEffect.EFFECT_TYPE) || (id != null && id.contains("paragon"))) return;
 
         for (var onlinePlayers : Bukkit.getOnlinePlayers()) {

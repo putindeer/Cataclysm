@@ -14,9 +14,9 @@ import org.cataclysm.api.mob.drops.CataclysmDrops;
 import org.cataclysm.game.items.CataclysmItems;
 import org.jetbrains.annotations.NotNull;
 
-public class MirageGhast extends CataclysmMob {
-    public MirageGhast(Level level) {
-        super(new MirageGhastEntity(level), "Mirage Ghast", CataclysmColor.MIRAGE, level);
+public class  MirageWhale extends CataclysmMob {
+    public MirageWhale(Level level) {
+        super(new MirageWhaleEntity(level), "Mirage Whale", CataclysmColor.MIRAGE, level);
         this.setHealth(65);
         super.setDrops(new CataclysmDrops(
                 new LootContainer(
@@ -28,11 +28,11 @@ public class MirageGhast extends CataclysmMob {
 
     @Override
     protected CataclysmMob createInstance() {
-        return new MirageGhast(super.getLevel());
+        return new MirageWhale(super.getLevel());
     }
 
-    static class MirageGhastEntity extends Ghast {
-        public MirageGhastEntity(Level level) {
+    static class MirageWhaleEntity extends Ghast {
+        public MirageWhaleEntity(Level level) {
             super(EntityType.GHAST, level);
         }
 

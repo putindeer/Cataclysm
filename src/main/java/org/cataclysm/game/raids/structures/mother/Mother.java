@@ -85,7 +85,7 @@ public class Mother extends RaidStructure {
             CataclysmMob mobToSpawn = null;
 
             switch (entity.getType()) {
-                case GHAST -> mobToSpawn = new MirageGhast(level);
+                case GHAST -> mobToSpawn = new MirageWhale(level);
                 case CREEPER -> mobToSpawn = new MirageCreeper(level);
                 case PHANTOM -> mobToSpawn = new MirageEye(level);
                 case ZOMBIE -> mobToSpawn = new MirageBeast(level);

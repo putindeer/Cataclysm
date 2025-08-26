@@ -59,7 +59,7 @@ public class SpecialMobTransformer {
                 new Ur_Ghast(ctx.level),
                 new CataclystSkeleton(ctx.level),
                 new ToxicTerror(ctx.level),
-                new MirageGhast(ctx.level),
+                new MirageWhale(ctx.level),
                 new WanderingFaith(ctx.level),
                 new WanderingSoul(ctx.level),
                 new TwistedBlaze(ctx.level)
@@ -136,7 +136,7 @@ public class SpecialMobTransformer {
 
             case 8, 9 -> {
                 mobToSpawn = new MirageCreeper(ctx.level);
-                if (ctx.random.nextBoolean()) mobToSpawn = new MirageGhast(ctx.level);
+                if (ctx.random.nextBoolean()) mobToSpawn = new MirageWhale(ctx.level);
             }
         }
 
