@@ -40,7 +40,7 @@ public class SpecialMobTransformer {
     private boolean replacePaleMobs(SpawnContext ctx) {
         if (ctx.entity instanceof Endermite) return false;
         if (!ctx.location.getWorld().equals(Dimensions.PALE_VOID.getWorld())) return false;
-        if (Math.abs(ctx.location.getX()) < 100 && Math.abs(ctx.location.getZ()) < 100) { // Avoid spawning mobs in a radius of 100 blocks of 0 0
+        if (Dimensions.PALE_VOID.getDistanceFromSpawn(ctx.location) <= 150) { // Avoid spawning mobs in a radius of 150 blocks of spawn center
             ctx.entity.remove();
             return true;
         }
@@ -83,16 +83,11 @@ public class SpecialMobTransformer {
                 var fixedLocation = ctx.location.add(0, 30, 0);
                 livingEntity.teleport(fixedLocation);
             }
-            case SKELETON, ZOMBIE -> {
-                mobsPerPlayer = mobsPerPlayer / 6;
-            }
-            case BLAZE, WITHER_SKELETON -> {
-                mobsPerPlayer = mobsPerPlayer / 8;
-            }
+            case SKELETON, ZOMBIE -> mobsPerPlayer = mobsPerPlayer / 6;
+            case BLAZE, WITHER_SKELETON -> mobsPerPlayer = mobsPerPlayer / 8;
             case GHAST -> {
                 mobsPerPlayer = mobsPerPlayer / 10;
                 maxPerChunk = 2;
-
                 ctx.location.add(0, 30, 0);
                 livingEntity.teleport(ctx.location);
             }

@@ -1,9 +1,11 @@
 package org.cataclysm.game.world;
 
 import lombok.Getter;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.util.NumberConversions;
 
 @Getter
 public enum Dimensions {
@@ -23,5 +25,14 @@ public enum Dimensions {
 
     public World getWorld() {
         return this.worldCreator.createWorld();
+    }
+
+    public double getDistanceFromSpawn(Location location) {
+        var spawnLocation = this.getWorld().getSpawnLocation();
+        int spawnX = spawnLocation.getBlockX();
+        int spawnZ = spawnLocation.getBlockZ();
+        int otherX = location.getBlockX();
+        int otherZ = location.getBlockZ();
+        return NumberConversions.square(spawnX - otherX) + NumberConversions.square(spawnZ - otherZ);
     }
 }
