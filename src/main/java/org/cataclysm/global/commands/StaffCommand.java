@@ -33,13 +33,10 @@ import org.cataclysm.game.player.tag.team.TeamManager;
 import org.cataclysm.game.player.tag.team.Teams;
 import org.cataclysm.game.raids.bosses.twisted_warden.TwistedWarden;
 import org.cataclysm.game.world.Dimensions;
-import org.cataclysm.game.world.dungeons.MirageCitadel;
+import org.cataclysm.game.world.dungeons.*;
 import org.cataclysm.game.world.ragnarok.Ragnarok;
 import org.cataclysm.game.world.ragnarok.RagnarokData;
 import org.cataclysm.game.world.ragnarok.RagnarokManager;
-import org.cataclysm.game.world.dungeons.CalamityChamber;
-import org.cataclysm.game.world.dungeons.Monolith;
-import org.cataclysm.game.world.dungeons.ParagonTemple;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.cataclysm.server.tablist.CataclysmTablist;
 
@@ -207,6 +204,19 @@ public class StaffCommand extends BaseCommand {
 
             player.sendMessage(MiniMessage.miniMessage().deserialize("✔ Restauración completada."));
         }
+    }
+
+    @Subcommand("structure generate PALE_TEMPLE")
+    private void structureGeneratePaleTemple(CommandSender commandSender) {
+        if (!(commandSender instanceof Player player)) return;
+
+        for (var staff : Bukkit.getOnlinePlayers()) {
+            if (!staff.isOp()) continue;
+            ChatMessenger.sendStaffMessage(staff, player.getName() + " esta generando un Pale Temple");
+        }
+
+        var structure = new PaleTemple();
+        structure.generate(player.getLocation(), "default");
     }
 
     @Subcommand("structure generate PARAGON_TEMPLE")

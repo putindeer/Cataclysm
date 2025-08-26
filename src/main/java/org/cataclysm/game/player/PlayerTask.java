@@ -214,8 +214,12 @@ public class PlayerTask {
 
         if (day >= 21) {
             if (player.isInWater() && !PlayerUtils.hasMirageHelmet(player)) {
-                if (player.getWorld() != Dimensions.PALE_VOID.getWorld()) player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 60, 0));
-                else player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, 9, true, false, false));
+                if (player.getWorld() != Dimensions.PALE_VOID.getWorld()
+                        || player.getLocation().distance(Dimensions.PALE_VOID.getWorld().getSpawnLocation()) >= 200) player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 60, 0));
+                else {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, 9, true, false, false));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 60, 0, true, false, false));
+                }
             }
 
             if (!player.getInventory().contains(CataclysmItems.MIDWAY_RELIC.build().getType())) {
