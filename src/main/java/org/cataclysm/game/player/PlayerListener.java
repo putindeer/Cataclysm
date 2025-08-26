@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.title.Title;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -52,7 +53,9 @@ import org.cataclysm.game.player.tag.team.Teams;
 import org.cataclysm.game.raids.bosses.pale_king.PaleKingUtils;
 import org.cataclysm.game.world.Dimensions;
 import org.cataclysm.global.utils.chat.ChatMessenger;
+import org.cataclysm.global.utils.text.font.TinyCaps;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.SplittableRandom;
 import java.util.UUID;
@@ -60,6 +63,31 @@ import java.util.UUID;
 @Slf4j
 @Registrable
 public class PlayerListener implements Listener {
+
+    @EventHandler
+    private void onPlayerJoinWeek5(PlayerJoinEvent event) {
+        if (Cataclysm.getDay() < 28) return;
+
+        Player player = event.getPlayer();
+        Boolean paleVoid = PersistentData.get(player, "HAS-ENTERED-PALE-VOID", PersistentDataType.BOOLEAN);
+        if (paleVoid != null && paleVoid) return;
+
+        Location location = Dimensions.PALE_VOID.getWorld().getSpawnLocation().clone();
+        player.teleport(location.add(0, 15, 0));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 200, 0, false, false, false));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, false, false, false));
+        player.setGameMode(GameMode.SURVIVAL);
+
+        player.showTitle(Title.title(
+                MiniMessage.miniMessage().deserialize("<#E0E0E0>Mortuus es!"),
+                MiniMessage.miniMessage().deserialize("<#A4A4A4>Salvete in " + TinyCaps.tinyCaps("Pale Void")),
+                Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(4), Duration.ofSeconds(1))
+        ));
+        player.playSound(player, org.bukkit.Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1F, 0.45F);
+        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> player.playSound(player, org.bukkit.Sound.MUSIC_DISC_STAL, 1F, 0.95F), 40L);
+
+        PersistentData.set(player, "HAS-ENTERED-PALE-VOID", PersistentDataType.BOOLEAN, true);
+    }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
@@ -256,8 +284,6 @@ public class PlayerListener implements Listener {
             }
         }
     }
-
-
 
     @EventHandler
     public void onInteractAtEntity(PlayerInteractAtEntityEvent event) {

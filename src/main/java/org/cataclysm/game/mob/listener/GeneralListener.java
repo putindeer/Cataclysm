@@ -1,8 +1,13 @@
 package org.cataclysm.game.mob.listener;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
@@ -11,12 +16,26 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
+import org.cataclysm.game.world.Dimensions;
 
 import java.util.SplittableRandom;
 
 @Registrable
 public class GeneralListener implements Listener {
 
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onSpawn(CreatureSpawnEvent event) {
+        World world = Dimensions.PALE_VOID.getWorld();
+        if (world == null) return;
+
+        Location spawnLocation = world.getSpawnLocation();
+        Location mobLocation = event.getLocation();
+
+        if (spawnLocation.getWorld().equals(mobLocation.getWorld())) {
+            double distance = spawnLocation.distance(mobLocation);
+            if (distance <= 150) event.getEntity().remove();
+        }
+    }
 
     @EventHandler
     public void projectileLaunch(ProjectileLaunchEvent event) {

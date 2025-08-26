@@ -49,7 +49,12 @@ import java.util.UUID;
 @CommandAlias("staff")
 @CommandPermission("admin.perms")
 public class StaffCommand extends BaseCommand {
-
+    @Subcommand("palevoid entrance")
+    @CommandCompletion("@players true|false")
+    private void palevoidEntrance(Player player, boolean entrance) {
+        PersistentData.set(player, "HAS-ENTERED-PALE-VOID", PersistentDataType.BOOLEAN, entrance);
+        ChatMessenger.sendStaffMessage(player, "Palevoid entrance set to " + entrance);
+    }
 
     @Subcommand("mortem all")
     private void mortem() {

@@ -207,7 +207,8 @@ public class PlayerTask {
 
         if (day >= 21) {
             if (player.isInWater() && !PlayerUtils.hasMirageHelmet(player)) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 60, 0));
+                if (player.getWorld() != Dimensions.PALE_VOID.getWorld()) player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 60, 0));
+                else player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, 9, true, false, false));
             }
 
             if (!player.getInventory().contains(CataclysmItems.MIDWAY_RELIC.build().getType())) {
