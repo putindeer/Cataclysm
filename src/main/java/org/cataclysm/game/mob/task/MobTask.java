@@ -2,6 +2,7 @@ package org.cataclysm.game.mob.task;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Evoker;
 import org.bukkit.entity.Monster;
@@ -10,11 +11,12 @@ import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.mob.custom.dungeon.temple.Enchanter;
 import org.cataclysm.game.mob.utils.MobUtils;
+import org.cataclysm.game.world.Dimensions;
 
 public class MobTask {
     public void startTickTask(int tick) {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Cataclysm.getInstance(), () -> {
-            var world = Bukkit.getWorld("world");
+            World world = Bukkit.getWorld("world");
             if (world == null) return;
 
             for (var livingEntity : world.getLivingEntities()) {

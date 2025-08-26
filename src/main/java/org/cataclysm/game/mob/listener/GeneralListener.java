@@ -33,7 +33,7 @@ public class GeneralListener implements Listener {
 
         if (spawnLocation.getWorld().equals(mobLocation.getWorld())) {
             double distance = spawnLocation.distance(mobLocation);
-            if (distance <= 150) event.getEntity().remove();
+            if (distance <= 300) event.getEntity().remove();
         }
     }
 

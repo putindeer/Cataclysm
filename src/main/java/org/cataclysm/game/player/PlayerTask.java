@@ -141,9 +141,16 @@ public class PlayerTask {
         for (var entity : paragonNearEntities) {
             if (!(entity instanceof LivingEntity livingEntity)) continue;
             var id = CataclysmMob.getID(livingEntity);
-            if (id != null && id.equalsIgnoreCase("PARAGON")) {
-                player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 60, 0));
-                if (player.getWorld() == Dimensions.PALE_VOID.getWorld()) player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 60, 0));
+            if (id != null) {
+                switch (id) {
+                    case "Paragon" -> {
+                        player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 60, 0));
+                    }
+                    case "PaleParagon" -> {
+                        player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 60, 0));
+                        player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 60, 0));
+                    }
+                }
             }
         }
 
