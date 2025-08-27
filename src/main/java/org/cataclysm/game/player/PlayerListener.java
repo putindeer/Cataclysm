@@ -350,8 +350,8 @@ public class PlayerListener implements Listener {
 
         if (itemBuilder.getID().contains("pale")) {
             entity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 200, 4));
-            entity.setMaximumNoDamageTicks(0);
-            entity.setNoDamageTicks(0);
+//            entity.setMaximumNoDamageTicks(0);
+//            entity.setNoDamageTicks(0);
         }
     }
 
