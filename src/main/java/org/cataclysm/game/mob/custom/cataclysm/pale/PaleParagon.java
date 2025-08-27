@@ -258,11 +258,12 @@ public class PaleParagon extends CataclysmMob {
 
         @EventHandler
         private void onDamage(EntityDamageEvent event) {
+
             if (!(event.getEntity() instanceof LivingEntity livingEntity)) return;
 
             CataclysmToken token = CataclysmMob.getToken(livingEntity);
             if (token == null || !token.key().equals(this.paragon.getMobToken().key())) return;
-
+            if (event.getCause().equals(EntityDamageEvent.DamageCause.VOID)) this.paragon.hurt(event);
             if (event.getDamage() >= 10000000) return;
 
             this.paragon.hurt(event);

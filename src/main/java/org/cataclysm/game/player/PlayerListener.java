@@ -83,6 +83,7 @@ public class PlayerListener implements Listener {
                 MiniMessage.miniMessage().deserialize("<#A4A4A4>Salvete in " + TinyCaps.tinyCaps("Pale Void")),
                 Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(4), Duration.ofSeconds(1))
         ));
+
         player.playSound(player, org.bukkit.Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1F, 0.45F);
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> player.playSound(player, org.bukkit.Sound.MUSIC_DISC_STAL, 1F, 0.95F), 40L);
 
@@ -344,8 +345,14 @@ public class PlayerListener implements Listener {
         entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 20 * 6, 2));
 
         ItemBuilder itemBuilder = ItemBuilder.stackToBuilder(mainHand.clone());
+
         if (itemBuilder.getID().contains("pale")) {
+            event.setCancelled(true);
             entity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 200, 4));
+            entity.damage(event.getFinalDamage(), DamageSource.builder(DamageType.SONIC_BOOM)
+                    .withCausingEntity(player)
+                    .withDamageLocation(player.getLocation())
+                    .build());
         }
     }
 

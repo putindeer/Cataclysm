@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PaleBlaze extends CataclysmMob {
     public PaleBlaze(Level level) {
-        super(new CalamityBlazeEntity(level), "Calamity Blaze", CataclysmColor.CALAMITY, level);
+        super(new PaleBlazeEntity(level), "Pale Blaze", CataclysmColor.PALE, level);
         this.setHealth(50);
         super.setAttribute(Attributes.SCALE, 1.45F);
     }
@@ -23,14 +23,15 @@ public class PaleBlaze extends CataclysmMob {
         return new PaleBlaze(super.getLevel());
     }
 
-    static class CalamityBlazeEntity extends Blaze {
-        public CalamityBlazeEntity(Level level) {
+    static class PaleBlazeEntity extends Blaze {
+        public PaleBlazeEntity(Level level) {
             super(EntityType.BLAZE, level);
         }
 
         @Override
         public boolean hurtServer(@NotNull ServerLevel level, @NotNull DamageSource damageSource, float amount) {
             if (damageSource.is(DamageTypeTags.IS_EXPLOSION)) return false;
+            if (damageSource.is(DamageTypeTags.IS_PROJECTILE)) return false;
             return super.hurtServer(level, damageSource, amount);
         }
     }

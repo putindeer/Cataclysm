@@ -276,6 +276,20 @@ public class StaffCommand extends BaseCommand {
         structure.generate(player.getLocation(), "default");
     }
 
+    @Subcommand("structure generate GARDEN")
+    @CommandCompletion("default")
+    private void structureGenerateGarden(CommandSender commandSender, String variant) {
+        if (!(commandSender instanceof Player player)) return;
+
+        for (var staff : Bukkit.getOnlinePlayers()) {
+            if (!staff.isOp()) continue;
+            ChatMessenger.sendStaffMessage(staff, player.getName() + " esta generando un Pale Garden (" + variant.toUpperCase() + ")");
+        }
+
+        var structure = new PaleGarden();
+        structure.generate(player.getLocation(), variant);
+    }
+
     @Subcommand("give")
     @Description("Staff command to give a specified Cataclysm Item to a player.")
     private void give(CommandSender commandSender, @Optional CataclysmItems item, @Optional Integer amount) {
