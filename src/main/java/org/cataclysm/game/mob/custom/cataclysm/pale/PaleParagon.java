@@ -255,7 +255,6 @@ public class PaleParagon extends CataclysmMob {
 
                 Location location = MobUtils.getNearestBlock(livingEntity.getLocation(), CORE_BLOCK_TYPE, DISPER_RADIUS);
                 if (location != null) this.paragon.setCoreBlock(location);
-                else Bukkit.getConsoleSender().sendMessage("Paragon location was null");
             }, 60L);
         }
 
