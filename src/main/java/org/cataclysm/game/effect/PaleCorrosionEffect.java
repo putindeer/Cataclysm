@@ -22,6 +22,7 @@ public class PaleCorrosionEffect implements Listener {
         var entity = event.getEntity();
         if (entity instanceof Player player) {
             if (PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) return;
+            if (PlayerUtils.hasMirageHelmet(player)) return;
             if (player.hasPotionEffect(EFFECT_TYPE)) {
                 var corrosionDebuff = PersistentData.get(player, "PALE_CORROSION_HEALTH_DEBUFF", PersistentDataType.DOUBLE);
                 if (corrosionDebuff != null) PersistentData.set(player, "PALE_CORROSION_HEALTH_DEBUFF", PersistentDataType.DOUBLE, corrosionDebuff + 2.0);
@@ -35,6 +36,7 @@ public class PaleCorrosionEffect implements Listener {
         if (newEffect == null) return;
         if (!(event.getEntity() instanceof Player player)) return;
         if (PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) return;
+        if (PlayerUtils.hasMirageHelmet(player)) return;
         if (newEffect.getType().equals(EFFECT_TYPE)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, newEffect.getDuration(), 0));
         }

@@ -26,6 +26,7 @@ public class MortemEffect implements Listener {
     private void entityResurrectEvent(EntityResurrectEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         if (PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) return;
+        if (PlayerUtils.hasMirageHelmet(player)) return;
         PlayerInventory inventory = player.getInventory();
 
         ItemStack itemInMainHand = inventory.getItemInMainHand();

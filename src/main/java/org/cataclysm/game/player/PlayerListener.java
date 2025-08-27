@@ -47,10 +47,6 @@ import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.game.player.data.PlayerLoader;
-import org.cataclysm.game.player.tag.role.RoleManager;
-import org.cataclysm.game.player.tag.role.RoleType;
-import org.cataclysm.game.player.tag.team.TeamManager;
-import org.cataclysm.game.player.tag.team.Teams;
 import org.cataclysm.game.raids.bosses.pale_king.PaleKingUtils;
 import org.cataclysm.game.world.Dimensions;
 import org.cataclysm.global.utils.chat.ChatMessenger;
@@ -346,6 +342,11 @@ public class PlayerListener implements Listener {
 
         entity.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 20 * 6, 2));
         entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 20 * 6, 2));
+
+        ItemBuilder itemBuilder = ItemBuilder.stackToBuilder(mainHand.clone());
+        if (itemBuilder.getID().contains("pale")) {
+            entity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 200, 4));
+        }
     }
 
     @EventHandler

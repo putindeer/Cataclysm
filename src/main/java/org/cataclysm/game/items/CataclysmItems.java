@@ -126,6 +126,7 @@ public enum CataclysmItems {
     PALE_LEGGINGS(new CataclysmItem(Material.NETHERITE_LEGGINGS, ItemFamily.PALE_ARMOR).setDisplay("Pale Leggings").setDescription("Ex essentia silvae nullius confectum").setPassive("Aeternitas", "Al portar el set completo Pale otorga los efectos de la Calamity Armor, corazones adicionales e inmunidad a Pale Corrosion y Mortem").setAttributeLore(Attribute.ARMOR, 7, EquipmentSlotGroup.LEGS).setAttributeLore(Attribute.ARMOR_TOUGHNESS, 9, EquipmentSlotGroup.LEGS).setAttributeLore(Attribute.KNOCKBACK_RESISTANCE, 0.1, EquipmentSlotGroup.LEGS).setUnbreakable(true)),
     PALE_BOOTS(new CataclysmItem(Material.NETHERITE_BOOTS, ItemFamily.PALE_ARMOR).setDisplay("Pale Boots").setDescription("Ex essentia silvae nullius confectum").setPassive("Aeternitas", "Al portar el set completo Pale otorga los efectos de la Calamity Armor, corazones adicionales e inmunidad a Pale Corrosion y Mortem").setAttributeLore(Attribute.ARMOR, 4, EquipmentSlotGroup.FEET).setAttributeLore(Attribute.ARMOR_TOUGHNESS, 9, EquipmentSlotGroup.FEET).setAttributeLore(Attribute.KNOCKBACK_RESISTANCE, 0.1, EquipmentSlotGroup.FEET).setUnbreakable(true)),
 
+    REGENERATE_STRUCTURE(new CataclysmItem(Material.GOLD_NUGGET, ItemFamily.ARCANE_TOOLS).setDisplay("REGENERATE STRUCTURE").setUnbreakable(true))
     ;
 
     private final ItemBuilder itemBuilder;

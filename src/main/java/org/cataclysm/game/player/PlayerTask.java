@@ -123,6 +123,8 @@ public class PlayerTask {
 
     private void handleDisper(Player player) {
         //Shulker Sculpture's Disper
+        if (PlayerUtils.hasMirageHelmet(player)) return;
+
         var shulkerSculptureNearEntities = player.getNearbyEntities(50.0, 50.0, 50.0);
         for (var entity : shulkerSculptureNearEntities) {
             if (!(entity instanceof LivingEntity livingEntity)) continue;

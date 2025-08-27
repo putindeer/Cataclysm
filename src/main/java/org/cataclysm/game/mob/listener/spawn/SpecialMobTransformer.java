@@ -94,11 +94,11 @@ public class SpecialMobTransformer {
             }
             case CREAKING, WARDEN -> {
                 mobsPerPlayer = mobsPerPlayer / 12;
-                maxPerChunk = 1;
+                maxPerChunk = 2;
             }
             case RAVAGER, WITHER -> {
                 mobsPerPlayer = 2;
-                maxPerChunk = 1;
+                maxPerChunk = 2;
             }
         }
 

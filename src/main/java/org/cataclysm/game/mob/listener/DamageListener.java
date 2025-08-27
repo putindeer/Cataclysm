@@ -11,6 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.api.mob.CataclysmMob;
+import org.cataclysm.game.effect.MortemEffect;
 
 @Registrable
 public class DamageListener implements Listener {
@@ -129,6 +130,14 @@ public class DamageListener implements Listener {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 30 * 20, 9));
                 }
             }
+
+            case CREAKING -> {
+                if (day >= 28) {
+                    Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), ()
+                            -> player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 20 * 15, 0)), 1);
+                }
+            }
+
         }
     }
 }

@@ -1,18 +1,17 @@
 package org.cataclysm.api.structure;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.SpawnerSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.cataclysm.api.mob.CataclysmMob;
+import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
@@ -84,6 +83,7 @@ public class StructureListener implements Listener {
 
         switch (itemStack.getType()) {
             case GOLD_NUGGET -> {
+                if (!itemStack.isSimilar(CataclysmItems.REGENERATE_STRUCTURE.build())) return;
                 player.setCooldown(itemStack.getType(), 20);
                 player.sendMessage(MiniMessage.miniMessage().deserialize("Iniciando restauración de estructura..."));
                 player.sendMessage(MiniMessage.miniMessage().deserialize("<#ABABAB>1-. " + this.structure.getUuid()));
@@ -92,6 +92,7 @@ public class StructureListener implements Listener {
                 player.sendMessage(MiniMessage.miniMessage().deserialize("✔ Restauración completada."));
 
             }
+
             case GLISTERING_MELON_SLICE -> {
                 player.setCooldown(itemStack.getType(), 20);
                 ChatMessenger.sendStaffMessage(player, "Dungeon: " + this.structure.config.id);

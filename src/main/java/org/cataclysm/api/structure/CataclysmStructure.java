@@ -167,6 +167,7 @@ public abstract class CataclysmStructure {
             case "CALAMITY_CHAMBER" -> new CalamityChamber(level);
             case "MIRAGE_CITADEL" -> new MirageCitadel(level);
             case "PALE_TEMPLE" -> new PaleTemple(level);
+            case "PALE_GARDEN" -> new PaleGarden(level);
             default -> throw new IllegalStateException("Unexpected value: " + level.id);
         };
     }
@@ -206,6 +207,7 @@ public abstract class CataclysmStructure {
             case "CALAMITY_CHAMBER" -> structure = new CalamityChamber(this.level);
             case "MIRAGE_CITADEL" -> structure = new MirageCitadel(this.level);
             case "PALE_TEMPLE" -> structure = new PaleTemple(this.level);
+            case "PALE_GARDEN" -> structure = new PaleGarden(level);
             default -> structure = null;
         }
 
