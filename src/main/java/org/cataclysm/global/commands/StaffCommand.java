@@ -278,16 +278,16 @@ public class StaffCommand extends BaseCommand {
 
     @Subcommand("structure generate GARDEN")
     @CommandCompletion("default")
-    private void structureGenerateGarden(CommandSender commandSender, String variant) {
+    private void structureGenerateGarden(CommandSender commandSender) {
         if (!(commandSender instanceof Player player)) return;
 
         for (var staff : Bukkit.getOnlinePlayers()) {
             if (!staff.isOp()) continue;
-            ChatMessenger.sendStaffMessage(staff, player.getName() + " esta generando un Pale Garden (" + variant.toUpperCase() + ")");
+            ChatMessenger.sendStaffMessage(staff, player.getName() + " esta generando un Pale Garden");
         }
 
         var structure = new PaleGarden();
-        structure.generate(player.getLocation(), variant);
+        structure.generate(player.getLocation(), "default");
     }
 
     @Subcommand("give")
