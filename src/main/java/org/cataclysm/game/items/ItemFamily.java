@@ -14,6 +14,8 @@ public enum ItemFamily {
     TWISTED_TOOLS(CataclysmColor.TWISTED, "the_twisted/you_feel_twisted"),
     CALAMITY_ARMOR(CataclysmColor.CALAMITY, "the_nether/calamity"),
     MIRAGE_TOOLS(CataclysmColor.MIRAGE, "the_end/mirage"),
+
+    PALE_TOOLS(CataclysmColor.PALE, "the_pale/pale_tools"),
     PALE_ARMOR(CataclysmColor.PALE, "the_pale/final_form"),
 
     ;

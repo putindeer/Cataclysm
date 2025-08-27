@@ -4,8 +4,12 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Material;
 import org.bukkit.block.Lectern;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.BookMeta;
 import org.cataclysm.api.structure.CataclysmStructure;
@@ -13,6 +17,8 @@ import org.cataclysm.api.structure.StructureUtils;
 import org.cataclysm.api.structure.data.StructureLevel;
 import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
+
+import java.util.List;
 
 public class PaleTemple extends CataclysmStructure {
     public PaleTemple(StructureLevel level) {
@@ -36,6 +42,20 @@ public class PaleTemple extends CataclysmStructure {
 
         public PaleTempleListener(PaleTemple temple) {
             this.temple = temple;
+        }
+
+        @EventHandler(priority = EventPriority.LOWEST)
+        private void onCreatureSpawn(CreatureSpawnEvent event) {
+            LivingEntity entity = event.getEntity();
+
+            var reason = event.getSpawnReason();
+            List<CreatureSpawnEvent.SpawnReason> permittedReasons = List.of(
+                    CreatureSpawnEvent.SpawnReason.COMMAND,
+                    CreatureSpawnEvent.SpawnReason.SPAWNER,
+                    CreatureSpawnEvent.SpawnReason.TRIAL_SPAWNER);
+
+            if (permittedReasons.contains(reason) || entity instanceof ArmorStand) return;
+            if (StructureUtils.isEntityInStructure(entity, this.temple)) entity.remove();
         }
 
         @EventHandler
