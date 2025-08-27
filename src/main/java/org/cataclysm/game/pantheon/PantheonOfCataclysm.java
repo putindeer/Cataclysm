@@ -1,6 +1,7 @@
 package org.cataclysm.game.pantheon;
 
 import org.bukkit.World;
+import org.cataclysm.Cataclysm;
 import org.cataclysm.game.pantheon.level.LevelManager;
 
 public class PantheonOfCataclysm {
@@ -10,9 +11,9 @@ public class PantheonOfCataclysm {
         this.world = world;
     }
 
-    public static PantheonOfCataclysm getInstance() {
-        return new PantheonOfCataclysm(
-                LevelManager.createWorld()
-        );
+    public static PantheonOfCataclysm createInstance() {
+        PantheonOfCataclysm pantheon = new PantheonOfCataclysm(LevelManager.createWorld());
+        Cataclysm.setPantheon(pantheon);
+        return pantheon;
     }
 }

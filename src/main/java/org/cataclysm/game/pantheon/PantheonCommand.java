@@ -12,7 +12,8 @@ public class PantheonCommand extends BaseCommand {
 
     @Subcommand("setup")
     private void setUp() {
-        PantheonOfCataclysm pantheon = new PantheonOfCataclysm();
+        PantheonOfCataclysm pantheon = PantheonOfCataclysm.createInstance();
+        Cataclysm.getInstance().getLogger().info("Pantheon world loaded: " + pantheon.world.getName());
     }
 
 
