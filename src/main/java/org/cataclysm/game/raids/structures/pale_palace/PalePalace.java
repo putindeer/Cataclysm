@@ -1,12 +1,12 @@
-package org.cataclysm.game.raids.structures.the_abyss;
+package org.cataclysm.game.raids.structures.pale_palace;
 
 import org.bukkit.Location;
 import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.structure.raid.RaidStructure;
 import org.cataclysm.game.world.Dimensions;
 
-public class TheAbyss extends RaidStructure {
-    public TheAbyss() {
+public class PalePalace extends RaidStructure {
+    public PalePalace() {
         super("THE_ABYSS");
     }
 

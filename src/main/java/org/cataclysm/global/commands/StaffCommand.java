@@ -32,6 +32,7 @@ import org.cataclysm.game.player.tag.role.RoleType;
 import org.cataclysm.game.player.tag.team.TeamManager;
 import org.cataclysm.game.player.tag.team.Teams;
 import org.cataclysm.game.raids.bosses.twisted_warden.TwistedWarden;
+import org.cataclysm.game.raids.structures.pantheon.entrance.VoidEssenceMob;
 import org.cataclysm.game.world.Dimensions;
 import org.cataclysm.game.world.dungeons.*;
 import org.cataclysm.game.world.ragnarok.Ragnarok;
@@ -309,7 +310,7 @@ public class StaffCommand extends BaseCommand {
     }
 
     @Subcommand("setBlock")
-    @CommandCompletion("ArcaneTable|CalamityVault")
+    @CommandCompletion("ArcaneTable|CalamityVault|VoidEssence")
     private void summonArcaneTable(CommandSender sender, String blockName) {
         if (!(sender instanceof Player player)) return;
         var level = ((CraftWorld) player.getWorld()).getHandle();
@@ -317,6 +318,11 @@ public class StaffCommand extends BaseCommand {
         switch (blockName) {
             case "ArcaneTable" -> new ArcaneTableMob(level).addFreshEntity(player.getLocation(), CreatureSpawnEvent.SpawnReason.COMMAND);
             case "CalamityVault" -> new CalamityVault(level).addFreshEntity(player.getLocation(), CreatureSpawnEvent.SpawnReason.COMMAND);
+            case "VoidEssence" -> {
+                VoidEssenceMob voidEssenceMob = new VoidEssenceMob(level);
+                voidEssenceMob.addFreshEntity(player.getLocation(), CreatureSpawnEvent.SpawnReason.COMMAND);
+                voidEssenceMob.startTickTask();
+            }
             default -> throw new IllegalArgumentException("Unknown block name: " + blockName);
         }
     }
