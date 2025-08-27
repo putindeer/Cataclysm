@@ -1,4 +1,4 @@
-package org.cataclysm.game.raids.structures.pantheon.entrance;
+package org.cataclysm.game.pantheon.entrance;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
@@ -10,19 +10,16 @@ import org.cataclysm.api.color.CataclysmColor;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.jetbrains.annotations.NotNull;
 
-public class VoidEssenceMob extends CataclysmMob {
-    public VoidEssenceMob(Level level) {
-        super(new VoidEssenceEntity(level), "Void Essence", CataclysmColor.PALE, level);
+public class EntranceMob extends CataclysmMob {
+    public EntranceMob(Level level) {
+        super(new EntranceEntity(level), "Entrance Mob", CataclysmColor.PALE, level);
         super.setSpawnTag(SpawnTag.PERSISTENT);
-        super.setPersistentDataString("CUSTOM", "void_essence");
-
+        super.setPersistentDataString("CUSTOM", "pantheon_entrance");
         super.getBukkitLivingEntity().setRemoveWhenFarAway(false);
-        super.setPregenerationMaterial(Material.BEDROCK);
     }
 
     public void startTickTask() {
         LivingEntity livingEntity = super.getBukkitLivingEntity();
-
         World world = livingEntity.getWorld();
         Location location = livingEntity.getLocation().clone();
 
@@ -38,8 +35,8 @@ public class VoidEssenceMob extends CataclysmMob {
         }, 0, 20L);
     }
 
-    static class VoidEssenceEntity extends ArmorStand {
-        public VoidEssenceEntity(@NotNull Level level) {
+    static class EntranceEntity extends ArmorStand {
+        public EntranceEntity(@NotNull Level level) {
             super(EntityType.ARMOR_STAND, level);
             super.setInvulnerable(true);
             super.setSilent(true);
@@ -49,6 +46,6 @@ public class VoidEssenceMob extends CataclysmMob {
 
     @Override
     protected CataclysmMob createInstance() {
-        return new VoidEssenceMob(super.getLevel());
+        return new EntranceMob(super.getLevel());
     }
 }

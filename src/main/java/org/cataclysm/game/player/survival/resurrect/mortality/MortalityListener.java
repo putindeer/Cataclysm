@@ -106,7 +106,7 @@ public class MortalityListener implements Listener {
                     if (day >= 21) decreaseValue = 0.005f;
                     if (day >= 28) decreaseValue = 0.02f;
                 }
-                case "pale_totem" -> decreaseValue = 0.0f;
+                case "paragon_totem" -> decreaseValue = 0.0f;
             }
         }
 

@@ -1,4 +1,4 @@
-package org.cataclysm.game.raids.structures.pantheon.entrance;
+package org.cataclysm.game.pantheon.entrance;
 
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
@@ -7,19 +7,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.persistence.PersistentDataType;
-import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.inventory.BasicMenu;
 import org.cataclysm.api.inventory.MenuItems;
 import org.cataclysm.api.item.ItemBuilder;
-import org.cataclysm.game.player.CataclysmPlayer;
-import org.cataclysm.game.player.data.PlayerLoader;
-import org.cataclysm.game.player.mechanics.upgrade.Upgrades;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
-public class PantheonGUI extends BasicMenu {
-    public PantheonGUI(Player player) {
+public class EntranceGUI extends BasicMenu {
+    public EntranceGUI(Player player) {
         super(54, TinyCaps.tinyCaps("   • Pantheon of Cataclysm •"), player, player.getName());
     }
 

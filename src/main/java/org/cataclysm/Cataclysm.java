@@ -25,6 +25,8 @@ import org.cataclysm.discord.DiscordListener;
 import org.cataclysm.game.GameManager;
 import org.cataclysm.game.data.GameDataManager;
 import org.cataclysm.game.mob.task.MobTask;
+import org.cataclysm.game.pantheon.PantheonCommand;
+import org.cataclysm.game.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerTask;
 import org.cataclysm.game.player.data.PlayerLoader;
@@ -51,6 +53,9 @@ public final class Cataclysm extends JavaPlugin {
 
     private static final @Getter Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
     private static final @Getter HashMap<String, CataclysmPlayer> cataclysmPlayers = new HashMap<>();
+
+    //Pantheon of Cataclysm instance
+    private static @Getter @Setter PantheonOfCataclysm pantheon;
 
     private static @Getter Cataclysm instance;
     private static @Getter MobStore store;
@@ -92,6 +97,7 @@ public final class Cataclysm extends JavaPlugin {
         paperCommandManager.registerCommand(new StaffCommand());
         paperCommandManager.registerCommand(new PodiumCommand());
         paperCommandManager.registerCommand(new RaidCommand());
+        paperCommandManager.registerCommand(new PantheonCommand());
 
         if (isMainHost()) {
             Bukkit.getPluginManager().registerEvents(new DiscordListener(), this);
