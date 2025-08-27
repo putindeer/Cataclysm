@@ -236,7 +236,7 @@ public class PaleParagon extends CataclysmMob {
             if (coreLocation == null) return;
 
             Location location = event.getBlock().getLocation();
-            if (location.equals(this.paragon.coreLocation.getBlock().getLocation())) {
+            if (location.equals(coreLocation.getBlock().getLocation())) {
                 this.paragon.death();
                 event.setDropItems(false);
 
@@ -247,15 +247,13 @@ public class PaleParagon extends CataclysmMob {
 
         @EventHandler
         public void onSpawn(EntitySpawnEvent event) {
-            Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
-                if (!(event.getEntity() instanceof LivingEntity livingEntity)) return;
+            if (!(event.getEntity() instanceof LivingEntity livingEntity)) return;
 
-                CataclysmToken token = CataclysmMob.getToken(livingEntity);
-                if (token == null || !token.key().equals(this.paragon.getMobToken().key())) return;
+            CataclysmToken token = CataclysmMob.getToken(livingEntity);
+            if (token == null || !token.key().equals(this.paragon.getMobToken().key())) return;
 
-                Location location = MobUtils.getNearestBlock(livingEntity.getLocation(), CORE_BLOCK_TYPE, DISPER_RADIUS);
-                if (location != null) this.paragon.setCoreBlock(location);
-            }, 60L);
+            Location location = MobUtils.getNearestBlock(livingEntity.getLocation(), CORE_BLOCK_TYPE, DISPER_RADIUS);
+            if (location != null) this.paragon.setCoreBlock(location);
         }
 
         @EventHandler

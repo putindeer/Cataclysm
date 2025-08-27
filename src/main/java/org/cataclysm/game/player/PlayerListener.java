@@ -165,16 +165,8 @@ public class PlayerListener implements Listener {
         cataclysmPlayer.getTotemManager().updateStatistic();
         cataclysmPlayer.getCooldownManager().restore();
 
-        if (PersistentData.has(player, "DEATH-IN-CHAMBER", PersistentDataType.BOOLEAN)) {
-            PersistentData.set(player, "DEATH-IN-CHAMBER", PersistentDataType.BOOLEAN, false);
-        }
-
-        var data = cataclysmPlayer.getData();
-        if (data.getRoleType() == null) new RoleManager(data).setRole(RoleType.MEMBER);
-        if (data.getTeam() == null) new TeamManager(data).setTeam(Teams.NONE);
-
         ItemRestorer restorer = new ItemRestorer(player.getInventory());
-        restorer.check();
+        //restorer.check();
 
         event.joinMessage(
                 MiniMessage.miniMessage().deserialize("<#6EEC6C>[<#7FEE7D>+<#6EEC6C>]")
