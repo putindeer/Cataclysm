@@ -71,6 +71,7 @@ public class StaffCommand extends BaseCommand {
     @Subcommand("mortem")
     private void mortem(CommandSender commandSender, String nickname) {
         Player player = Bukkit.getPlayer(nickname);
+        if (player == null) return;
 
         player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, PotionEffect.INFINITE_DURATION, 0));
         player.showTitle(
@@ -86,6 +87,7 @@ public class StaffCommand extends BaseCommand {
     @Subcommand("corrosion")
     private void corrosion(CommandSender commandSender, String nickname) {
         Player player = Bukkit.getPlayer(nickname);
+        if (player == null) return;
 
         player.addPotionEffect(new PotionEffect(PaleCorrosionEffect.EFFECT_TYPE, PotionEffect.INFINITE_DURATION, 0));
         player.showTitle(
@@ -427,20 +429,38 @@ public class StaffCommand extends BaseCommand {
         ChatMessenger.sendStaffMessage(sender, "Completed incursions: " + completedIncursions);
     }
 
-    @Subcommand("player incursionhealth")
-    @CommandCompletion("@players true|false")
-    private void playerIncursionHealthSet(String nickname, boolean value) {
+    @Subcommand("player incursionhealth set")
+    @CommandCompletion("@players <incursionsPassed>")
+    private void playerIncursionHealthSet(String nickname, int completedIncursions) {
         var player = Bukkit.getPlayer(nickname);
         if (player == null) return;
-        PersistentData.set(player, "END_INCURSION_HEALTH", PersistentDataType.BOOLEAN, value);
+        PersistentData.set(player, "INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER, completedIncursions);
     }
 
-    @Subcommand("player noincursionhealth")
-    @CommandCompletion("@players true|false")
-    private void playerNoIncursionHealthSet(String nickname, boolean value) {
+    @Subcommand("player incursionhealth get")
+    @CommandCompletion("@players <incursionsCompleted>")
+    private void playerIncursionHealthGet(String nickname) {
         var player = Bukkit.getPlayer(nickname);
         if (player == null) return;
-        PersistentData.set(player, "NO_END_INCURSION_HEALTH", PersistentDataType.BOOLEAN, value);
+        var completedIncursions = PersistentData.get(player, "INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER);
+        ChatMessenger.sendStaffMessage(player, "Incursions with extra health reward completed: " + completedIncursions);
+    }
+
+    @Subcommand("player noincursionhealth set")
+    @CommandCompletion("@players <uncompletedIncursions>")
+    private void playerNoIncursionHealthSet(String nickname, int notCompletedIncursions) {
+        var player = Bukkit.getPlayer(nickname);
+        if (player == null) return;
+        PersistentData.set(player, "NO_INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER, notCompletedIncursions);
+    }
+
+    @Subcommand("player noincursionhealth get")
+    @CommandCompletion("@players <notCompletedIncursions>")
+    private void playerNoIncursionHealthGet(String nickname) {
+        var player = Bukkit.getPlayer(nickname);
+        if (player == null) return;
+        var notCompletedIncursions = PersistentData.get(player, "NO_INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER);
+        ChatMessenger.sendStaffMessage(player, "Incursions with extra health reward not completed: " + notCompletedIncursions);
     }
 
     @Subcommand("broadcast")

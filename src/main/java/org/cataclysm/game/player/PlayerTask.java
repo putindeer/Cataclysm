@@ -78,7 +78,7 @@ public class PlayerTask {
 
         // -2 hearts on days 14+
         if (day >= 14) defaultHealth-= 4.0;
-        
+
         if (day >= 21) defaultHealth-=4.0;
         // Custom Armor
         if (PlayerUtils.hasArmor(ItemFamily.CALAMITY_ARMOR, player) || PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) defaultHealth += 8.0;
@@ -101,10 +101,24 @@ public class PlayerTask {
         if (inventory.contains(itemStack.getType())) defaultHealth += 8.0;
 
         //End incursion extra health
-        if (Boolean.TRUE.equals(PersistentData.get(player, "END_INCURSION_HEALTH", PersistentDataType.BOOLEAN))) defaultHealth += 8.0;
-        else if (Boolean.TRUE.equals(PersistentData.get(player, "NO_END_INCURSION_HEALTH", PersistentDataType.BOOLEAN))) defaultHealth += 4.0;
+        if (Boolean.TRUE.equals(PersistentData.get(player, "END_INCURSION_HEALTH", PersistentDataType.BOOLEAN))) {
+            PersistentData.set(player, "END_INCURSION_HEALTH", PersistentDataType.BOOLEAN, false);
+            PersistentData.set(player, "INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER, 1);
+            defaultHealth += 8.0;
+        } else if (Boolean.TRUE.equals(PersistentData.get(player, "NO_END_INCURSION_HEALTH", PersistentDataType.BOOLEAN))) {
+            PersistentData.set(player, "NO_END_INCURSION_HEALTH", PersistentDataType.BOOLEAN, false);
+            PersistentData.set(player, "NO_INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER, 1);
+            defaultHealth += 4.0;
+        }
 
-         if (PlayerUtils.getMaxHealth(player) != defaultHealth) PlayerUtils.setMaxHealth(player, defaultHealth);
+        //Incursion extra health
+        var extraHealth = PersistentData.get(player, "INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER);
+        if (extraHealth != null) defaultHealth += extraHealth * 8.0;
+
+        var noExtraHealth = PersistentData.get(player, "NO_INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER);
+        if (noExtraHealth != null) defaultHealth += noExtraHealth * 4.0;
+
+        if (PlayerUtils.getMaxHealth(player) != defaultHealth) PlayerUtils.setMaxHealth(player, defaultHealth);
     }
 
     private void handleDisper(Player player) {
@@ -143,9 +157,7 @@ public class PlayerTask {
             var id = CataclysmMob.getID(livingEntity);
             if (id != null) {
                 switch (id) {
-                    case "Paragon" -> {
-                        player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 60, 0));
-                    }
+                    case "Paragon" -> player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 60, 0));
                     case "PaleParagon" -> {
                         player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 60, 0));
                         player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 60, 0));

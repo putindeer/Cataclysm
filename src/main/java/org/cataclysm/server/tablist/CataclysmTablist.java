@@ -37,13 +37,10 @@ public class CataclysmTablist {
     public static void organizePlayer(Player player) {
         var data = CataclysmPlayer.getCataclysmPlayer(player).getData();
         var role = new RoleManager(data).getRole();
-        var team = new TeamManager(data);
 
         if (role == null) return;
-        String[] letter = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-        String formattedPriority = role.ordinal() + letter[team.getTeam().ordinal()];
 
-        TablistUtils.setScoreboardTeam(player, formattedPriority + "-" + role.name());
+        TablistUtils.setScoreboardTeam(player, role.ordinal() + "-" + role.name());
         updatePlayerName(player);
     }
 

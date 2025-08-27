@@ -15,13 +15,13 @@ public class TablistListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     private void onPlayerJoin(PlayerJoinEvent event) {
         CataclysmTablist.organizePlayer(event.getPlayer());
-        for (var player : Bukkit.getOnlinePlayers()) CataclysmTablist.updateWeek(player);
+        CataclysmTablist.updateWeek(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     private void onPlayerQuit(PlayerQuitEvent event) {
         CataclysmTablist.organizePlayer(event.getPlayer());
-        for (var player : Bukkit.getOnlinePlayers()) CataclysmTablist.updateWeek(player);
+        CataclysmTablist.updateWeek(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
