@@ -84,7 +84,7 @@ public class MortalityListener implements Listener {
             player.playSound(Sound.sound(Key.key("entity.iron_golem.death"), Sound.Source.MASTER, 1.0F, 0.855F));
             player.playSound(Sound.sound(Key.key("item.totem.use"), Sound.Source.MASTER, 1.0F, 1.355F));
 
-            new CataclysmAdvancement("the_pale/immortal").grant(player);
+            new CataclysmAdvancement("the_pale_void/immortal").grant(player);
         }
     }
 

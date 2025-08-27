@@ -15,8 +15,8 @@ public enum ItemFamily {
     CALAMITY_ARMOR(CataclysmColor.CALAMITY, "the_nether/calamity"),
     MIRAGE_TOOLS(CataclysmColor.MIRAGE, "the_end/mirage"),
 
-    PALE_TOOLS(CataclysmColor.PALE, "the_pale/pale_tools"),
-    PALE_ARMOR(CataclysmColor.PALE, "the_pale/final_form"),
+    PALE_TOOLS(CataclysmColor.PALE, "the_pale_void/pale_tools"),
+    PALE_ARMOR(CataclysmColor.PALE, "the_pale_void/final_form"),
 
     ;
 
