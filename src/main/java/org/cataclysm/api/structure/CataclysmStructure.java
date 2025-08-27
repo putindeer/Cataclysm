@@ -129,7 +129,10 @@ public abstract class CataclysmStructure {
                     }
 
                     var state = block.getState();
-                    if (state instanceof BlockInventoryHolder inventoryHolder && inventoryHolder.getInventory().isEmpty()) structureLoot.apply(inventoryHolder);
+                    if (state instanceof BlockInventoryHolder inventoryHolder && inventoryHolder.getInventory().isEmpty()) {
+                        if (state.getLocation().add(0, -1, 0).getBlock().getType().equals(Material.LODESTONE)) return;
+                        structureLoot.apply(inventoryHolder);
+                    }
                 }
             }
         }

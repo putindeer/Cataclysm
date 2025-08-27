@@ -44,6 +44,8 @@ import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.item.ItemRestorer;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.game.effect.ImmunityEffect;
+import org.cataclysm.game.effect.MortemEffect;
+import org.cataclysm.game.effect.PaleCorrosionEffect;
 import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.game.player.data.PlayerLoader;
@@ -162,7 +164,7 @@ public class PlayerListener implements Listener {
         cataclysmPlayer.getTotemManager().updateStatistic();
         cataclysmPlayer.getCooldownManager().restore();
 
-        ItemRestorer restorer = new ItemRestorer(player.getInventory());
+        //ItemRestorer restorer = new ItemRestorer(player.getInventory());
         //restorer.check();
 
         event.joinMessage(
@@ -347,12 +349,9 @@ public class PlayerListener implements Listener {
         ItemBuilder itemBuilder = ItemBuilder.stackToBuilder(mainHand.clone());
 
         if (itemBuilder.getID().contains("pale")) {
-            event.setCancelled(true);
             entity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 200, 4));
-            entity.damage(event.getFinalDamage(), DamageSource.builder(DamageType.SONIC_BOOM)
-                    .withCausingEntity(player)
-                    .withDamageLocation(player.getLocation())
-                    .build());
+            entity.setMaximumNoDamageTicks(0);
+            entity.setNoDamageTicks(0);
         }
     }
 
@@ -408,8 +407,11 @@ public class PlayerListener implements Listener {
                 }
 
                 case "enchanted_calamity_apple" -> {
+
                     for (var effect : player.getActivePotionEffects()) {
                         if (!effect.getType().getCategory().equals(PotionEffectTypeCategory.HARMFUL)) continue;
+                        if (effect.getType().equals(PaleCorrosionEffect.EFFECT_TYPE)) continue;
+                        if (effect.getType().equals(MortemEffect.EFFECT_TYPE)) continue;
                         player.removePotionEffect(effect.getType());
                     }
 

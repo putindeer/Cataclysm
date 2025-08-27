@@ -16,6 +16,9 @@ import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.game.effect.MortemEffect;
 import org.cataclysm.game.effect.PaleCorrosionEffect;
 import org.cataclysm.game.mob.utils.EffectUtils;
+import org.cataclysm.game.mob.utils.TeleportUtils;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 @Registrable
 public class PaleMobsListener implements Listener {
@@ -57,6 +60,27 @@ public class PaleMobsListener implements Listener {
     }
 
     @EventHandler
+    public void onDamagedByArrow(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity entity)) return;
+        if (!(event.getDamager() instanceof Projectile)) return;
+        String mobId = CataclysmMob.getID(entity);
+        if (mobId == null) return;
+        if (!mobId.toUpperCase().contains("PALE")) return;
+
+        if (entity instanceof Ghast ghast) {
+            var location = entity.getLocation();
+            boolean foundTeleport = TeleportUtils.teleportEntityRandomly(ghast, 20);
+
+            if (!foundTeleport) {
+                var random = ThreadLocalRandom.current();
+                var newLocation = location.add(random.nextInt(-10, 10), random.nextInt(-3, 3), random.nextInt(-10, 10));
+                ghast.teleport(newLocation);
+                ghast.setNoDamageTicks(5);
+            }
+        }
+    }
+
+    @EventHandler
     public void onHitFireball(ProjectileHitEvent event) {
         Projectile projectile = event.getEntity();
         var world = projectile.getWorld();
@@ -83,6 +107,7 @@ public class PaleMobsListener implements Listener {
             }
 
             case GHAST -> {
+                shooter.teleport(projectile.getLocation());
                 Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
                     for (Player player : hitLocation.getNearbyPlayers(5)) {
                         player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 200, 0));
@@ -101,7 +126,7 @@ public class PaleMobsListener implements Listener {
         if (!mobId.toUpperCase().contains("PALE")) return;
 
         var tntEntity = (TNTPrimed) livingEntity.getWorld().spawnEntity(livingEntity.getLocation(), org.bukkit.entity.EntityType.TNT);
-        tntEntity.setFuseTicks((int) (tntEntity.getFuseTicks() / 1.5f));
+        tntEntity.setFuseTicks((int) (tntEntity.getFuseTicks() / 2.5f));
         tntEntity.setYield(7.5f);
         tntEntity.setSource(livingEntity);
     }

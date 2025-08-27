@@ -199,6 +199,11 @@ public class PlayerTask {
             player.setFreezeTicks(0);
         }
 
+        if (PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) {
+            if (player.hasPotionEffect(PaleCorrosionEffect.EFFECT_TYPE)) player.removePotionEffect(PaleCorrosionEffect.EFFECT_TYPE);
+            if (player.hasPotionEffect(MortemEffect.EFFECT_TYPE)) player.removePotionEffect(MortemEffect.EFFECT_TYPE);
+        }
+
         if (PlayerUtils.hasMirageHelmet(player)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 200, 0));
             player.getActivePotionEffects().forEach(potionEffect -> {
