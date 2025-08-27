@@ -119,28 +119,8 @@ public enum CataclysmItems {
 
     PARAGON_TOTEM(new CataclysmItem(Material.TOTEM_OF_UNDYING, CataclysmColor.PARAGON).setDisplay("Paragon Totem").setDescription("Superstes Numisma").setAbility("Postmortalis", "Se activa incluso con Mortem. No reduce la mortalidad y otorga inmunidad por 7 segundos.").setGlint(true)),
     PALE_TOKEN(new CataclysmItem(Material.PRISMARINE_CRYSTALS, CataclysmColor.PALE).setDisplay("Pale Token").setDescription("Collisio Mundorum", false).setGlint(true)),
-
-    PALE_SWORD(new CataclysmItem(Material.NETHERITE_SWORD, ItemFamily.PALE_TOOLS)
-            .setDisplay("Pale Sword")
-            .setDescription("Ex umbra silvae confectum", true)
-            .setAbility("Sagitta Mortis", "Inflige daño verdadero que atraviesa toda defensa, aplica Wither de alto nivel durante 5 segundos, ralentiza, debilita e ilumina a la víctima.")
-            .setAttribute(Attribute.ATTACK_DAMAGE, 20, EquipmentSlotGroup.MAINHAND)
-            .addEnchant(Enchantment.SHARPNESS, 5)
-            .addEnchant(Enchantment.BANE_OF_ARTHROPODS, 5)
-            .addEnchant(Enchantment.SMITE, 5)
-            .addEnchant(Enchantment.LOOTING, 3)
-            .addEnchant(Enchantment.SWEEPING_EDGE, 3)
-            .setUnbreakable(true)),
-    PALE_BOW(new CataclysmItem(Material.BOW, ItemFamily.PALE_TOOLS)
-            .setDisplay("Pale Bow")
-            .setDescription("Ex umbris silvae confectum", true)
-            .setAbility("Sagitta Mortis", "Dispara una flecha que inflige daño verdadero ignorando defensas, aplica Wither de alto nivel durante 5 segundos, ralentiza, debilita e ilumina a la víctima.")
-            .addEnchant(Enchantment.POWER, 20)
-            .addEnchant(Enchantment.INFINITY, 0)
-            .addEnchant(Enchantment.PUNCH, 2)
-            .addEnchant(Enchantment.FLAME, 2)
-            .setUnbreakable(true)),
-
+    PALE_SWORD(new CataclysmItem(Material.NETHERITE_SWORD, ItemFamily.PALE_TOOLS).setDisplay("Pale Sword").setDescription("Ex umbra silvae confectum", true).setAbility("Sagitta Mortis", "Inflige daño verdadero que atraviesa toda defensa, aplica Wither de alto nivel durante 5 segundos, ralentiza, debilita e ilumina a la víctima.").setAttribute(Attribute.ATTACK_DAMAGE, 20, EquipmentSlotGroup.MAINHAND).addEnchant(Enchantment.SHARPNESS, 5).addEnchant(Enchantment.BANE_OF_ARTHROPODS, 5).addEnchant(Enchantment.SMITE, 5).addEnchant(Enchantment.LOOTING, 3).addEnchant(Enchantment.SWEEPING_EDGE, 3).setUnbreakable(true)),
+    PALE_BOW(new CataclysmItem(Material.BOW, ItemFamily.PALE_TOOLS).setDisplay("Pale Bow").setDescription("Ex umbris silvae confectum", true).setAbility("Sagitta Mortis", "Dispara una flecha que inflige daño verdadero ignorando defensas, aplica Wither de alto nivel durante 5 segundos, ralentiza, debilita e ilumina a la víctima.").addEnchant(Enchantment.POWER, 20).addEnchant(Enchantment.INFINITY, 0).addEnchant(Enchantment.PUNCH, 2).addEnchant(Enchantment.FLAME, 2).setUnbreakable(true)),
     PALE_HELMET(new CataclysmItem(Material.NETHERITE_HELMET, ItemFamily.PALE_ARMOR).setDisplay("Pale Helmet").setDescription("Ex essentia silvae nullius confectum").setPassive("Aeternitas", "Al portar el set completo Pale otorga los efectos de la Calamity Armor, corazones adicionales e inmunidad a Pale Corrosion y Mortem").setAttributeLore(Attribute.ARMOR, 4, EquipmentSlotGroup.HEAD).setAttributeLore(Attribute.ARMOR_TOUGHNESS, 3, EquipmentSlotGroup.HEAD).setAttributeLore(Attribute.KNOCKBACK_RESISTANCE, 0.1, EquipmentSlotGroup.HEAD).setUnbreakable(true)),
     PALE_CHESTPLATE(new CataclysmItem(Material.NETHERITE_CHESTPLATE, ItemFamily.PALE_ARMOR).setDisplay("Pale Chestplate").setDescription("Ex essentia silvae nullius confectum").setPassive("Aeternitas", "Al portar el set completo Pale otorga los efectos de la Calamity Armor, corazones adicionales e inmunidad a Pale Corrosion y Mortem").setAttributeLore(Attribute.ARMOR, 9, EquipmentSlotGroup.CHEST).setAttributeLore(Attribute.ARMOR_TOUGHNESS, 9, EquipmentSlotGroup.CHEST).setAttributeLore(Attribute.KNOCKBACK_RESISTANCE, 0.1, EquipmentSlotGroup.CHEST).setUnbreakable(true)),
     PALE_LEGGINGS(new CataclysmItem(Material.NETHERITE_LEGGINGS, ItemFamily.PALE_ARMOR).setDisplay("Pale Leggings").setDescription("Ex essentia silvae nullius confectum").setPassive("Aeternitas", "Al portar el set completo Pale otorga los efectos de la Calamity Armor, corazones adicionales e inmunidad a Pale Corrosion y Mortem").setAttributeLore(Attribute.ARMOR, 7, EquipmentSlotGroup.LEGS).setAttributeLore(Attribute.ARMOR_TOUGHNESS, 9, EquipmentSlotGroup.LEGS).setAttributeLore(Attribute.KNOCKBACK_RESISTANCE, 0.1, EquipmentSlotGroup.LEGS).setUnbreakable(true)),

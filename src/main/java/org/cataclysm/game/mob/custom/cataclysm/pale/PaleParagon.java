@@ -232,6 +232,9 @@ public class PaleParagon extends CataclysmMob {
 
         @EventHandler
         public void onCoreBlockBreak(BlockBreakEvent event) {
+            Location coreLocation = this.paragon.coreLocation;
+            if (coreLocation == null) return;
+
             Location location = event.getBlock().getLocation();
             if (location.equals(this.paragon.coreLocation.getBlock().getLocation())) {
                 this.paragon.death();

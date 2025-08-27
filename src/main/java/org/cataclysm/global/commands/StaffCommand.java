@@ -157,7 +157,7 @@ public class StaffCommand extends BaseCommand {
     }
 
     @Subcommand("structure list")
-    @CommandCompletion("monolith|paragon_temple|calamity_chamber|mirage_citadel")
+    @CommandCompletion("monolith|paragon_temple|calamity_chamber|mirage_citadel|pale_temple")
     private void structureRestore(CommandSender commandSender, String structureName) {
         if (!(commandSender instanceof Player player)) return;
 

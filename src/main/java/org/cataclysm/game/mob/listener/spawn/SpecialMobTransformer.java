@@ -76,7 +76,7 @@ public class SpecialMobTransformer {
                 mobsPerPlayer = mobsPerPlayer / 6;
                 maxPerChunk = 4;
 
-                var fixedLocation = ctx.location.add(0, 30, 0);
+                var fixedLocation = ctx.location.add(0, 55, 0);
                 livingEntity.teleport(fixedLocation);
             }
             case SKELETON, ZOMBIE -> mobsPerPlayer = mobsPerPlayer / 6;
@@ -84,7 +84,7 @@ public class SpecialMobTransformer {
             case GHAST -> {
                 mobsPerPlayer = mobsPerPlayer / 10;
                 maxPerChunk = 2;
-                ctx.location.add(0, 30, 0);
+                ctx.location.add(0, 45, 0);
                 livingEntity.teleport(ctx.location);
             }
             case CREAKING, WARDEN -> {

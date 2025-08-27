@@ -138,9 +138,13 @@ public class AdvancementListener implements Listener {
         if (day >= 14) new CataclysmAdvancement("the_nether/root").grant(player);
         if (day >= 21) new CataclysmAdvancement("the_end/root").grant(player);
 
+        if (day >= 28) {
+            new CataclysmAdvancement("the_pale_void/root").grant(player);
+            new CataclysmAdvancement("the_pale_void/esne_paratus").grant(player);
+        }
+
         new CataclysmAdvancement("the_beginning/are_you_ready").grant(player);
 
-        //Solution: advancements check. TODO: REMOVE WHEN ALL PLAYERS GET THEIR PENDING ADVANCEMENTS.
         var um = CataclysmPlayer.getCataclysmPlayer(player);
         if (um != null) {
             var upgrades = new UpgradeManager(player).getUpgrades();
