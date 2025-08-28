@@ -148,6 +148,7 @@ public class PlayerListener implements Listener {
         );
     }
 
+    //Shouldnt this be LOWEST so that PlayerLoader always gets called first???
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onJoin(PlayerJoinEvent event) {
         var player = event.getPlayer();
@@ -255,25 +256,31 @@ public class PlayerListener implements Listener {
                             UUID uuid = player.getUniqueId();
 
                             if (!Cataclysm.getTasks().containsKey(uuid)) {
+                                final long startTime = System.currentTimeMillis();
+                                final long timeoutDuration = 2500;
+
                                 int task = Bukkit.getScheduler().scheduleSyncRepeatingTask(Cataclysm.getInstance(), () -> {
                                     Location location = player.getLocation();
-                                    world.spawnParticle(Particle.END_ROD, location, 2, 0, 0, 0, 0, null, true);
+                                    world.spawnParticle(Particle.END_ROD, location.add(0.3, 0, 0.3), 2, 0, 0, 0, 0, null, true);
 
-                                    if (location.clone().add(0, -.05, 0).getBlock().isSolid()) {
+                                    long currentTime = System.currentTimeMillis();
+
+                                    if (!player.isOnline()
+                                            || location.clone().add(0, -.05, 0).getBlock().isSolid()
+                                            || (currentTime - startTime) >= timeoutDuration) {
                                         Bukkit.getScheduler().cancelTask(Cataclysm.getTasks().get(uuid));
                                         Cataclysm.getTasks().remove(uuid);
                                     }
-
                                 }, 2, 1);
 
                                 Cataclysm.getTasks().putIfAbsent(uuid, task);
                             }
+
                             world.playSound(player, org.bukkit.Sound.ITEM_MACE_SMASH_AIR, 0.75F, 1.17F);
                             world.spawnParticle(Particle.EXPLOSION, player.getLocation(), 3);
                         }
                     }
                 }
-
             }
         }
     }

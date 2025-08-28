@@ -155,6 +155,8 @@ public final class Cataclysm extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
+        tasks.forEach((uuid, task) -> Bukkit.getScheduler().cancelTask(task));
+        tasks.clear();
         Bukkit.getConsoleSender().sendMessage("Cataclysm has been succesfully disabled.");
     }
 

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public class PaleEvoker extends CataclysmMob {
 
     public PaleEvoker(Level level) {
-        super(new ArcaneEvokerEntity(level), "Pale Evoker", CataclysmColor.PALE, level);
+        super(new PaleEvokerEntity(level), "Pale Evoker", CataclysmColor.PALE, level);
         super.setSpawnTag(SpawnTag.PERSISTENT);
         super.setHealth(48);
         super.getBukkitLivingEntity().setPersistent(true);
@@ -27,8 +27,8 @@ public class PaleEvoker extends CataclysmMob {
         return new PaleEvoker(super.getLevel());
     }
 
-    static class ArcaneEvokerEntity extends Evoker {
-        public ArcaneEvokerEntity(Level level) {
+    static class PaleEvokerEntity extends Evoker {
+        public PaleEvokerEntity(Level level) {
             super(EntityType.EVOKER, level);
         }
 

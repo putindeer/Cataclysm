@@ -14,8 +14,11 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
+import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.game.items.CataclysmItems;
+import org.cataclysm.game.mob.custom.cataclysm.pale.PaleVex;
 import org.cataclysm.game.mob.custom.vanilla.enhanced.TwilightVex;
+import org.cataclysm.game.world.Dimensions;
 
 import java.util.Random;
 import java.util.SplittableRandom;
@@ -41,11 +44,13 @@ public class DeathListener implements Listener {
             case EVOKER -> {
                 if (day >= 7) {
                     event.getDrops().clear();
-
+                    var level = ((CraftWorld) location.getWorld()).getHandle();
                     BlockFace[] faces = {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
                     for (var face : faces) {
                         var spawnLocation = location.getBlock().getRelative(face).getLocation();
-                        new TwilightVex(((CraftWorld) spawnLocation.getWorld()).getHandle()).addFreshEntity(spawnLocation);
+                        CataclysmMob vexToSpawn = new TwilightVex(level);
+                        if (location.getWorld().equals(Dimensions.PALE_VOID.getWorld())) vexToSpawn = new PaleVex(level);
+                        vexToSpawn.addFreshEntity(spawnLocation);
                     }
                 }
             }

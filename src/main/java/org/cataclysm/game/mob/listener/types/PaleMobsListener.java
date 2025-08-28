@@ -3,9 +3,11 @@ package org.cataclysm.game.mob.listener.types;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -15,6 +17,7 @@ import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.game.effect.MortemEffect;
 import org.cataclysm.game.effect.PaleCorrosionEffect;
+import org.cataclysm.game.mob.custom.cataclysm.pale.PaleVex;
 import org.cataclysm.game.mob.utils.EffectUtils;
 import org.cataclysm.game.mob.utils.TeleportUtils;
 
@@ -36,9 +39,7 @@ public class PaleMobsListener implements Listener {
         event.setCancelled(true);
         player.getLocation().createExplosion(fangs.getOwner(), 7, false, false);
         player.getWorld().strikeLightningEffect(player.getLocation());
-        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
-            player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 200, 0));
-        }, 1);
+        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 200, 0)), 1);
     }
 
     @EventHandler
@@ -52,11 +53,23 @@ public class PaleMobsListener implements Listener {
 
         switch (entity.getType()) {
             case ENDERMAN, VEX -> {
-                Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
-                    player.addPotionEffect(new PotionEffect(PaleCorrosionEffect.EFFECT_TYPE, 200, 0));
-                }, 1);
+                Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> player.addPotionEffect(new PotionEffect(PaleCorrosionEffect.EFFECT_TYPE, 200, 0)), 1);
             }
         }
+    }
+
+    @EventHandler
+    public void onVexSummon(CreatureSpawnEvent event) {
+        if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.SPELL || !(event.getEntity() instanceof Vex vex)) return;
+        if (vex.getSummoner() == null) return;
+        String mobId = CataclysmMob.getID(vex.getSummoner());
+        if (mobId == null) return;
+        if (!mobId.toUpperCase().contains("PALE")) return;
+
+        var location = vex.getLocation();
+        var level = ((CraftWorld) location.getWorld()).getHandle();
+        new PaleVex(level).addFreshEntity(location);
+        vex.remove();
     }
 
     @EventHandler
