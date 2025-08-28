@@ -1,7 +1,6 @@
 package org.cataclysm.game.mob.listener.spawn;
 
 import org.bukkit.World;
-import org.bukkit.entity.Endermite;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
@@ -28,14 +27,22 @@ import org.cataclysm.game.mob.custom.vanilla.skeleton.standard.CataclystSkeleton
 import org.cataclysm.game.mob.custom.vanilla.skeleton.wither.NetherNightmare;
 import org.cataclysm.game.world.Dimensions;
 
+import java.util.List;
+
 public class SpecialMobTransformer {
 
     public boolean replace(SpawnContext ctx) {
+        List<EntityType> ignoredMobs = List.of(
+                EntityType.ENDERMITE,
+                EntityType.PHANTOM
+        );
+
+        if (ignoredMobs.contains(ctx.entity.getType())) return false;
+
         return replacePaleMobs(ctx) || replaceEndMobs(ctx) ||  replaceNetherMobs(ctx) || replaceOverworldMobs(ctx);
     }
 
     private boolean replacePaleMobs(SpawnContext ctx) {
-        if (ctx.entity instanceof Endermite) return false;
         if (!ctx.location.getWorld().equals(Dimensions.PALE_VOID.getWorld())) return false;
 
         if (Dimensions.PALE_VOID.getDistanceFromSpawn(ctx.location) <= 150) { // Avoid spawning mobs in a radius of 150 blocks of spawn center
@@ -46,6 +53,7 @@ public class SpecialMobTransformer {
         CataclysmMob mobToSpawn = null;
         int mobsPerPlayer = 20;
         int maxPerChunk = 5;
+
         CataclysmMob[] mobList = {
                 new Headsman(ctx.level),
                 new Sentinel(ctx.level),
@@ -64,40 +72,46 @@ public class SpecialMobTransformer {
                 new GiantSnowGolem(ctx.level),
                 new DrownedKing(ctx.level),
         };
+
         int randomIndex = ctx.random.nextInt(mobList.length + 1);
         if (randomIndex < mobList.length) mobToSpawn = mobList[randomIndex];
 
         ctx.entity.remove();
         LivingEntity livingEntity;
+
         if (mobToSpawn == null) {
             EntityType type = ctx.random.nextBoolean() ? EntityType.CREAKING : EntityType.DROWNED;
             livingEntity = (LivingEntity) ctx.location.getWorld().spawnEntity(ctx.location, type, CreatureSpawnEvent.SpawnReason.DEFAULT);
-        }
-        else {
+        } else {
             mobToSpawn.addFreshEntity(ctx.location);
             livingEntity = mobToSpawn.getBukkitLivingEntity();
         }
+
         switch (livingEntity.getType()) {
             case ENDERMAN -> mobsPerPlayer = mobsPerPlayer / 5;
             case PHANTOM -> {
                 mobsPerPlayer = mobsPerPlayer / 6;
                 maxPerChunk = 4;
 
-                var fixedLocation = ctx.location.add(0, 55, 0);
+                var fixedLocation = ctx.location.clone().add(0, 55, 0);
                 livingEntity.teleport(fixedLocation);
             }
+
             case SKELETON, ZOMBIE -> mobsPerPlayer = mobsPerPlayer / 6;
             case BLAZE, WITHER_SKELETON, DROWNED -> mobsPerPlayer = mobsPerPlayer / 8;
+
             case GHAST -> {
                 mobsPerPlayer = mobsPerPlayer / 10;
                 maxPerChunk = 2;
-                ctx.location.add(0, 45, 0);
-                livingEntity.teleport(ctx.location);
+                var fixedLocation = ctx.location.clone().add(0, 45, 0);
+                livingEntity.teleport(fixedLocation);
             }
+
             case CREAKING, WARDEN, SNOW_GOLEM -> {
                 mobsPerPlayer = mobsPerPlayer / 12;
                 maxPerChunk = 2;
             }
+
             case RAVAGER, WITHER -> {
                 mobsPerPlayer = 2;
                 maxPerChunk = 2;
@@ -116,7 +130,6 @@ public class SpecialMobTransformer {
     }
 
     private boolean replaceEndMobs(SpawnContext ctx) {
-        if (ctx.entity instanceof Endermite) return false;
         if (!ctx.location.getWorld().equals(Dimensions.THE_END.getWorld())) return false;
 
         CataclysmMob mobToSpawn = null;
@@ -214,7 +227,7 @@ public class SpecialMobTransformer {
     private boolean replaceOverworldMobs(SpawnContext ctx) {
         if (ctx.day < 21) return false;
         if (ctx.location.getWorld().getEnvironment() != World.Environment.NORMAL) return false;
-        if (ctx.location.getY() <= 60) return false;
+        if (ctx.location.getY() <= 62) return false;
         if (ctx.random.nextInt(0, 100) >= 70)  {
             CataclysmMob mobToSpawn = null;
             int maxPerPlayer = 15;
@@ -222,7 +235,7 @@ public class SpecialMobTransformer {
 
             if (ctx.entity.getLocation().add(0, -1, 0).getBlock().isLiquid()) {
                 mobToSpawn = ctx.random.nextBoolean() ? new CustomElderGuardian(ctx.level) : new ExplosivePufferfish(ctx.level);
-            } else if (ctx.random.nextInt(0, 100) < 3 && ctx.location.getY() >= 64 && !ctx.entity.getType().equals(EntityType.PHANTOM)) {
+            } else if (ctx.random.nextInt(0, 100) < 3) {
                 mobToSpawn = new WanderingFaith(ctx.level);
                 maxPerPlayer = 3;
             } else {

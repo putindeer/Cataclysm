@@ -252,16 +252,22 @@ public class PlayerListener implements Listener {
 
                             World world = player.getWorld();
 
-                            UUID uuid = UUID.randomUUID();
-                            int task = Bukkit.getScheduler().scheduleSyncRepeatingTask(Cataclysm.getInstance(), () -> {
-                                Location location = player.getLocation();
-                                world.spawnParticle(Particle.END_ROD, location, 2, 0, 0, 0, 0, null, true);
-                                if (location.clone().add(0, -.05, 0).getBlock().isSolid()) {
-                                    Bukkit.getScheduler().cancelTask(Cataclysm.getTasks().get(uuid));
-                                }
-                            }, 2, 1);
-                            Cataclysm.getTasks().put(uuid, task);
+                            UUID uuid = player.getUniqueId();
 
+                            if (!Cataclysm.getTasks().containsKey(uuid)) {
+                                int task = Bukkit.getScheduler().scheduleSyncRepeatingTask(Cataclysm.getInstance(), () -> {
+                                    Location location = player.getLocation();
+                                    world.spawnParticle(Particle.END_ROD, location, 2, 0, 0, 0, 0, null, true);
+
+                                    if (location.clone().add(0, -.05, 0).getBlock().isSolid()) {
+                                        Bukkit.getScheduler().cancelTask(Cataclysm.getTasks().get(uuid));
+                                        Cataclysm.getTasks().remove(uuid);
+                                    }
+
+                                }, 2, 1);
+
+                                Cataclysm.getTasks().putIfAbsent(uuid, task);
+                            }
                             world.playSound(player, org.bukkit.Sound.ITEM_MACE_SMASH_AIR, 0.75F, 1.17F);
                             world.spawnParticle(Particle.EXPLOSION, player.getLocation(), 3);
                         }
@@ -315,10 +321,13 @@ public class PlayerListener implements Listener {
         if (day >= 28) {
             if (cause == EntityDamageEvent.DamageCause.VOID) event.setDamage(999);
 
-            var distance = player.getLocation().distance(Dimensions.PALE_VOID.getWorld().getSpawnLocation());
-            if (distance <= 150) return;
+            if (player.getWorld().equals(Dimensions.PALE_VOID.getWorld())) {
+                var distance = player.getLocation().distance(Dimensions.PALE_VOID.getWorld().getSpawnLocation());
 
-            PaleKingUtils.breakElytras(player, 0);
+                if (distance <= 150) return;
+
+                PaleKingUtils.breakElytras(player, 0);
+            }
         }
 
         event.setDamage((event.getDamage() + extraDamage) * damageMultiplier);

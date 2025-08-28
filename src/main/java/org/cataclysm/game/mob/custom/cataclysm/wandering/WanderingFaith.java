@@ -20,6 +20,7 @@ import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.mob.drops.CataclysmDrops;
 import org.cataclysm.game.effect.DisperEffect;
 import org.cataclysm.game.items.CataclysmItems;
+import org.cataclysm.game.player.PlayerUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class WanderingFaith extends CataclysmMob {
@@ -85,6 +86,7 @@ public class WanderingFaith extends CataclysmMob {
             var nearbyEntities = bukkitEntity.getNearbyEntities(25, 25, 25);
             for (var entity : nearbyEntities) {
                 if (entity instanceof org.bukkit.entity.Player player) {
+                    if (PlayerUtils.hasMirageHelmet(player)) return;
                     player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 20, 0));
                     player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 20, 1));
                 }

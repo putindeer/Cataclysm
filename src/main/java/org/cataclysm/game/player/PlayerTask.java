@@ -230,12 +230,20 @@ public class PlayerTask {
         }
 
         if (day >= 21) {
-            if (player.isInWater() && !PlayerUtils.hasMirageHelmet(player)) {
-                if (player.getWorld() != Dimensions.PALE_VOID.getWorld()
-                        || player.getLocation().distance(Dimensions.PALE_VOID.getWorld().getSpawnLocation()) >= 200) player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 60, 0));
-                else {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, 9, true, false, false));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 60, 0, true, false, false));
+            World world = player.getWorld();
+            if (player.isInWater()) {
+                Location spawnLocation = world.getSpawnLocation();
+                if (!PlayerUtils.hasMirageHelmet(player)) {
+                    if (player.getLocation().distance(spawnLocation) > 200) {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 60, 0));
+                    }
+                }
+
+                if (world.equals(Dimensions.PALE_VOID.getWorld())) {
+                    if (player.getLocation().distance(spawnLocation) < 200) {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, 9, true, false, false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 60, 0, true, false, false));
+                    }
                 }
             }
 
@@ -254,7 +262,7 @@ public class PlayerTask {
         var enderpearls = player.getEnderPearls();
 
         for (var enderpearl : enderpearls) {
-            if (day >= 28 && enderpearl.getTicksLived() >= 200 || enderpearl.isInLava() || enderpearl.isInWater() || enderpearl.getFireTicks() > 0) enderpearl.remove();
+            if ((day >= 28 && enderpearl.getTicksLived() >= 200) || enderpearl.isInLava() || enderpearl.isInWater() || enderpearl.getFireTicks() > 0) enderpearl.remove();
         }
 
         if (day < 21) return;
@@ -279,7 +287,7 @@ public class PlayerTask {
     }
 
     private void handleElytra(int day, Player player) {
-        if (day >= 28 && player.getLocation().getBlock().isLiquid()) PaleKingUtils.breakElytras(player, 0);
+        if (day >= 28 && player.isInWater()) PaleKingUtils.breakElytras(player, 0);
     }
 
 }

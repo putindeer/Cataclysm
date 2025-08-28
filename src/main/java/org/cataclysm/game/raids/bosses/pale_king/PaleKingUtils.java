@@ -15,8 +15,18 @@ public class PaleKingUtils {
         if (chestplate == null || chestplate.getType() != Material.ELYTRA) return;
 
         ItemStack elytra = chestplate.clone();
-        if (inventory.contains(Material.AIR)) inventory.addItem(elytra);
-        else {
+        boolean replace = false;
+
+        for (int i = 0; i < inventory.getSize(); i++) {
+            ItemStack item = inventory.getItem(i);
+            if (item != null && item.getType().isAir()) {
+                replace = true;
+                inventory.setItem(i, elytra);
+                break;
+            }
+        }
+
+        if (!replace) {
             var item = player.getWorld().dropItemNaturally(player.getLocation(), elytra);
             item.setInvulnerable(true);
             item.setGlowing(true);

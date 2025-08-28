@@ -104,7 +104,7 @@ public class Headsman extends CataclysmMob {
             if (token == null || !token.key().equals(this.headsman.getMobToken().key())) return;
 
             if (damager.getWorld() != Dimensions.PALE_VOID.getWorld()) return;
-            event.setDamage(event.getDamage() * 2);
+            event.setDamage(event.getFinalDamage() * 2);
         }
 
         @EventHandler
