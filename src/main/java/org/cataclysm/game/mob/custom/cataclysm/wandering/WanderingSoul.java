@@ -26,7 +26,7 @@ public class WanderingSoul extends CataclysmMob {
     public WanderingSoul(Level level) {
         super(new WanderingSoulEntity(level), "Wandering Soul", level);
         super.setHealth(750);
-        super.setDrops(new CataclysmDrops(new LootContainer(new LootHolder(CataclysmItems.WANDERING_SOUL.build(), 1, 1, 0.1))));
+        super.setDrops(new CataclysmDrops(new LootContainer(new LootHolder(CataclysmItems.WANDERING_SOUL.build(), 1, 1, 0.2))));
     }
 
     @Override

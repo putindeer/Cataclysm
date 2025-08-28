@@ -30,7 +30,7 @@ public class WanderingFaith extends CataclysmMob {
         super.amplifyAttribute(Attributes.ATTACK_DAMAGE, 100);
         super.amplifyAttribute(Attributes.MOVEMENT_SPEED, 1.5);
         super.amplifyAttribute(Attributes.FOLLOW_RANGE, 10);
-        super.setDrops(new CataclysmDrops(new LootContainer(new LootHolder(CataclysmItems.WANDERING_HEART.build(), 1, 1, 0.1))));
+        super.setDrops(new CataclysmDrops(new LootContainer(new LootHolder(CataclysmItems.WANDERING_HEART.build(), 1, 1, 0.2))));
     }
 
     @Override

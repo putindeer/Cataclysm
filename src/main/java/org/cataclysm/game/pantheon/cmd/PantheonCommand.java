@@ -13,6 +13,7 @@ import org.cataclysm.game.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.pantheon.level.LevelHandler;
 import org.cataclysm.game.pantheon.level.PantheonAreas;
 import org.cataclysm.global.utils.chat.ChatMessenger;
+import org.jetbrains.annotations.NotNull;
 
 @CommandAlias("pantheon")
 @CommandPermission("admin.perms")
@@ -20,7 +21,7 @@ public class PantheonCommand extends BaseCommand {
 
     @Subcommand("action")
     @CommandCompletion("open|close|start|stop")
-    private void action(String action) {
+    private void action(@NotNull String action) {
         PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
 
         switch (action) {

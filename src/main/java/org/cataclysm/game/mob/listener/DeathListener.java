@@ -77,7 +77,7 @@ public class DeathListener implements Listener {
             case DROWNED -> {
                 if (day >= 14) {
                     event.getDrops().clear();
-                    int rarity = day >= 28 ? 5 : 100;
+                    int rarity = day >= 28 ? 20 : 100;
                     if (new SplittableRandom().nextInt(0, 100) < rarity) location.getWorld().dropItemNaturally(location, CataclysmItems.DROWNED_CROWN.build());
                 }
             }

@@ -23,7 +23,7 @@ public class GiantSnowGolem extends CataclysmMob {
 
     public GiantSnowGolem(Level level) {
         super(new GiantSnowGolemEntity(level), "Giant Snow Golem", level);
-        double rarity = Cataclysm.getDay() >= 28 ? 0.05 : 1;
+        double rarity = Cataclysm.getDay() >= 28 ? 0.2 : 1;
         super.setDrops(new CataclysmDrops(new LootContainer(new LootHolder(CataclysmItems.GOLEM_HEAD.build(), 1, 1, rarity))));
     }
 
