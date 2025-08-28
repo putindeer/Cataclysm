@@ -15,7 +15,6 @@ import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
 
 public class ParagonTemple extends CataclysmStructure {
-
     public ParagonTemple(StructureLevel level) {
         super(level);
         super.listener = new ParagonTempleListener(this);
@@ -72,6 +71,5 @@ public class ParagonTemple extends CataclysmStructure {
 
             new CataclysmAdvancement("the_beginning/open_book").grant(player);
         }
-
     }
 }

@@ -1,17 +1,15 @@
 package org.cataclysm.game.pantheon.level.entrance;
 
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.sound.Sound;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
 import org.cataclysm.api.inventory.BasicMenu;
 import org.cataclysm.api.item.ItemBuilder;
-import org.cataclysm.game.pantheon.PantheonUtils;
+import org.cataclysm.game.pantheon.utils.PantheonGlobalUtils;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +22,7 @@ public class EntranceGUI extends BasicMenu {
     public void initInventory() {
         super.empty();
 
-        boolean isReady = PantheonUtils.isReady(super.player);
+        boolean isReady = PantheonGlobalUtils.isReady(super.player);
         ItemStack item = createReadyItem();
         if (isReady) item = createUnreadyItem();
 
@@ -42,15 +40,18 @@ public class EntranceGUI extends BasicMenu {
         var id = new ItemBuilder(item).getID();
         if (id == null || id.equals("blank")) return;
 
-        boolean isReady = PantheonUtils.isReady(super.player);
+        World world = super.player.getWorld();
+        boolean isReady = PantheonGlobalUtils.isReady(super.player);
         if (id.equals("ready") && !isReady) {
-            PantheonUtils.setReady(super.player, true);
-            super.player.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.BLOCK, 5.0F, 0.55F));
-            super.player.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.BLOCK, 5.0F, 0.65F));
-            super.player.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.BLOCK, 5.0F, 0.75F));
-        } else if (id.equals("unready") && isReady) {
-            PantheonUtils.setReady(super.player, false);
-            super.player.playSound(Sound.sound(Key.key("block.beacon.deactivate"), Sound.Source.BLOCK, 1.0F, 0.75F));
+            PantheonGlobalUtils.setReady(super.player, true);
+            world.playSound(player, org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1.25F);
+            world.playSound(player, org.bukkit.Sound.BLOCK_BEACON_ACTIVATE, 5.0F, 0.75F);
+            world.playSound(player, org.bukkit.Sound.ITEM_TRIDENT_RETURN, 15.0F, 0.65F);
+        }
+        else if (id.equals("unready") && isReady) {
+            PantheonGlobalUtils.setReady(super.player, false);
+            world.playSound(player, org.bukkit.Sound.BLOCK_BEACON_DEACTIVATE, 15.0F, 0.75F);
+            world.playSound(player, org.bukkit.Sound.BLOCK_BEACON_DEACTIVATE, 15.0F, 0.65F);
         }
 
         super.close();
@@ -66,14 +67,9 @@ public class EntranceGUI extends BasicMenu {
     @EventHandler
     public void open(@NotNull InventoryOpenEvent event) {
         if (!(event.getInventory().equals(super.inventory))) return;
-        super.player.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.BLOCK, 5.0F, 1.25F));
-        super.player.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.BLOCK, 5.0F, 1.55F));
-        super.player.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.BLOCK, 5.0F, 0.65F));
-    }
-
-    @EventHandler
-    public void close(@NotNull InventoryCloseEvent event) {
-        if (!(event.getInventory().equals(super.inventory))) return;
-        super.player.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.BLOCK, 1.0F, 1.95F));
+        World world = super.player.getWorld();
+        world.playSound(player, org.bukkit.Sound.ITEM_TRIDENT_RETURN, 15.0F, 0.65F);
+        world.playSound(player, org.bukkit.Sound.ITEM_TRIDENT_RETURN, 15.0F, 0.65F);
+        world.playSound(player, org.bukkit.Sound.ITEM_TRIDENT_RETURN, 15.0F, 0.65F);
     }
 }
