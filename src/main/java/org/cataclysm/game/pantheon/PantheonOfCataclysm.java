@@ -11,8 +11,7 @@ import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.pantheon.level.PantheonAreas;
 import org.cataclysm.game.pantheon.phase.PantheonPhase;
 import org.cataclysm.game.pantheon.phase.PhaseChanger;
-import org.cataclysm.game.pantheon.utils.PantheonGlobalUtils;
-import org.cataclysm.game.world.Dimensions;
+import org.cataclysm.game.pantheon.utils.PantheonPlayerUtils;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -27,7 +26,6 @@ public class PantheonOfCataclysm {
         this.service = Executors.newSingleThreadScheduledExecutor();
         this.world = PantheonHandler.getOrCreateWorld();
         this.phaseChanger = new PhaseChanger(this);
-        this.phaseChanger.changePhase(PantheonPhase.IDDLE);
     }
 
     public void openPantheon() {
@@ -41,14 +39,14 @@ public class PantheonOfCataclysm {
     public void startPantheon() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, 200, 0));
-            PantheonGlobalUtils.teleport(player, PantheonAreas.PANTHEON_ENTRANCE.getCoreLocation());
+            PantheonPlayerUtils.teleport(player, PantheonAreas.PANTHEON_ENTRANCE.getCoreLocation());
         }
     }
 
     public void stopPantheon() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, 200, 0));
-            PantheonGlobalUtils.teleport(player, PantheonAreas.PANTHEON_ENTRANCE.getCoreLocation());
+            PantheonPlayerUtils.teleport(player, PantheonAreas.PANTHEON_ENTRANCE.getCoreLocation());
         }
         Cataclysm.setPantheon(null);
     }
@@ -57,8 +55,10 @@ public class PantheonOfCataclysm {
         return this.phaseChanger.getPhase();
     }
 
-    public static void buildPantheon() {
+    public static void create() {
         PantheonOfCataclysm pantheon = new PantheonOfCataclysm();
+        pantheon.getPhaseChanger().changePhase(PantheonPhase.IDDLE);
+
         Cataclysm.setPantheon(pantheon);
 
         PantheonHandler.registerAll();

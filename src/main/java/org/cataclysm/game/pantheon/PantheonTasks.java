@@ -7,7 +7,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.pantheon.level.PantheonAreas;
-import org.cataclysm.game.pantheon.utils.PantheonGlobalUtils;
+import org.cataclysm.game.pantheon.utils.PantheonPlayerUtils;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 
 public class PantheonTasks {
@@ -19,15 +19,7 @@ public class PantheonTasks {
         });
     }
     public static void tickEntrance() {
-        Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-            castEntranceEffects(PantheonAreas.PANTHEON_ENTRANCE.getCoreLocation());
-            tryElapse();
-        });
-    }
-
-    private static void tryElapse() {
-        if (!PantheonGlobalUtils.areAllReady()) return;
-        Cataclysm.getPantheon().getPhaseChanger().castEntranceTransition();
+        Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> castEntranceEffects(PantheonAreas.PANTHEON_ENTRANCE.getCoreLocation()));
     }
 
     private static void castEntranceEffects(Location location) {
@@ -42,15 +34,15 @@ public class PantheonTasks {
         world.playSound(location, Sound.BLOCK_PORTAL_AMBIENT, 0.5F, 0.5F);
     }
     private static void applyReadyEffects(Player player) {
-        if (!PantheonGlobalUtils.isReady(player)) return;
+        if (!PantheonPlayerUtils.isReady(player)) return;
         player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 30, 0, false, false, false));
 
         String display = TinyCaps.tinyCaps(getActionBarDisplay());
         player.sendActionBar(MiniMessage.miniMessage().deserialize("<gradient:#FC8C03:#B5A16B>" + display + "</gradient>"));
     }
     private static String getActionBarDisplay() {
-        int ready = PantheonGlobalUtils.getReadyCount();
-        int size = PantheonGlobalUtils.getRaidParticipants().size();
+        int ready = PantheonPlayerUtils.getReadyCount();
+        int size = PantheonPlayerUtils.getParticipants().size();
         return  "estás listo para entrar al panteón [" + ready + "/" + size + "]";
     }
 }

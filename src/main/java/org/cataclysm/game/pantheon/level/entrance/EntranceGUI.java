@@ -7,9 +7,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
+import org.cataclysm.Cataclysm;
 import org.cataclysm.api.inventory.BasicMenu;
 import org.cataclysm.api.item.ItemBuilder;
-import org.cataclysm.game.pantheon.utils.PantheonGlobalUtils;
+import org.cataclysm.game.pantheon.phase.PhaseChanger;
+import org.cataclysm.game.pantheon.utils.PantheonPlayerUtils;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +24,7 @@ public class EntranceGUI extends BasicMenu {
     public void initInventory() {
         super.empty();
 
-        boolean isReady = PantheonGlobalUtils.isReady(super.player);
+        boolean isReady = PantheonPlayerUtils.isReady(super.player);
         ItemStack item = createReadyItem();
         if (isReady) item = createUnreadyItem();
 
@@ -41,19 +43,20 @@ public class EntranceGUI extends BasicMenu {
         if (id == null || id.equals("blank")) return;
 
         World world = super.player.getWorld();
-        boolean isReady = PantheonGlobalUtils.isReady(super.player);
+        boolean isReady = PantheonPlayerUtils.isReady(super.player);
         if (id.equals("ready") && !isReady) {
-            PantheonGlobalUtils.setReady(super.player, true);
+            PantheonPlayerUtils.setReady(super.player, true);
             world.playSound(player, org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1.25F);
             world.playSound(player, org.bukkit.Sound.BLOCK_BEACON_ACTIVATE, 5.0F, 0.75F);
             world.playSound(player, org.bukkit.Sound.ITEM_TRIDENT_RETURN, 15.0F, 0.65F);
         }
         else if (id.equals("unready") && isReady) {
-            PantheonGlobalUtils.setReady(super.player, false);
+            PantheonPlayerUtils.setReady(super.player, false);
             world.playSound(player, org.bukkit.Sound.BLOCK_BEACON_DEACTIVATE, 15.0F, 0.75F);
             world.playSound(player, org.bukkit.Sound.BLOCK_BEACON_DEACTIVATE, 15.0F, 0.65F);
         }
 
+        Cataclysm.getPantheon().getPhaseChanger().tryElapseWaitroom();
         super.close();
     }
 

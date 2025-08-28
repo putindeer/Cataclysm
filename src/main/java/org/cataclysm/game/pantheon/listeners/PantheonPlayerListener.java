@@ -8,7 +8,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.listener.registrable.Registrable;
-import org.cataclysm.game.pantheon.utils.PantheonGlobalUtils;
+import org.cataclysm.game.pantheon.utils.PantheonPlayerUtils;
 import org.cataclysm.game.pantheon.level.entrance.EntranceGUI;
 import org.cataclysm.game.pantheon.phase.PantheonPhase;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +18,7 @@ public class PantheonPlayerListener implements Listener {
 
     @EventHandler
     private void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-        PantheonGlobalUtils.setReady(event.getPlayer(), false);
+        PantheonPlayerUtils.setReady(event.getPlayer(), false);
     }
 
     @EventHandler

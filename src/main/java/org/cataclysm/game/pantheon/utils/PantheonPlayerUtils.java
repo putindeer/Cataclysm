@@ -16,42 +16,41 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PantheonGlobalUtils {
-    public static List<Player> getRaidParticipants() {
+public class PantheonPlayerUtils {
+
+    public static List<Player> getParticipants() {
         List<Player> participants = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            GameMode gameMode = player.getGameMode();
-            if (gameMode == GameMode.CREATIVE || gameMode == GameMode.SPECTATOR) continue;
-            participants.add(player);
+            if (player.getGameMode() == GameMode.SURVIVAL) participants.add(player);
         }
         return participants;
     }
-    public static boolean areAllReady() {
-        int ready = getReadyCount();
-        int size = getRaidParticipants().size();
-        return ready == size;
-    }
+
     public static int getReadyCount() {
         int count = 0;
         for (Player player : Bukkit.getOnlinePlayers()) if (isReady(player)) count++;
         return count;
     }
+
     public static void setReady(Player player, boolean ready) {
         PersistentData.set(player, "PANTHEON_READY", PersistentDataType.BOOLEAN, ready);
     }
+
     public static boolean isReady(Player player) {
         Boolean ready = PersistentData.get(player, "PANTHEON_READY", PersistentDataType.BOOLEAN);
         return ready != null && ready;
     }
 
-    public static void teleport(Player player, Location location) {
-        World world = location.getWorld();
-        world.playSound(player, Sound.ITEM_TRIDENT_RETURN, 10f, .75f);
-        world.playSound(player, Sound.ITEM_TRIDENT_RETURN, 10f, .55f);
-        player.playSound(net.kyori.adventure.sound.Sound.sound(Key.key("cataclysm.pantheon.teleport"), SoundCategory.MASTER, 10F, 0.95F));
+    public static void teleport(@NotNull Player player, Location location) {
+        World world = player.getWorld();
 
-        showWhitescreen(player, 1000, 3000, 1500);
-        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> player.teleport(location), 50L);
+        world.playSound(player, Sound.ITEM_TRIDENT_RETURN, 5f, .75f);
+        world.playSound(player, Sound.ITEM_TRIDENT_RETURN, 5f, .55f);
+        world.playSound(player, "cataclysm.pantheon.teleport", 10F, 0.985F);
+
+        int delay = 6000;
+        showWhitescreen(player, 1000, delay, 1500);
+        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> player.teleport(location), 6000 / 50);
     }
 
     //This is in MILLISECONDS.
