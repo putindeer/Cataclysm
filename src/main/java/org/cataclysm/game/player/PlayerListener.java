@@ -16,10 +16,7 @@ import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.damage.DamageSource;
 import org.bukkit.damage.DamageType;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.WindCharge;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -333,7 +330,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerAttack(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player player)) return;
+        Player player = null;
+        if (event.getDamager() instanceof Player) player = (Player) event.getDamager();
+        if (event.getDamager() instanceof Projectile projectile && projectile.getShooter() instanceof Player) player = (Player) projectile.getShooter();
+
+        if (player == null) return;
         if (!(event.getEntity() instanceof LivingEntity entity)) return;
         if (entity instanceof Player) return;
 
@@ -341,7 +342,7 @@ public class PlayerListener implements Listener {
         var handMeta = mainHand.getItemMeta();
         if (handMeta == null) return;
         if (!handMeta.isUnbreakable()) return;
-        if (!mainHand.getType().equals(Material.NETHERITE_SWORD)) return;
+        if (!(mainHand.getType().equals(Material.NETHERITE_SWORD) || mainHand.getType().equals(Material.BOW))) return;
 
         entity.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 20 * 6, 2));
         entity.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 20 * 6, 2));
@@ -350,6 +351,7 @@ public class PlayerListener implements Listener {
 
         if (itemBuilder.getID().contains("pale")) {
             entity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 200, 4));
+            entity.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 200, 1));
 //            entity.setMaximumNoDamageTicks(0);
 //            entity.setNoDamageTicks(0);
         }
