@@ -1,6 +1,7 @@
 package org.cataclysm.game.pantheon.level.entrance;
 
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.level.Level;
 import org.bukkit.*;
@@ -10,11 +11,14 @@ import org.cataclysm.api.color.CataclysmColor;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.jetbrains.annotations.NotNull;
 
+import javax.management.Attribute;
+
 public class EntranceMob extends CataclysmMob {
     public EntranceMob(Level level) {
         super(new EntranceEntity(level), "Entrance Mob", CataclysmColor.PALE, level);
         super.setSpawnTag(SpawnTag.PERSISTENT);
         super.setPersistentDataString("CUSTOM", "pantheon_entrance");
+        super.setAttribute(Attributes.SCALE, 3);
         super.getBukkitLivingEntity().setRemoveWhenFarAway(false);
     }
 

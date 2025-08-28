@@ -16,7 +16,6 @@ import org.cataclysm.game.items.CataclysmItems;
 import org.jetbrains.annotations.NotNull;
 
 public class TwistedBlaze extends CataclysmMob {
-
     public TwistedBlaze(Level level) {
         super(new TwistedBlazeEntity(level), "Twisted Blaze", CataclysmColor.TWISTED, level);
         super.setHealth(60);
@@ -40,5 +39,4 @@ public class TwistedBlaze extends CataclysmMob {
             return super.hurtServer(level, damageSource, amount);
         }
     }
-
 }

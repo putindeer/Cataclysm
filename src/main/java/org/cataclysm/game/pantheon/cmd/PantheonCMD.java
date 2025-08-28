@@ -8,7 +8,6 @@ import co.aikar.commands.annotation.Subcommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.game.pantheon.PantheonHandler;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.jetbrains.annotations.NotNull;

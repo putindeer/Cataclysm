@@ -72,7 +72,6 @@ public class WanderingSoul extends CataclysmMob {
 
         @Override
         public void tick() {
-            Bukkit.getConsoleSender().sendMessage("Cooldown: " + cooldown);
             cooldown--;
 
             var bukkitEntity = this.wanderingSoul.getBukkitLivingEntity();
