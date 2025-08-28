@@ -70,7 +70,10 @@ public class SpecialMobTransformer {
 
         ctx.entity.remove();
         LivingEntity livingEntity;
-        if (mobToSpawn == null) livingEntity = (LivingEntity) ctx.location.getWorld().spawnEntity(ctx.location, EntityType.CREAKING, CreatureSpawnEvent.SpawnReason.DEFAULT);
+        if (mobToSpawn == null) {
+            EntityType type = ctx.random.nextBoolean() ? EntityType.CREAKING : EntityType.DROWNED;
+            livingEntity = (LivingEntity) ctx.location.getWorld().spawnEntity(ctx.location, type, CreatureSpawnEvent.SpawnReason.DEFAULT);
+        }
         else {
             mobToSpawn.addFreshEntity(ctx.location);
             livingEntity = mobToSpawn.getBukkitLivingEntity();
@@ -85,14 +88,14 @@ public class SpecialMobTransformer {
                 livingEntity.teleport(fixedLocation);
             }
             case SKELETON, ZOMBIE -> mobsPerPlayer = mobsPerPlayer / 6;
-            case BLAZE, WITHER_SKELETON -> mobsPerPlayer = mobsPerPlayer / 8;
+            case BLAZE, WITHER_SKELETON, DROWNED -> mobsPerPlayer = mobsPerPlayer / 8;
             case GHAST -> {
                 mobsPerPlayer = mobsPerPlayer / 10;
                 maxPerChunk = 2;
                 ctx.location.add(0, 45, 0);
                 livingEntity.teleport(ctx.location);
             }
-            case CREAKING, WARDEN -> {
+            case CREAKING, WARDEN, SNOW_GOLEM -> {
                 mobsPerPlayer = mobsPerPlayer / 12;
                 maxPerChunk = 2;
             }

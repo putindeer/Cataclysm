@@ -10,6 +10,7 @@ import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.bukkit.attribute.Attribute;
+import org.cataclysm.Cataclysm;
 import org.cataclysm.api.item.loot.LootContainer;
 import org.cataclysm.api.item.loot.LootHolder;
 import org.cataclysm.api.mob.CataclysmMob;
@@ -22,7 +23,8 @@ public class GiantSnowGolem extends CataclysmMob {
 
     public GiantSnowGolem(Level level) {
         super(new GiantSnowGolemEntity(level), "Giant Snow Golem", level);
-        super.setDrops(new CataclysmDrops(new LootContainer(new LootHolder(CataclysmItems.GOLEM_HEAD.build(), 1, 1, 1))));
+        double rarity = Cataclysm.getDay() >= 28 ? 0.05 : 1;
+        super.setDrops(new CataclysmDrops(new LootContainer(new LootHolder(CataclysmItems.GOLEM_HEAD.build(), 1, 1, rarity))));
     }
 
     @Override

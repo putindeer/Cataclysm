@@ -18,6 +18,7 @@ import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.mob.custom.vanilla.enhanced.TwilightVex;
 
 import java.util.Random;
+import java.util.SplittableRandom;
 
 @Registrable
 public class DeathListener implements Listener {
@@ -76,7 +77,8 @@ public class DeathListener implements Listener {
             case DROWNED -> {
                 if (day >= 14) {
                     event.getDrops().clear();
-                    location.getWorld().dropItemNaturally(location, CataclysmItems.DROWNED_CROWN.build());
+                    int rarity = day >= 28 ? 5 : 100;
+                    if (new SplittableRandom().nextInt(0, 100) < rarity) location.getWorld().dropItemNaturally(location, CataclysmItems.DROWNED_CROWN.build());
                 }
             }
 
