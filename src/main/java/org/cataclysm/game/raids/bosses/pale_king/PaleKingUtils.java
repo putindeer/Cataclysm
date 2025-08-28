@@ -2,36 +2,26 @@ package org.cataclysm.game.raids.bosses.pale_king;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.jetbrains.annotations.NotNull;
 
 public class PaleKingUtils {
 
-    public static void breakElytras(Player player, int cooldown) {
+    public static void breakElytras(@NotNull Player player, int cooldown) {
         PlayerInventory inventory = player.getInventory();
 
         ItemStack chestplate = inventory.getChestplate();
         if (chestplate == null || chestplate.getType() != Material.ELYTRA) return;
 
         ItemStack elytra = chestplate.clone();
-        boolean replace = false;
 
-        for (int i = 0; i < inventory.getSize(); i++) {
-            ItemStack item = inventory.getItem(i);
-            if (item != null && item.getType().isAir()) {
-                replace = true;
-                inventory.setItem(i, elytra);
-                break;
-            }
-        }
-
-        if (!replace) {
-            var item = player.getWorld().dropItemNaturally(player.getLocation(), elytra);
-            item.setInvulnerable(true);
-            item.setGlowing(true);
-            item.setPickupDelay(0);
-        }
+        Item item = player.getWorld().dropItemNaturally(player.getLocation(), elytra);
+        item.setInvulnerable(true);
+        item.setGlowing(true);
+        item.setPickupDelay(0);
 
         chestplate.setAmount(0);
 
