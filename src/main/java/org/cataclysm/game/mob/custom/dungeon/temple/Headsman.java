@@ -35,15 +35,13 @@ import org.cataclysm.global.utils.security.CataclysmToken;
 import org.jetbrains.annotations.NotNull;
 
 public class Headsman extends CataclysmMob {
-
     public Headsman(Level level) {
         super(new HeadsmanEntity(level), "Headsman", level);
         super.setItem(EquipmentSlot.MAINHAND, Items.IRON_AXE);
         super.setHealth(20);
-        super.setAttribute(Attributes.ATTACK_DAMAGE, 13);
+        super.setAttribute(Attributes.SCALE, 1.3f);
+        super.setAttribute(Attributes.ATTACK_DAMAGE, 42);
         super.amplifyAttribute(Attributes.MOVEMENT_SPEED, 1.17f);
-        super.setListener(new HeadsmanListener(this));
-        if (Cataclysm.getDay() >= 7) super.amplifyAttribute(Attributes.ATTACK_DAMAGE, 1.5);
     }
 
     static class HeadsmanEntity extends Vindicator {

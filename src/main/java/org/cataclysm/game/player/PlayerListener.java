@@ -46,7 +46,6 @@ import org.cataclysm.game.effect.PaleCorrosionEffect;
 import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.game.player.data.PlayerLoader;
-import org.cataclysm.game.raids.bosses.pale_king.PaleKingUtils;
 import org.cataclysm.game.world.Dimensions;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.cataclysm.global.utils.text.font.TinyCaps;
@@ -333,7 +332,7 @@ public class PlayerListener implements Listener {
 
                 if (distance <= 150) return;
 
-                PaleKingUtils.breakElytras(player, 0);
+                PlayerUtils.breakElytras(player, 0);
             }
         }
 

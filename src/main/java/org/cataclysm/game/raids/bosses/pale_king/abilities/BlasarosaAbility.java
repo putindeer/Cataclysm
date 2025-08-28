@@ -1,17 +1,15 @@
 package org.cataclysm.game.raids.bosses.pale_king.abilities;
 
 import org.bukkit.*;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.particle.ParticleHandler;
+import org.cataclysm.game.player.PlayerUtils;
 import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
-import org.cataclysm.game.raids.bosses.pale_king.PaleKingUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
@@ -29,7 +27,7 @@ public class BlasarosaAbility extends PaleAbility {
 
         controller.setGameMode(GameMode.SPECTATOR);
 
-        super.king.getArena().getPlayersInArena().forEach(player -> PaleKingUtils.breakElytras(player, 200));
+        super.king.getArena().getPlayersInArena().forEach(player -> PlayerUtils.breakElytras(player, 200));
 
         service.schedule(() -> {
             Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {

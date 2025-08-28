@@ -1,6 +1,8 @@
 package org.cataclysm.api.color;
 
 import lombok.Getter;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 @Getter
 public enum CataclysmColor {
@@ -20,6 +22,8 @@ public enum CataclysmColor {
     GOLD_EVENT("#c3ac7e", "#c6a96e", "#b0ada5"),
     SHULKER_SHOCK("#9649a6", "#703985", "#6c567a"),
 
+    PANTHEON("#B5813F", "#9A7E5B", "#B0A887")
+
     ;
 
     private final String color;
@@ -34,5 +38,17 @@ public enum CataclysmColor {
         this.color = color;
         this.color2 = color2;
         this.color3 = color3;
+    }
+
+    public @NotNull String wrap(int colorIndex) {
+        switch (colorIndex) {
+            case 1 -> {
+                return "<" + this.color2 + ">";
+            }
+            case 2 -> {
+                return "<" + this.color3 + ">";
+            }
+        }
+        return "<" + this.color + ">";
     }
 }

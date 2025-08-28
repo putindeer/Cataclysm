@@ -8,8 +8,8 @@ import org.bukkit.persistence.PersistentDataType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.listener.registrable.Registrable;
-import org.cataclysm.game.pantheon.utils.PantheonPlayerUtils;
-import org.cataclysm.game.pantheon.level.entrance.EntranceGUI;
+import org.cataclysm.game.pantheon.handlers.PantheonPlayerHandler;
+import org.cataclysm.game.pantheon.world.PantheonEntranceGUI;
 import org.cataclysm.game.pantheon.phase.PantheonPhase;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,13 +18,16 @@ public class PantheonPlayerListener implements Listener {
 
     @EventHandler
     private void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-        PantheonPlayerUtils.setReady(event.getPlayer(), false);
+        if (Cataclysm.getPantheon() == null) return;
+        PantheonPlayerHandler.setReady(event.getPlayer(), false);
     }
 
     @EventHandler
     private void onEntranceInteract(PlayerInteractAtEntityEvent event) {
+        if (Cataclysm.getPantheon() == null) return;
+
         if (!isEntityEntrance(event)) return;
-        new EntranceGUI(event.getPlayer()).open();
+        new PantheonEntranceGUI(event.getPlayer()).open();
     }
 
     private boolean isEntityEntrance(@NotNull PlayerInteractAtEntityEvent event) {

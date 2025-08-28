@@ -1,4 +1,4 @@
-package org.cataclysm.game.pantheon;
+package org.cataclysm.game.pantheon.handlers;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.*;
@@ -6,11 +6,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.game.pantheon.level.PantheonAreas;
-import org.cataclysm.game.pantheon.utils.PantheonPlayerUtils;
+import org.cataclysm.game.pantheon.world.PantheonLocations;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 
-public class PantheonTasks {
+public class PantheonTaskHandler {
     public static void tickPlayerTask() {
         Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
             for (var player : Bukkit.getOnlinePlayers()) {
@@ -19,7 +18,7 @@ public class PantheonTasks {
         });
     }
     public static void tickEntrance() {
-        Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> castEntranceEffects(PantheonAreas.PANTHEON_ENTRANCE.getCoreLocation()));
+        Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> castEntranceEffects(PantheonLocations.PANTHEON_ENTRANCE.getCoreLocation()));
     }
 
     private static void castEntranceEffects(Location location) {
@@ -34,15 +33,15 @@ public class PantheonTasks {
         world.playSound(location, Sound.BLOCK_PORTAL_AMBIENT, 0.5F, 0.5F);
     }
     private static void applyReadyEffects(Player player) {
-        if (!PantheonPlayerUtils.isReady(player)) return;
+        if (!PantheonPlayerHandler.isReady(player)) return;
         player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 30, 0, false, false, false));
 
         String display = TinyCaps.tinyCaps(getActionBarDisplay());
         player.sendActionBar(MiniMessage.miniMessage().deserialize("<gradient:#FC8C03:#B5A16B>" + display + "</gradient>"));
     }
     private static String getActionBarDisplay() {
-        int ready = PantheonPlayerUtils.getReadyCount();
-        int size = PantheonPlayerUtils.getParticipants().size();
+        int ready = PantheonPlayerHandler.getReadyCount();
+        int size = PantheonPlayerHandler.getParticipants().size();
         return  "estás listo para entrar al panteón [" + ready + "/" + size + "]";
     }
 }

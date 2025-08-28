@@ -1,4 +1,4 @@
-package org.cataclysm.game.pantheon.cmd;
+package org.cataclysm.game.pantheon;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.CommandAlias;
@@ -9,15 +9,14 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.game.pantheon.PantheonOfCataclysm;
-import org.cataclysm.game.pantheon.level.PantheonAreas;
-import org.cataclysm.game.pantheon.utils.PantheonPlayerUtils;
+import org.cataclysm.game.pantheon.world.PantheonLocations;
+import org.cataclysm.game.pantheon.handlers.PantheonPlayerHandler;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.jetbrains.annotations.NotNull;
 
 @CommandAlias("pantheon")
 @CommandPermission("admin.perms")
-public class PantheonCMD extends BaseCommand {
+public class PantheonCommand extends BaseCommand {
 
     @Subcommand("teleport")
     @CommandCompletion("PANTHEON_ENTRANCE|WARDEN_ARENA")
@@ -31,12 +30,12 @@ public class PantheonCMD extends BaseCommand {
 
         Location location = null;
         switch (area) {
-            case "PANTHEON_ENTRANCE" -> location = PantheonAreas.PANTHEON_ENTRANCE.getCoreLocation();
-            case "WARDEN_ARENA" -> location = PantheonAreas.WARDEN_ARENA.getCoreLocation();
+            case "PANTHEON_ENTRANCE" -> location = PantheonLocations.PANTHEON_ENTRANCE.getCoreLocation();
+            case "WARDEN_ARENA" -> location = PantheonLocations.WARDEN_ARENA.getCoreLocation();
             default -> ChatMessenger.sendMessage(player, "Unknown area: " + area);
         }
 
-        PantheonPlayerUtils.teleport(player, location);
+        PantheonPlayerHandler.teleport(player, location);
     }
 
     @Subcommand("create")

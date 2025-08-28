@@ -22,7 +22,6 @@ import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.game.mob.custom.dungeon.temple.Paragon;
 import org.cataclysm.game.mob.utils.TeleportUtils;
 import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
-import org.cataclysm.game.raids.bosses.pale_king.PaleKingUtils;
 import org.cataclysm.game.world.Dimensions;
 
 public class PlayerTask {
@@ -287,7 +286,7 @@ public class PlayerTask {
     }
 
     private void handleElytra(int day, Player player) {
-        if (day >= 28 && player.isInWater()) PaleKingUtils.breakElytras(player, 0);
+        if (day >= 28 && player.isInWater()) PlayerUtils.breakElytras(player, 0);
     }
 
 }

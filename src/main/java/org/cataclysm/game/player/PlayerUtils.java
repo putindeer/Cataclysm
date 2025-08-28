@@ -4,10 +4,12 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
@@ -24,10 +26,34 @@ import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
 
 public class PlayerUtils {
+
+    public static void breakElytras(Player player, int cooldown) {
+        ItemStack chestplate = player.getInventory().getChestplate();
+
+        if (chestplate != null && chestplate.getType() == Material.ELYTRA) {
+            player.getInventory().setChestplate(null);
+
+            HashMap<Integer, ItemStack> remaining = player.getInventory().addItem(chestplate);
+            if (!remaining.isEmpty()) {
+                Location loc = player.getLocation();
+                for (ItemStack itemStack : remaining.values()) {
+                    Item item = loc.getWorld().dropItemNaturally(loc, itemStack);
+                    item.setInvulnerable(true);
+                    item.setGlowing(true);
+                    item.setPickupDelay(0);
+                }
+            }
+
+            if (cooldown != 0) player.setCooldown(Material.ELYTRA, cooldown);
+            player.playSound(player, Sound.ITEM_SHIELD_BREAK, 5, 1);
+            player.playSound(player, Sound.ITEM_SHIELD_BREAK, 5, 0.55F);
+        }
+    }
 
     public static double getMaxHealth(@NotNull Player player) {
         var attribute = player.getAttribute(Attribute.MAX_HEALTH);

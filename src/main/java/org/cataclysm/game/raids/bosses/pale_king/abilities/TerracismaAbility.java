@@ -12,8 +12,8 @@ import org.bukkit.util.Vector;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.particle.ParticleHandler;
+import org.cataclysm.game.player.PlayerUtils;
 import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
-import org.cataclysm.game.raids.bosses.pale_king.PaleKingUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -53,7 +53,7 @@ public class TerracismaAbility extends PaleAbility {
         for (Player player : players) {
             if (player.getGameMode() == GameMode.SPECTATOR) return;
 
-            PaleKingUtils.breakElytras(player, 400);
+            PlayerUtils.breakElytras(player, 400);
 
             if (player.getY() < (arena.center().getY() + 6)) continue;
             this.slamDown(player, 3.5);
