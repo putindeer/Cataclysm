@@ -25,7 +25,7 @@ import org.cataclysm.discord.DiscordListener;
 import org.cataclysm.game.GameManager;
 import org.cataclysm.game.data.GameDataManager;
 import org.cataclysm.game.mob.task.MobTask;
-import org.cataclysm.game.pantheon.cmd.PantheonCommand;
+import org.cataclysm.game.pantheon.cmd.PantheonCMD;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerTask;
@@ -37,6 +37,7 @@ import org.cataclysm.game.world.day.DayManager;
 import org.cataclysm.game.world.generator.CataclysmGenerator;
 import org.cataclysm.game.world.ragnarok.Ragnarok;
 import org.cataclysm.game.world.ragnarok.RagnarokLoader;
+import org.cataclysm.game.world.structures.PaleTree;
 import org.cataclysm.global.commands.RaidCommand;
 import org.cataclysm.global.commands.CataclysmCommand;
 import org.cataclysm.global.commands.PodiumCommand;
@@ -74,7 +75,6 @@ public final class Cataclysm extends JavaPlugin {
         CataclysmMob.initializeMobConstructors();
         instance = this;
         store = new MobStore();
-        pantheon = PantheonOfCataclysm.createInstance();
         if (isMainHost()) discord = new DiscordConnection();
         try {
             StructureLoader.loadAll();
@@ -98,7 +98,7 @@ public final class Cataclysm extends JavaPlugin {
         paperCommandManager.registerCommand(new StaffCommand());
         paperCommandManager.registerCommand(new PodiumCommand());
         paperCommandManager.registerCommand(new RaidCommand());
-        paperCommandManager.registerCommand(new PantheonCommand());
+        paperCommandManager.registerCommand(new PantheonCMD());
 
         if (isMainHost()) {
             Bukkit.getPluginManager().registerEvents(new DiscordListener(), this);
@@ -118,6 +118,8 @@ public final class Cataclysm extends JavaPlugin {
 
         CataclysmGenerator.setUp();
         DisguiseConfig.setPlayerNameType(DisguiseConfig.PlayerNameType.VANILLA);
+
+        PaleTree.runSoundTask();
 
         Bukkit.getConsoleSender().sendMessage("   ___   _ _____ _   ___ _ __   _____ __  __ ");
         Bukkit.getConsoleSender().sendMessage("  / __| /_\\_   _/_\\ / __| |\\ \\ / / __|  \\/  |");

@@ -1,5 +1,7 @@
 package org.cataclysm.game.pantheon;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -7,27 +9,37 @@ import org.bukkit.potion.PotionEffect;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.pantheon.level.LevelHandler;
+import org.cataclysm.game.pantheon.level.PantheonAreas;
 import org.cataclysm.game.world.Dimensions;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+@Getter @Setter
 public class PantheonOfCataclysm {
-    public final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-    public final PantheonHandler handler = new PantheonHandler(this);
+    private final ScheduledExecutorService service;
+    private final World world;
+    private Phase phase;
 
-    public World world;
-    public Phase phase;
+    private PantheonOfCataclysm() {
+        this.service = Executors.newSingleThreadScheduledExecutor();
+        this.world = LevelHandler.getOrCreateWorld();
+        this.phase = Phase.IDDLE;
+    }
 
     public void openPantheon() {
         this.phase = Phase.WAITING_FOR_PLAYERS;
-        handler.registerAll();
-        handler.setUp();
     }
 
     public void closePantheon() {
         this.phase = Phase.IDDLE;
+    }
+
+    public void startPantheon() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, 200, 0));
+            PantheonUtils.teleport(player, PantheonAreas.PANTHEON_ENTRANCE.getCoreLocation());
+        }
     }
 
     public void stopPantheon() {
@@ -35,7 +47,6 @@ public class PantheonOfCataclysm {
             player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, 200, 0));
             PantheonUtils.teleport(player, Dimensions.OVERWORLD.getWorld().getSpawnLocation());
         }
-        this.service.shutdownNow();
         Cataclysm.setPantheon(null);
     }
 
@@ -52,13 +63,14 @@ public class PantheonOfCataclysm {
         IDDLE, //Used when the pantheon is not active
     }
 
-    public static @NotNull PantheonOfCataclysm createInstance() {
+    public static void buildPantheon() {
         PantheonOfCataclysm existingPantheon = Cataclysm.getPantheon();
         if (existingPantheon != null) existingPantheon.stopPantheon();
 
         PantheonOfCataclysm pantheon = new PantheonOfCataclysm();
-        Cataclysm.setPantheon(pantheon);
+        PantheonHandler.registerAll();
+        PantheonHandler.setUp(true);
 
-        return pantheon;
+        Cataclysm.setPantheon(pantheon);
     }
 }

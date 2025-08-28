@@ -5,29 +5,28 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandCompletion;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Subcommand;
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
+import org.cataclysm.game.pantheon.PantheonHandler;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
-import org.cataclysm.game.pantheon.level.LevelHandler;
-import org.cataclysm.game.pantheon.level.PantheonAreas;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.jetbrains.annotations.NotNull;
 
 @CommandAlias("pantheon")
 @CommandPermission("admin.perms")
-public class PantheonCommand extends BaseCommand {
+public class PantheonCMD extends BaseCommand {
 
     @Subcommand("action")
-    @CommandCompletion("open|close|start|stop")
+    @CommandCompletion("build|open|close|start|stop")
     private void action(@NotNull String action) {
         PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
 
         switch (action) {
+            case "build" -> PantheonOfCataclysm.buildPantheon();
             case "open" -> pantheon.openPantheon();
             case "close" -> pantheon.closePantheon();
-            //case "start" -> pantheon.startPantheon();
+            case "start" -> pantheon.startPantheon();
             case "stop" -> pantheon.stopPantheon();
         }
     }
@@ -38,7 +37,7 @@ public class PantheonCommand extends BaseCommand {
         PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
 
         ChatMessenger.sendMessage(player, "Current Pantheon information");
-        player.sendMessage("- Current Phase: " + pantheon.phase.name());
-        player.sendMessage("- World: " + pantheon.world.getName());
+        player.sendMessage("- Current Phase: " + pantheon.getPhase().name());
+        player.sendMessage("- World: " + pantheon.getWorld().getName());
     }
 }

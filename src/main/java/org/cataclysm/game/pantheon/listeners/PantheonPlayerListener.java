@@ -5,6 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.persistence.PersistentDataType;
+import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.pantheon.PantheonUtils;
@@ -12,12 +13,6 @@ import org.cataclysm.game.pantheon.level.entrance.EntranceGUI;
 import org.jetbrains.annotations.NotNull;
 
 public class PantheonPlayerListener implements Listener {
-
-    private final PantheonOfCataclysm pantheon;
-
-    public PantheonPlayerListener(PantheonOfCataclysm pantheon) {
-        this.pantheon = pantheon;
-    }
 
     @EventHandler
     private void onPlayerJoin(@NotNull PlayerJoinEvent event) {
@@ -31,7 +26,9 @@ public class PantheonPlayerListener implements Listener {
     }
 
     private boolean isEntityEntrance(@NotNull PlayerInteractAtEntityEvent event) {
-        var data = PersistentData.get(event.getRightClicked(), "CUSTOM", PersistentDataType.STRING);
-        return data != null && data.equals("pantheon_entrance");
+        String data = PersistentData.get(event.getRightClicked(), "CUSTOM", PersistentDataType.STRING);
+        return Cataclysm.getPantheon().getPhase() == PantheonOfCataclysm.Phase.WAITING_FOR_PLAYERS
+                && data != null
+                && data.equals("pantheon_entrance");
     }
 }

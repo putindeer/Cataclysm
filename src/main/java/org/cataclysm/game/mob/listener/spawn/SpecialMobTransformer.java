@@ -21,10 +21,7 @@ import org.cataclysm.game.mob.custom.dungeon.monolith.Trickster;
 import org.cataclysm.game.mob.custom.dungeon.temple.Enchanter;
 import org.cataclysm.game.mob.custom.dungeon.temple.Headsman;
 import org.cataclysm.game.mob.custom.dungeon.temple.Sentinel;
-import org.cataclysm.game.mob.custom.vanilla.AggressiveLlama;
-import org.cataclysm.game.mob.custom.vanilla.CustomElderGuardian;
-import org.cataclysm.game.mob.custom.vanilla.CustomWarden;
-import org.cataclysm.game.mob.custom.vanilla.ExplosivePufferfish;
+import org.cataclysm.game.mob.custom.vanilla.*;
 import org.cataclysm.game.mob.custom.vanilla.ghast.Ur_Ghast;
 import org.cataclysm.game.mob.custom.vanilla.phantom.ToxicTerror;
 import org.cataclysm.game.mob.custom.vanilla.skeleton.standard.CataclystSkeleton;
@@ -63,7 +60,9 @@ public class SpecialMobTransformer {
                 new MirageWhale(ctx.level),
                 new WanderingFaith(ctx.level),
                 new WanderingSoul(ctx.level),
-                new TwistedBlaze(ctx.level)
+                new TwistedBlaze(ctx.level),
+                new GiantSnowGolem(ctx.level),
+                new DrownedKing(ctx.level),
         };
         int randomIndex = ctx.random.nextInt(mobList.length + 1);
         if (randomIndex < mobList.length) mobToSpawn = mobList[randomIndex];

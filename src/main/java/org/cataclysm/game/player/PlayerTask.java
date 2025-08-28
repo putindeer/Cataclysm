@@ -72,16 +72,14 @@ public class PlayerTask {
                 Bukkit.getConsoleSender().sendMessage(paleCorrosionDebuff.toString());
                 defaultHealth -= paleCorrosionDebuff;
             }
-        } else {
-            PersistentData.set(player, "PALE_CORROSION_HEALTH_DEBUFF", PersistentDataType.DOUBLE, 0.0);
-        }
+        } else PersistentData.set(player, "PALE_CORROSION_HEALTH_DEBUFF", PersistentDataType.DOUBLE, 0.0);
 
         // -2 hearts on days 14+
         if (day >= 14) defaultHealth-= 4.0;
-
         if (day >= 21) defaultHealth-=4.0;
         // Custom Armor
-        if (PlayerUtils.hasArmor(ItemFamily.CALAMITY_ARMOR, player) || PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) defaultHealth += 8.0;
+        if (PlayerUtils.hasArmor(ItemFamily.CALAMITY_ARMOR, player)) defaultHealth += 8.0;
+        if (PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) defaultHealth += 16.0;
 
         if (ragnarok != null && ragnarok.getData().getLevel() >= 5) defaultHealth -= 4.0;
 

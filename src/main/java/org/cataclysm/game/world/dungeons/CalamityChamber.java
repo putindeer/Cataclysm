@@ -23,7 +23,6 @@ import org.cataclysm.api.structure.StructureUtils;
 import java.util.List;
 
 public class CalamityChamber extends CataclysmStructure {
-
     public CalamityChamber(StructureLevel level) {
         super(level);
         super.listener = new ChamberListener(this);

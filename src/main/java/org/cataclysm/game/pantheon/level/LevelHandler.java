@@ -11,22 +11,16 @@ import org.cataclysm.game.world.generator.VoidGenerator;
 
 public class LevelHandler {
     private static final String worldID = "world_pantheon";
-    private final PantheonOfCataclysm pantheon;
 
-    public LevelHandler(PantheonOfCataclysm pantheon) {
-        this.pantheon = pantheon;
-    }
-
-    public void setUpEntrance(Location location) {
+    public static void setUpEntrance(Location location) {
         SchematicLoader loader = new SchematicLoader("pantheon/schematics/entrance.schem");
         loader.pasteSchematic(location, true);
 
         EntranceMob entranceMob = new EntranceMob(((CraftWorld) location.getWorld()).getHandle());
         entranceMob.addFreshEntity(location, CreatureSpawnEvent.SpawnReason.COMMAND);
-        entranceMob.startTickTask();
     }
 
-    public void setUpWorld() {
+    public static World getOrCreateWorld() {
         World world = Bukkit.getWorld(worldID);
         if (world == null) {
             WorldCreator wc = new WorldCreator(worldID);
@@ -39,6 +33,6 @@ public class LevelHandler {
             world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
             world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
         }
-        this.pantheon.world = world;
+        return world;
     }
 }
