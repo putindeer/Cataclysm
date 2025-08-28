@@ -25,7 +25,7 @@ import org.cataclysm.discord.DiscordListener;
 import org.cataclysm.game.GameManager;
 import org.cataclysm.game.data.GameDataManager;
 import org.cataclysm.game.mob.task.MobTask;
-import org.cataclysm.game.pantheon.PantheonCommand;
+import org.cataclysm.game.pantheon.cmd.PantheonCommand;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerTask;
@@ -74,6 +74,7 @@ public final class Cataclysm extends JavaPlugin {
         CataclysmMob.initializeMobConstructors();
         instance = this;
         store = new MobStore();
+        pantheon = PantheonOfCataclysm.createInstance();
         if (isMainHost()) discord = new DiscordConnection();
         try {
             StructureLoader.loadAll();

@@ -1,4 +1,4 @@
-package org.cataclysm.game.pantheon.entrance;
+package org.cataclysm.game.pantheon.level.entrance;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;

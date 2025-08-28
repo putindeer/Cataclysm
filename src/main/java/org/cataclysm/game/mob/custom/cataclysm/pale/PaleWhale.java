@@ -4,6 +4,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.level.Level;
 import org.cataclysm.api.color.CataclysmColor;
@@ -16,6 +17,7 @@ public class PaleWhale extends CataclysmMob {
     public PaleWhale(Level level) {
         super(new MirageWhaleEntity(level), "Pale Whale", CataclysmColor.PALE, level);
         this.setHealth(65);
+        this.setAttribute(Attributes.SCALE, 3f);
     }
 
     @Override

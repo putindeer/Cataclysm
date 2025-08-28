@@ -1,29 +1,34 @@
-package org.cataclysm.game.pantheon.entrance;
+package org.cataclysm.game.pantheon.level.entrance;
 
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.inventory.ItemStack;
 import org.cataclysm.api.inventory.BasicMenu;
-import org.cataclysm.api.inventory.MenuItems;
 import org.cataclysm.api.item.ItemBuilder;
+import org.cataclysm.game.pantheon.PantheonUtils;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
 public class EntranceGUI extends BasicMenu {
     public EntranceGUI(Player player) {
-        super(54, TinyCaps.tinyCaps("   • Pantheon of Cataclysm •"), player, player.getName());
+        super(45, TinyCaps.tinyCaps("   • Pantheon of Cataclysm •"), player, player.getName());
     }
 
     @Override
     public void initInventory() {
         super.empty();
 
-        super.setOutline(MenuItems.BLANK.build());
-        super.setItems(MenuItems.BLANK.build(), 0, 1, 7, 8, 9, 10, 16, 17, 18, 19, 25, 26, 27, 28, 34, 35, 36, 37, 43, 44);
+        boolean isReady = PantheonUtils.isReady(super.player);
+        ItemStack item = createReadyItem();
+        if (isReady) item = createUnreadyItem();
+
+        super.setItem(item, 22);
     }
 
     @EventHandler
@@ -37,9 +42,25 @@ public class EntranceGUI extends BasicMenu {
         var id = new ItemBuilder(item).getID();
         if (id == null || id.equals("blank")) return;
 
-        switch(id) {}
+        boolean isReady = PantheonUtils.isReady(super.player);
+        if (id.equals("ready") && !isReady) {
+            PantheonUtils.setReady(super.player, true);
+            super.player.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.BLOCK, 5.0F, 0.55F));
+            super.player.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.BLOCK, 5.0F, 0.65F));
+            super.player.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.BLOCK, 5.0F, 0.75F));
+        } else if (id.equals("unready") && isReady) {
+            PantheonUtils.setReady(super.player, false);
+            super.player.playSound(Sound.sound(Key.key("block.beacon.deactivate"), Sound.Source.BLOCK, 1.0F, 0.75F));
+        }
 
         super.close();
+    }
+
+    private ItemStack createReadyItem() {
+        return new ItemBuilder(Material.OPEN_EYEBLOSSOM).setDisplay(TinyCaps.tinyCaps("preparado")).setID("ready").build();
+    }
+    private ItemStack createUnreadyItem() {
+        return new ItemBuilder(Material.CLOSED_EYEBLOSSOM).setDisplay(TinyCaps.tinyCaps("no listo")).setID("unready").build();
     }
 
     @EventHandler
