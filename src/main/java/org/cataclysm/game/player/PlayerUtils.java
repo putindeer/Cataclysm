@@ -21,6 +21,7 @@ import org.bukkit.potion.PotionEffectTypeCategory;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.game.effect.DisperEffect;
+import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,7 @@ import java.util.Set;
 public class PlayerUtils {
 
     public static void breakElytras(Player player, int cooldown) {
+        if (player.hasPotionEffect(ImmunityEffect.EFFECT_TYPE)) return;
         PlayerInventory inventory = player.getInventory();
 
         ItemStack chestplate = inventory.getChestplate();
