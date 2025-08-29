@@ -23,7 +23,7 @@ public class PantheonDispatcher {
     private final Audience audience;
 
     public PantheonDispatcher(PantheonOfCataclysm pantheon) {
-        this.service = pantheon.getService();
+        this.service = pantheon.getService().getExecutor();
         this.audience = Audience.audience(Bukkit.getOnlinePlayers());
         this.acumulatedMillis = 0;
     }

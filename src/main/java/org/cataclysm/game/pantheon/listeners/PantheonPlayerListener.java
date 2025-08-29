@@ -8,9 +8,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.listener.registrable.Registrable;
+import org.cataclysm.game.pantheon.enums.PantheonPhases;
 import org.cataclysm.game.pantheon.handlers.PlayerHandler;
 import org.cataclysm.game.pantheon.level.entrance.EntranceGUI;
-import org.cataclysm.game.pantheon.phase.PantheonPhase;
 import org.jetbrains.annotations.NotNull;
 
 @Registrable
@@ -32,7 +32,7 @@ public class PantheonPlayerListener implements Listener {
 
     private boolean isEntityEntrance(@NotNull PlayerInteractAtEntityEvent event) {
         String data = PersistentData.get(event.getRightClicked(), "CUSTOM", PersistentDataType.STRING);
-        return Cataclysm.getPantheon().getPhase() == PantheonPhase.WAITING
+        return Cataclysm.getPantheon().getHandler().getPhase() == PantheonPhases.WAITING
                 && data != null
                 && data.equals("pantheon_entrance");
     }

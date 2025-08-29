@@ -1,42 +1,35 @@
-package org.cataclysm.game.pantheon.handlers;
+package org.cataclysm.game.pantheon.utils;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.data.PersistentData;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-public class PlayerHandler {
-    public static List<? extends Player> getReadyPlayers() {
-        return Bukkit.getOnlinePlayers().stream()
-                .filter(PlayerHandler::isReady)
-                .toList();
-    }
+public class PantheonTeleporter {
 
-    public static void setReady(Player player, boolean ready) {
-        PersistentData.set(player, "PANTHEON_READY", PersistentDataType.BOOLEAN, ready);
-    }
-
-    public static boolean isReady(Player player) {
-        return Boolean.TRUE.equals(PersistentData.get(player, "PANTHEON_READY", PersistentDataType.BOOLEAN));
-    }
-
+    /**
+     * Teleports the given player to the specified location with audiovisual effects.
+     * <p>
+     * The method plays a teleport sound, shows a whitescreen effect with blindness,
+     * and then teleports the player after a delay matching the whitescreen duration.
+     *
+     * @param player   the player to teleport (must not be null)
+     * @param location the destination location
+     */
     public static void teleport(@NotNull Player player, Location location) {
         playTeleportSound(player);
         showWhitescreen(player, 1000, 6000, 1500);
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> player.teleport(location), 6000 / 50);
     }
-
 
     private static void playTeleportSound(Player player) {
         World world = player.getWorld();
