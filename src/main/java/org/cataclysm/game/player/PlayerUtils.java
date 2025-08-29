@@ -41,27 +41,26 @@ public class PlayerUtils {
         if (chestplate == null || chestplate.getType() != Material.ELYTRA) return;
 
         ItemStack elytra = chestplate.clone();
-        if (inventory.contains(Material.AIR)) inventory.addItem(elytra);
-        else {
-            boolean replace = false;
-            for (int i = 0; i < inventory.getSize(); i++) {
-                ItemStack item = inventory.getItem(i);
-                if (item != null && item.getType().isAir()) {
-                    replace = true;
-                    inventory.setItem(i, elytra);
-                    break;
-                }
+        boolean replace = false;
+        for (int i = 0; i < inventory.getSize(); i++) {
+            ItemStack item = inventory.getItem(i);
+            if (item != null && item.getType().isAir()) {
+                replace = true;
+                inventory.setItem(i, elytra);
+                break;
             }
-            if (!replace) {
-                var item = player.getWorld().dropItemNaturally(player.getLocation(), elytra);
-                item.setInvulnerable(true);
-                item.setGlowing(true);
-                item.setPickupDelay(0);
-            }
-            chestplate.setAmount(0);
-            if (cooldown != 0) player.setCooldown(Material.ELYTRA, cooldown);
-            player.playSound(player, Sound.ITEM_SHIELD_BREAK, 1, 1);
         }
+
+        if (!replace) {
+            var item = player.getWorld().dropItemNaturally(player.getLocation(), elytra);
+            item.setInvulnerable(true);
+            item.setGlowing(true);
+            item.setPickupDelay(0);
+        }
+
+        chestplate.setAmount(0);
+        if (cooldown != 0) player.setCooldown(Material.ELYTRA, cooldown);
+        player.playSound(player, Sound.ITEM_SHIELD_BREAK, 1, 1);
     }
 
     public static double getMaxHealth(@NotNull Player player) {
