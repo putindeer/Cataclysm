@@ -15,21 +15,19 @@ import java.util.List;
 
 @Registrable
 public class PantheonEntityListener implements Listener {
+    private List<EntityType> skippableTypes = List.of(EntityType.ARMOR_STAND);
 
     @EventHandler
     private void onCreatureSpawn(CreatureSpawnEvent event) {
-        LivingEntity entity = event.getEntity();
         PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
-
         if (pantheon == null) return;
 
+        LivingEntity entity = event.getEntity();
         Location entLoc = event.getLocation();
         Location coreLoc = PantheonLevels.PANTHEON_ENTRANCE.getCoreLocation();
-        List<EntityType> skippableTypes = List.of(EntityType.ARMOR_STAND);
 
         if (entLoc.distance(coreLoc) <= 200 && !skippableTypes.contains(entity.getType())) {
             entity.remove();
         }
     }
-
 }
