@@ -493,7 +493,6 @@ public class PlayerListener implements Listener {
                     PotionEffectType.STRENGTH,
                     PotionEffectType.INSTANT_HEALTH,
                     PotionEffectType.JUMP_BOOST,
-                    PotionEffectType.WATER_BREATHING,
                     PotionEffectType.INVISIBILITY,
                     PotionEffectType.NIGHT_VISION,
                     PotionEffectType.HEALTH_BOOST,
@@ -527,6 +526,11 @@ public class PlayerListener implements Listener {
     public void airChange(EntityAirChangeEvent event) {
         if (!(event.getEntity() instanceof Player player)) return;
         if (!player.isUnderWater()) return;
+
+        if (PlayerUtils.hasMirageHelmet(player)) {
+            event.setAmount(player.getMaximumAir());
+            return;
+        }
 
         int day = Cataclysm.getDay();
         if (day < 14) return;

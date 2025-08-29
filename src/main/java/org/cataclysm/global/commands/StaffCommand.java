@@ -21,6 +21,7 @@ import org.cataclysm.api.structure.CataclysmStructure;
 import org.cataclysm.api.structure.data.StructureLoader;
 import org.cataclysm.game.block.arcane.table.ArcaneTableMob;
 import org.cataclysm.api.event.CataclysmEvents;
+import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.effect.MortemEffect;
 import org.cataclysm.game.effect.PaleCorrosionEffect;
 import org.cataclysm.game.items.CataclysmItems;
@@ -41,6 +42,7 @@ import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.cataclysm.server.tablist.CataclysmTablist;
 
 import java.time.Duration;
+import java.util.Collection;
 import java.util.UUID;
 
 @CommandAlias("staff")
@@ -134,6 +136,14 @@ public class StaffCommand extends BaseCommand {
         CataclysmTablist.organizePlayer(player);
     }
 
+    @Subcommand("showCredits")
+    public void showCredits() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            // Show the end credits to each player
+            player.showWinScreen();
+            player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, -1, 0));
+        }
+    }
 
     @Subcommand("teleport")
     private void teleport(CommandSender commandSender, Dimensions dimensions) {
