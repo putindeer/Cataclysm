@@ -33,25 +33,32 @@ import java.util.Set;
 public class PlayerUtils {
 
     public static void breakElytras(Player player, int cooldown) {
-        ItemStack chestplate = player.getInventory().getChestplate();
+        PlayerInventory inventory = player.getInventory();
 
-        if (chestplate != null && chestplate.getType() == Material.ELYTRA) {
-            player.getInventory().setChestplate(null);
+        ItemStack chestplate = inventory.getChestplate();
+        if (chestplate == null || chestplate.getType() != Material.ELYTRA) return;
 
-            HashMap<Integer, ItemStack> remaining = player.getInventory().addItem(chestplate);
-            if (!remaining.isEmpty()) {
-                Location loc = player.getLocation();
-                for (ItemStack itemStack : remaining.values()) {
-                    Item item = loc.getWorld().dropItemNaturally(loc, itemStack);
-                    item.setInvulnerable(true);
-                    item.setGlowing(true);
-                    item.setPickupDelay(0);
+        ItemStack elytra = chestplate.clone();
+        if (inventory.contains(Material.AIR)) inventory.addItem(elytra);
+        else {
+            boolean replace = false;
+            for (int i = 0; i < inventory.getSize(); i++) {
+                ItemStack item = inventory.getItem(i);
+                if (item != null && item.getType().isAir()) {
+                    replace = true;
+                    inventory.setItem(i, elytra);
+                    break;
                 }
             }
-
+            if (!replace) {
+                var item = player.getWorld().dropItemNaturally(player.getLocation(), elytra);
+                item.setInvulnerable(true);
+                item.setGlowing(true);
+                item.setPickupDelay(0);
+            }
+            chestplate.setAmount(0);
             if (cooldown != 0) player.setCooldown(Material.ELYTRA, cooldown);
-            player.playSound(player, Sound.ITEM_SHIELD_BREAK, 5, 1);
-            player.playSound(player, Sound.ITEM_SHIELD_BREAK, 5, 0.55F);
+            player.playSound(player, Sound.ITEM_SHIELD_BREAK, 1, 1);
         }
     }
 

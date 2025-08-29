@@ -9,7 +9,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
-import org.cataclysm.game.pantheon.world.PantheonLocations;
+import org.cataclysm.game.pantheon.level.PantheonLevels;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class PantheonEntityListener implements Listener {
         if (pantheon == null) return;
 
         Location entLoc = event.getLocation();
-        Location coreLoc = PantheonLocations.PANTHEON_ENTRANCE.getCoreLocation();
+        Location coreLoc = PantheonLevels.PANTHEON_ENTRANCE.getCoreLocation();
         List<EntityType> skippableTypes = List.of(EntityType.ARMOR_STAND);
 
         if (entLoc.distance(coreLoc) <= 200 && !skippableTypes.contains(entity.getType())) {

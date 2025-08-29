@@ -4,31 +4,21 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
-import org.cataclysm.game.pantheon.world.PantheonLocations;
-import org.cataclysm.game.pantheon.phase.PantheonPhase;
+import org.cataclysm.game.pantheon.level.PantheonLevels;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class PantheonPhaseHandler {
+public class PhaseHandler {
     private @Getter PantheonPhase phase;
     private final PantheonOfCataclysm pantheon;
 
     private ScheduledFuture<?> entranceParticlesTask;
 
-    public PantheonPhaseHandler(PantheonOfCataclysm pantheon) {
+    public PhaseHandler(PantheonOfCataclysm pantheon) {
         this.pantheon = pantheon;
-    }
-
-    public void tryElapseWaitroom() {
-        int ready = PantheonPlayerHandler.getReadyCount();
-        int size = PantheonPlayerHandler.getParticipants().size();
-
-        if (ready >= size) {
-            //pantheon.getPhaseChanger().castEntranceTransition();
-        }
     }
 
     public void changePhase(@NotNull PantheonPhase phase) {
@@ -42,14 +32,14 @@ public class PantheonPhaseHandler {
 
     public void castWardenFight() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            PantheonPlayerHandler.teleport(player, PantheonLocations.WARDEN_ARENA.getCoreLocation());
+            PlayerHandler.teleport(player, PantheonLevels.WARDEN_ARENA.getCoreLocation());
         }
     }
 
     public void castWaiting() {
         this.runEntranceParticles();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            //PantheonSender.sendPantheonMessage(player, "El Panteón de Cataclysm ha abierto sus puertas.");
+            PantheonSender.sendPantheonMessage(player, "El Panteón de Cataclysm ha abierto sus puertas.");
         }
     }
 
@@ -59,7 +49,7 @@ public class PantheonPhaseHandler {
             entranceParticlesTask = null;
         }
         if (previousPhase == PantheonPhase.WAITING) {
-            for (Player player : Bukkit.getOnlinePlayers()) PantheonPlayerHandler.setReady(player, false);
+            for (Player player : Bukkit.getOnlinePlayers()) PlayerHandler.setReady(player, false);
         }
     }
 

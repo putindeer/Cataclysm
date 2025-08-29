@@ -1,4 +1,4 @@
-package org.cataclysm.game.pantheon.world;
+package org.cataclysm.game.pantheon.level;
 
 import lombok.Getter;
 import org.bukkit.Location;
@@ -8,7 +8,7 @@ import org.cataclysm.game.world.Dimensions;
 import org.jetbrains.annotations.NotNull;
 
 @Getter
-public enum PantheonLocations {
+public enum PantheonLevels {
 
     PANTHEON_ENTRANCE(new Location(Dimensions.PALE_VOID.getWorld(), 700, 140, 700), 55),
     WARDEN_ARENA(new Location(Cataclysm.getPantheon().getWorld(), 0, 70, 0), 40),
@@ -17,7 +17,7 @@ public enum PantheonLocations {
 
     private final CataclysmArea area;
 
-    PantheonLocations(Location center, int radius) {
+    PantheonLevels(Location center, int radius) {
         this.area = new CataclysmArea(center, radius);
     }
 

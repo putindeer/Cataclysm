@@ -1,4 +1,4 @@
-package org.cataclysm.game.pantheon.world;
+package org.cataclysm.game.pantheon.level.entrance;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -10,12 +10,12 @@ import org.bukkit.inventory.ItemStack;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.inventory.BasicMenu;
 import org.cataclysm.api.item.ItemBuilder;
-import org.cataclysm.game.pantheon.handlers.PantheonPlayerHandler;
+import org.cataclysm.game.pantheon.handlers.PlayerHandler;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
-public class PantheonEntranceGUI extends BasicMenu {
-    public PantheonEntranceGUI(Player player) {
+public class EntranceGUI extends BasicMenu {
+    public EntranceGUI(Player player) {
         super(45, TinyCaps.tinyCaps("   • Pantheon of Cataclysm •"), player, player.getName());
     }
 
@@ -23,7 +23,7 @@ public class PantheonEntranceGUI extends BasicMenu {
     public void initInventory() {
         super.empty();
 
-        boolean isReady = PantheonPlayerHandler.isReady(super.player);
+        boolean isReady = PlayerHandler.isReady(super.player);
         ItemStack item = createReadyItem();
         if (isReady) item = createUnreadyItem();
 
@@ -42,15 +42,15 @@ public class PantheonEntranceGUI extends BasicMenu {
         if (id == null || id.equals("blank")) return;
 
         World world = super.player.getWorld();
-        boolean isReady = PantheonPlayerHandler.isReady(super.player);
+        boolean isReady = PlayerHandler.isReady(super.player);
         if (id.equals("ready") && !isReady) {
-            PantheonPlayerHandler.setReady(super.player, true);
+            PlayerHandler.setReady(super.player, true);
             world.playSound(player, org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1.25F);
             world.playSound(player, org.bukkit.Sound.BLOCK_BEACON_ACTIVATE, 5.0F, 0.75F);
             world.playSound(player, org.bukkit.Sound.ITEM_TRIDENT_RETURN, 15.0F, 0.65F);
         }
         else if (id.equals("unready") && isReady) {
-            PantheonPlayerHandler.setReady(super.player, false);
+            PlayerHandler.setReady(super.player, false);
             world.playSound(player, org.bukkit.Sound.BLOCK_BEACON_DEACTIVATE, 15.0F, 0.75F);
             world.playSound(player, org.bukkit.Sound.BLOCK_BEACON_DEACTIVATE, 15.0F, 0.65F);
         }
