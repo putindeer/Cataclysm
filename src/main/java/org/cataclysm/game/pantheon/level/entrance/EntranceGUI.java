@@ -55,7 +55,7 @@ public class EntranceGUI extends BasicMenu {
             world.playSound(player, org.bukkit.Sound.BLOCK_BEACON_DEACTIVATE, 15.0F, 0.65F);
         }
 
-        Cataclysm.getPantheon().getPantheonPhaseHandler().tryElapseWaitroom();
+        //Cataclysm.getPantheon().getPantheonPhaseHandler().tryElapseWaitroom();
         super.close();
     }
 

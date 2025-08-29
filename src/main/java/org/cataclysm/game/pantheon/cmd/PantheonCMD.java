@@ -1,4 +1,4 @@
-package org.cataclysm.game.pantheon;
+package org.cataclysm.game.pantheon.cmd;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
+import org.cataclysm.game.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.pantheon.utils.PantheonBuilder;
 import org.cataclysm.game.pantheon.level.PantheonLevels;
 import org.cataclysm.game.pantheon.handlers.PlayerHandler;
@@ -39,11 +40,7 @@ public class PantheonCMD extends BaseCommand {
             return;
         }
 
-        PantheonBuilder.create();
-        if (pasteStructure != null && pasteStructure) {
-            PantheonBuilder.pastePantheonEntrance(player.getLocation());
-        }
-
+        PantheonBuilder.buildPantheon(Boolean.TRUE.equals(pasteStructure));
         sendStaffMessage(player, "Pantheon of Cataclysm has been created.");
     }
 

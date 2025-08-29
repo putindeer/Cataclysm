@@ -1,35 +1,34 @@
-package org.cataclysm.game.pantheon.task.custom;
+package org.cataclysm.game.pantheon.service.schedulers;
 
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.cataclysm.game.pantheon.PantheonOfCataclysm;
-import org.cataclysm.game.pantheon.handlers.PlayerHandler;
 import org.cataclysm.game.pantheon.level.PantheonLevels;
-import org.cataclysm.game.pantheon.task.PantheonScheduler;
-import org.cataclysm.global.utils.text.font.TinyCaps;
+import org.cataclysm.game.pantheon.service.PantheonScheduler;
+import org.cataclysm.game.pantheon.service.PantheonService;
+import org.cataclysm.game.pantheon.utils.PlayerStatusHandler;
 
 import java.util.concurrent.TimeUnit;
 
-public class EntranceTasks extends PantheonScheduler {
-    public EntranceTasks(PantheonOfCataclysm pantheon) {
-        super(pantheon);
+public class EntranceScheduler extends PantheonScheduler {
+    public EntranceScheduler(PantheonService service) {
+        super(service);
     }
 
+    @Override
     public void registerTasks() {
-        schRepeatingTask("VISUALS", this::castVisuals, 350, TimeUnit.MILLISECONDS);
+        super.getTasks().put("VISUALS", this::castVisuals);
+        super.getTasks().put("EFFECTS", this::castStatusEffect);
     }
 
     private void castStatusEffect() {
-        if (!PlayerHandler.isReady(player)) return;
-        player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 30, 0, false, false, false));
-
-        String display = TinyCaps.tinyCaps(getActionBarDisplay());
-        player.sendActionBar(MiniMessage.miniMessage().deserialize("<gradient:#FC8C03:#B5A16B>" + display + "</gradient>"));
+        for (Player player : PlayerStatusHandler.getPlayers(PlayerStatusHandler.Status.PREPARED)) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 30, 0, false, false, false));
+        }
     }
 
     private void castVisuals() {

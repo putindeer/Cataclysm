@@ -161,8 +161,8 @@ public class PlayerListener implements Listener {
         cataclysmPlayer.getTotemManager().updateStatistic();
         cataclysmPlayer.getCooldownManager().restore();
 
-        //ItemRestorer restorer = new ItemRestorer(player.getInventory());
-        //restorer.check();
+        ItemRestorer restorer = new ItemRestorer(player.getInventory());
+        restorer.check();
 
         event.joinMessage(
                 MiniMessage.miniMessage().deserialize("<#6EEC6C>[<#7FEE7D>+<#6EEC6C>]")

@@ -25,7 +25,7 @@ import org.cataclysm.discord.DiscordListener;
 import org.cataclysm.game.GameManager;
 import org.cataclysm.game.data.GameDataManager;
 import org.cataclysm.game.mob.task.MobTask;
-import org.cataclysm.game.pantheon.PantheonCMD;
+import org.cataclysm.game.pantheon.cmd.PantheonCMD;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerTask;
