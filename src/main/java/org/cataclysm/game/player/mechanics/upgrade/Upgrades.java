@@ -18,7 +18,7 @@ public enum Upgrades {
     JUMP_BOOST(12, Material.FROG_SPAWN_EGG, new UpgradeDefinition("jump_boost", 1)),
     SPEED(13, Material.RABBIT_FOOT, new UpgradeDefinition("speed", 1, 3)),
     STRENGTH(14, Material.IRON_SWORD, new UpgradeDefinition("strength", 0, 1, 2)),
-    DOLPHIN_GRACE(15, Material.DOLPHIN_SPAWN_EGG, new UpgradeDefinition("dolphin_grace", 0, 1, 2)),
+    DOLPHIN_GRACE(15, Material.DOLPHIN_SPAWN_EGG, new UpgradeDefinition("dolphin_grace", 2, 4, 6)),
 
     HEALTH_BLESSING(20, Material.GOLDEN_APPLE, new UpgradeDefinition("health_blessing", 2, 4, 6)),
     RESISTANCE(21, Material.IRON_CHESTPLATE, new UpgradeDefinition("resistance", 0, 1, 2)),

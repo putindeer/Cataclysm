@@ -15,13 +15,18 @@ public record UpgradeDefinition(String key, int... levels) {
         var amplifier = this.levels[0];
         switch (this.key) {
 
-            case "regeneration", "jump_boost", "speed", "strength", "dolphins_grace", "haste", "resistance", "hero_of_the_village", "fire_resistance", "conduit_power", "slow_falling", "invisibility" -> {
+            case "regeneration", "jump_boost", "speed", "strength", "haste", "resistance", "hero_of_the_village", "fire_resistance", "conduit_power", "slow_falling", "invisibility" -> {
                 effectType[0] = this.getPotionEffect(this.key);
             }
 
             case "health_blessing" -> {
                 effectType[0] = PotionEffectType.HEALTH_BOOST;
                 effectType[1] = PotionEffectType.INSTANT_HEALTH;
+            }
+
+            case "dolphin_grace" -> {
+                effectType[0] = PotionEffectType.DOLPHINS_GRACE;
+                effectType[1] = PotionEffectType.WATER_BREATHING;
             }
 
             case "cleansing" -> {
@@ -44,6 +49,8 @@ public record UpgradeDefinition(String key, int... levels) {
                 return;
             }
         }
+
+
 
         if (this.levels.length > 1) amplifier = this.levels[level - 1];
         if (effectType[0] != null) player.addPotionEffect(new PotionEffect(effectType[0], duration, amplifier));
