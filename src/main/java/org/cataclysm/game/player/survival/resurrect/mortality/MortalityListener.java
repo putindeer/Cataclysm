@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Enemy;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -90,7 +91,19 @@ public class MortalityListener implements Listener {
 
     private static float getNewValue(PlayerUseTotemEvent event, MortalityManager mortalityManager, int day) {
         float currentValue = mortalityManager.getValue();
-        float decreaseValue = day < 21 ? 0.010f : day < 28 ? 0.020f : 0.1f;
+
+        float decreaseValue;
+        if (day >= 35) {
+            decreaseValue = 1.0f;
+        } else if (day >= 28) {
+            decreaseValue = 0.100f;
+        } else if (day >= 21) {
+            decreaseValue = 0.020f;
+        } else {
+            decreaseValue = 0.010f;
+        }
+
+
         var totemId = event.getTotemId();
 
         if (totemId != null) {
@@ -100,12 +113,15 @@ public class MortalityListener implements Listener {
                     if (day >= 14) decreaseValue = 0.005f;
                     if (day >= 21) decreaseValue = 0.010f;
                     if (day >= 28) decreaseValue = 0.05f;
+                    if (day >= 35) decreaseValue = 0.5f;
                 }
                 case "calamity_totem" -> {
                     decreaseValue = 0.0f;
                     if (day >= 21) decreaseValue = 0.005f;
                     if (day >= 28) decreaseValue = 0.02f;
+                    if (day >= 35) decreaseValue = 0.100f;
                 }
+
                 case "paragon_totem" -> decreaseValue = 0.0f;
             }
         }
@@ -132,7 +148,16 @@ public class MortalityListener implements Listener {
         effects.put(0.90f, () -> player.removePotionEffect(PotionEffectType.ABSORPTION));
         effects.put(0.80f, () -> player.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, 400, 1)));
         effects.put(0.75f, () -> player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 0)));
-        effects.put(0.60f, () -> player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 200, 0)));
+        effects.put(0.60f, () -> {
+
+            player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 200, 0));
+
+            if (player.getAttribute(Attribute.SCALE) != null) {
+                player.getAttribute(Attribute.SCALE).setBaseValue(0.45);
+            }
+
+        });
+
         effects.put(0.50f, () -> player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 200, 0)));
         effects.put(0.25f, () -> player.removePotionEffect(PotionEffectType.REGENERATION));
 

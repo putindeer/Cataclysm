@@ -6,6 +6,9 @@ import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.damage.DamageSource;
+import org.bukkit.damage.DamageType;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +27,8 @@ import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.api.structure.CataclysmStructure;
 import org.cataclysm.game.effect.ImmunityEffect;
+import org.cataclysm.game.effect.MortemEffect;
+import org.cataclysm.game.effect.PaleCorrosionEffect;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.mechanics.upgrade.UpgradeCatalogue;
 import org.cataclysm.game.player.mechanics.upgrade.Upgrades;
@@ -259,6 +264,7 @@ public class ItemListener implements Listener {
 
                 int duration = 300;
                 if (day >= 28) duration = duration / 2;
+                if (day >= 35) duration = 40;
 
                 PotionEffect currentEffect = player.getPotionEffect(ImmunityEffect.EFFECT_TYPE);
                 if (currentEffect != null) {
@@ -403,7 +409,7 @@ public class ItemListener implements Listener {
         if (PersistentData.has(enderPearl, "paragon_pearl", PersistentDataType.BOOLEAN)) {
             int duration = 140;
             if (day >= 28) duration = duration / 2;
-
+            if (day >= 35) duration = 25;
             PotionEffect currentEffect = player.getPotionEffect(ImmunityEffect.EFFECT_TYPE);
             if (currentEffect != null) {
                 duration += currentEffect.getDuration();
@@ -412,11 +418,17 @@ public class ItemListener implements Listener {
             player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, duration, 0, false));
             player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, duration, 0, true, true, false));
 
+            if (day >= 35) {
+                player.addPotionEffect(new PotionEffect(PaleCorrosionEffect.EFFECT_TYPE, 2400, 0, false));
+                player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 2400, 0, true, true, false));
+            }
+
             var cataclysmPlayer = CataclysmPlayer.getCataclysmPlayer(player);
             var mortalityManager = cataclysmPlayer.getMortalityManager();
             if (day >= 28) {
                 float currentValue = mortalityManager.getValue();
                 float mortalityToReduce = 0.005f;
+                if (day >= 35) mortalityToReduce = 0.100f;
                 float newValue = currentValue - mortalityToReduce;
                 DecimalFormat df = new DecimalFormat("#.####");
                 // Round to 3 decimal places to eliminate floating point errors
@@ -442,6 +454,15 @@ public class ItemListener implements Listener {
                 player.playSound(Sound.sound(Key.key("item.totem.use"), Sound.Source.MASTER, 1.0F, 1.355F));
             }, 1L);
         }
+
+        if (day >= 35) {
+            if (event.getHitBlock() == null) return;
+            if (event.getHitBlockFace() == null) return;
+            if (!event.getHitBlockFace().equals(BlockFace.UP)) return;
+
+            player.damage(25, DamageSource.builder(DamageType.FALL).build());
+        }
+
     }
 
 }

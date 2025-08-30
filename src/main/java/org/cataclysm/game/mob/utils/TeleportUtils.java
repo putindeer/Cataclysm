@@ -14,7 +14,18 @@ public class TeleportUtils {
     private static final int MAX_ATTEMPTS = 100;
 
     public static void teleportEntityNearPlayer(LivingEntity livingEntity, double searchRadius, double minDistance, double maxDistance) {
-        if (livingEntity == null || livingEntity.isDead()) return;
+        Location targetLocation = getNearestRandomPlayerLocation(livingEntity, searchRadius, minDistance, maxDistance);
+        if (targetLocation != null) {
+            var world = livingEntity.getWorld();
+            world.playSound(targetLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 4f, 0.78f);
+            world.playSound(targetLocation, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 4f, 0.88f);
+            livingEntity.teleport(targetLocation);
+            livingEntity.setNoDamageTicks(5);
+        }
+    }
+
+    public static Location getNearestRandomPlayerLocation(LivingEntity livingEntity, double searchRadius, double minDistance, double maxDistance) {
+        if (livingEntity == null || livingEntity.isDead()) return null;
 
         if (minDistance < 0 || maxDistance <= minDistance) {
             throw new IllegalArgumentException("Invalid distance parameters: minDistance must be >= 0 and maxDistance must be > minDistance");
@@ -23,7 +34,7 @@ public class TeleportUtils {
         Location currentLoc = livingEntity.getLocation();
         World world = currentLoc.getWorld();
 
-        if (world == null) return;
+        if (world == null) return null;
 
         Player nearestPlayer = null;
         double nearestDistance = Double.MAX_VALUE;
@@ -38,7 +49,7 @@ public class TeleportUtils {
             }
         }
 
-        if (nearestPlayer == null) return;
+        if (nearestPlayer == null) return null;
 
         Location playerLoc = nearestPlayer.getLocation();
         for (int attempts = 0; attempts < MAX_ATTEMPTS; attempts++) {
@@ -53,14 +64,10 @@ public class TeleportUtils {
             newY = Math.max(world.getMinHeight() + 4, Math.min(world.getMaxHeight() - 4, newY));
 
             Location targetLocation = new Location(world, newX, newY, newZ);
-            if (isLocationSafe(livingEntity, targetLocation)) {
-                world.playSound(targetLocation, Sound.ENTITY_ENDERMAN_TELEPORT, 4f, 0.78f);
-                world.playSound(targetLocation, Sound.ENTITY_ILLUSIONER_MIRROR_MOVE, 4f, 0.88f);
-                livingEntity.teleport(targetLocation);
-                livingEntity.setNoDamageTicks(5);
-                return;
-            }
+            if (isLocationSafe(livingEntity, targetLocation)) return targetLocation;
         }
+
+        return null;
     }
 
     /**

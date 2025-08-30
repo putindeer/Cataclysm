@@ -5,6 +5,7 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Biome;
 import org.bukkit.block.BlockFace;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
@@ -19,18 +20,26 @@ import org.cataclysm.game.effect.MortemEffect;
 import org.cataclysm.game.effect.PaleCorrosionEffect;
 import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.items.ItemFamily;
+import org.cataclysm.game.mob.custom.cataclysm.QuantumReactor;
+import org.cataclysm.game.mob.custom.cataclysm.mirage.MirageEye;
+import org.cataclysm.game.mob.custom.cataclysm.pale.PaleBlaze;
+import org.cataclysm.game.mob.custom.cataclysm.twisted.TwistedBrute;
 import org.cataclysm.game.mob.custom.dungeon.temple.Paragon;
+import org.cataclysm.game.mob.custom.vanilla.skeleton.wither.NetherNightmare;
 import org.cataclysm.game.mob.utils.TeleportUtils;
 import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
 import org.cataclysm.game.world.Dimensions;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class PlayerTask {
     public void startTickTask(int ticks) {
-        int day = Cataclysm.getDay();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Cataclysm.getInstance(), () -> this.tick(day), 0, ticks);
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Cataclysm.getInstance(), this::tick, 0, ticks);
     }
 
-    private void tick(int day) {
+    private void tick() {
+        var day = Cataclysm.getDay();
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.getGameMode().isInvulnerable()) continue;
             if (!player.isOnline()) continue;
@@ -40,6 +49,7 @@ public class PlayerTask {
             handleDisper(player);
             handleAchievements(player);
             handleElytra(day, player);
+            handleSpawns(day, player);
         }
     }
 
@@ -106,6 +116,13 @@ public class PlayerTask {
             PersistentData.set(player, "NO_END_INCURSION_HEALTH", PersistentDataType.BOOLEAN, false);
             PersistentData.set(player, "NO_INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER, 1);
             defaultHealth += 4.0;
+        }
+
+        if (day >= 35) {
+            if (inventory.getChestplate() != null && inventory.getChestplate().getType().equals(Material.ELYTRA)) {
+                defaultHealth -= 500;
+                if (player.hasPotionEffect(PotionEffectType.ABSORPTION)) player.removePotionEffect(PotionEffectType.ABSORPTION);
+            }
         }
 
         //Incursion extra health
@@ -249,11 +266,15 @@ public class PlayerTask {
             if (!player.getInventory().contains(CataclysmItems.MIDWAY_RELIC.build().getType())) {
                 player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 60, 0));
             }
-
-            //if (block.getType().name().toUpperCase().contains("GLASS") && Cataclysm.getBossFight() == null) {
-               // player.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 100, 4));
-            //}
         }
+
+        if (day >= 35) {
+            if (player.getWorld().equals(Dimensions.NETHER.getWorld())) {
+                player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
+                player.setFireTicks(20 * 60 * 60);
+            }
+        }
+
     }
 
     private void handleTeleports(int day, Player player) {
@@ -286,6 +307,31 @@ public class PlayerTask {
 
     private void handleElytra(int day, Player player) {
         if (day >= 28 && player.isInWater()) PlayerUtils.breakElytras(player, 0);
+    }
+
+    private void handleSpawns(int day, Player player) {
+        if (day < 35) return;
+        var mobTimer = PersistentData.get(player, "SPAWN_MOB_TIMER", PersistentDataType.INTEGER);
+        if (mobTimer != null) {
+            if (mobTimer > 0) {
+                PersistentData.set(player, "SPAWN_MOB_TIMER", PersistentDataType.INTEGER, mobTimer - 1);
+            } else {
+                CataclysmMob mobToSpawn = null;
+                var level = ((CraftWorld) player.getWorld()).getHandle();
+
+                switch (ThreadLocalRandom.current().nextInt(5)) {
+                    case 0 -> mobToSpawn = new QuantumReactor(level);
+                    case 1 -> mobToSpawn = new TwistedBrute(level);
+                    case 2 -> mobToSpawn = new NetherNightmare(level);
+                    case 3 -> mobToSpawn = new PaleBlaze(level);
+                    case 4 -> mobToSpawn = new MirageEye(level);
+                }
+
+                mobToSpawn.addFreshEntity(TeleportUtils.getNearestRandomPlayerLocation(player, 50, 2, 6));
+                PersistentData.set(player, "SPAWN_MOB_TIMER", PersistentDataType.INTEGER, 5);
+            }
+
+        } else PersistentData.set(player, "SPAWN_MOB_TIMER", PersistentDataType.INTEGER, 5);
     }
 
 }

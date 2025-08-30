@@ -336,7 +336,11 @@ public class PlayerListener implements Listener {
             }
         }
 
-        event.setDamage((event.getDamage() + extraDamage) * damageMultiplier);
+        if (day >= 35) {
+            if (cause == EntityDamageEvent.DamageCause.FALL) damageMultiplier *= 4;
+        }
+
+        event.setDamage(Math.min((event.getDamage() + extraDamage) * damageMultiplier, 10_000));
 
         if (cause.equals(EntityDamageEvent.DamageCause.POISON)) {
             if (event.getFinalDamage() >= player.getHealth()) event.setCancelled(true);
