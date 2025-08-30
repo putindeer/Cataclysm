@@ -24,6 +24,7 @@ public enum Teams {
     EYS,
     OUROBOROS,
     GRU,
+    CATACLYSM_MEDAL,
     NONE,
 
     ;

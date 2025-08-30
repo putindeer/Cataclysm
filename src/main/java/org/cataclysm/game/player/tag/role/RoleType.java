@@ -12,6 +12,7 @@ public enum RoleType {
     VIP("#8dcaf6"),
     MEMBER("#76b254"),
     TURKEY("#a47854"),
+    SURVIVOR("#AB958A"), //Pantheon's participant
 
     ;
 
@@ -27,5 +28,9 @@ public enum RoleType {
 
     public @NotNull String getBadge() {
         return TextUtils.convertUnicode("\\uE90" + this.ordinal());
+    }
+
+    public boolean hasPerms() {
+        return this == ADMIN || this == STAFF;
     }
 }

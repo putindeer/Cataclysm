@@ -25,8 +25,9 @@ import org.cataclysm.discord.DiscordListener;
 import org.cataclysm.game.GameManager;
 import org.cataclysm.game.data.GameDataManager;
 import org.cataclysm.game.mob.task.MobTask;
-import org.cataclysm.game.pantheon.cmd.PantheonCMD;
+import org.cataclysm.game.pantheon.cmd.PantheonCommand;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
+import org.cataclysm.game.pantheon.cmd.ProfileCommand;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerTask;
 import org.cataclysm.game.player.data.PlayerLoader;
@@ -98,7 +99,8 @@ public final class Cataclysm extends JavaPlugin {
         paperCommandManager.registerCommand(new StaffCommand());
         paperCommandManager.registerCommand(new PodiumCommand());
         paperCommandManager.registerCommand(new RaidCommand());
-        paperCommandManager.registerCommand(new PantheonCMD());
+        paperCommandManager.registerCommand(new PantheonCommand());
+        paperCommandManager.registerCommand(new ProfileCommand());
 
         if (isMainHost()) {
             Bukkit.getPluginManager().registerEvents(new DiscordListener(), this);
