@@ -281,7 +281,9 @@ public class PlayerTask {
         if (day < 14) return;
 
         for (var enderpearl : player.getEnderPearls()) {
-            if ((day >= 28 && enderpearl.getTicksLived() >= 200) || enderpearl.isInLava() || enderpearl.isInWater() || enderpearl.getFireTicks() > 0) enderpearl.remove();
+            int livedTicks = 200;
+            if (day >= 35) livedTicks = 40;
+            if (enderpearl.getTicksLived() >= livedTicks || enderpearl.isInLava() || enderpearl.isInWater() || enderpearl.getFireTicks() > 0) enderpearl.remove();
         }
 
         if (day < 21) return;
