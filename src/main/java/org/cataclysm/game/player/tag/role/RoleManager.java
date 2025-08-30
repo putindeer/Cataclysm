@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.cataclysm.game.player.data.PlayerData;
 import org.cataclysm.global.utils.chat.ChatMessenger;
+import org.cataclysm.server.tablist.CataclysmTablist;
 import org.jetbrains.annotations.NotNull;
 
 public record RoleManager(PlayerData data) {
@@ -15,6 +16,7 @@ public record RoleManager(PlayerData data) {
 
     public void setRole(@NotNull RoleType type) {
         this.data.setRoleType(type.name());
+        CataclysmTablist.organizePlayer(data.getHolder());
     }
 
     public RoleType getRole() {

@@ -6,10 +6,12 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.util.NumberConversions;
+import org.cataclysm.game.world.generator.VoidGenerator;
 
 @Getter
 public enum Dimensions {
     BETA(new WorldCreator("world_beta").type(WorldType.FLAT)),
+    PANTHEON(new WorldCreator("world_pantheon").generator(new VoidGenerator())),
 
     OVERWORLD(new WorldCreator("world")),
     NETHER(new WorldCreator("world_nether")),
