@@ -258,9 +258,8 @@ public class PlayerTask {
 
     private void handleTeleports(int day, Player player) {
         if (day < 14) return;
-        var enderpearls = player.getEnderPearls();
 
-        for (var enderpearl : enderpearls) {
+        for (var enderpearl : player.getEnderPearls()) {
             if ((day >= 28 && enderpearl.getTicksLived() >= 200) || enderpearl.isInLava() || enderpearl.isInWater() || enderpearl.getFireTicks() > 0) enderpearl.remove();
         }
 

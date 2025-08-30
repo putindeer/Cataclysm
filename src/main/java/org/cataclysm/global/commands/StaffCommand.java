@@ -42,7 +42,6 @@ import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.cataclysm.server.tablist.CataclysmTablist;
 
 import java.time.Duration;
-import java.util.Collection;
 import java.util.UUID;
 
 @CommandAlias("staff")

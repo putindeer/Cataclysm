@@ -15,7 +15,7 @@ public record UpgradeDefinition(String key, int... levels) {
         var amplifier = this.levels[0];
         switch (this.key) {
 
-            case "regeneration", "jump_boost", "speed", "strength", "dolphin_grace", "haste", "resistance", "hero_of_the_village", "fire_resistance", "conduit_power", "slow_falling", "invisibility" -> {
+            case "regeneration", "jump_boost", "speed", "strength", "dolphins_grace", "haste", "resistance", "hero_of_the_village", "fire_resistance", "conduit_power", "slow_falling", "invisibility" -> {
                 effectType[0] = this.getPotionEffect(this.key);
             }
 
@@ -36,8 +36,9 @@ public record UpgradeDefinition(String key, int... levels) {
                     player.setRemainingAir(player.getMaximumAir());
                     player.setExhaustion(0);
                     player.setShieldBlockingDelay(0);
+                    player.setNoDamageTicks(20);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 20 * 30, 0, false, false));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 40, 10));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 20 * 30, 10, false, false));
                 }
 
                 return;
