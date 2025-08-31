@@ -28,6 +28,7 @@ import org.cataclysm.game.mob.task.MobTask;
 import org.cataclysm.game.pantheon.cmd.PantheonCommand;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.pantheon.cmd.ProfileCommand;
+import org.cataclysm.game.pantheon.level.levels.LevelBuilder;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerTask;
 import org.cataclysm.game.player.data.PlayerLoader;
@@ -87,6 +88,8 @@ public final class Cataclysm extends JavaPlugin {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        LevelBuilder.buildWorld();
 
         for (var player : Bukkit.getOnlinePlayers()) {
             if (ragnarok != null) ragnarok.getBossBar().addViewer(player);

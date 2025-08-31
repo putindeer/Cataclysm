@@ -1,45 +1,45 @@
-package org.cataclysm.game.pantheon.bosses.the_ragnarok.abilities;
+package org.cataclysm.game.pantheon.bosses.calamity_hydra.abilities.rage;
 
 import org.bukkit.*;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.particle.ParticleHandler;
-import org.cataclysm.game.pantheon.bosses.the_ragnarok.TheRagnarok;
+import org.cataclysm.game.pantheon.bosses.calamity_hydra.PantheonHydra;
+import org.cataclysm.game.pantheon.bosses.calamity_hydra.rage.RageAbility;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-public class CataclysmAbility extends RagnarokAbility {
-    public CataclysmAbility(TheRagnarok ragnarok) {
-        super(ragnarok, Material.SKELETON_SKULL, "CATACLYSM", 3, 5);
+public class CalamityAbility extends RageAbility {
+    public CalamityAbility(PantheonHydra hydra) {
+        super(hydra, Material.SKULL_BANNER_PATTERN, "Calamity", 15, 30, true);
     }
 
     @Override
-    public void channel() {
-        var controller = ragnarok.getController();
+    public void tick() {
+        var controller = super.hydra.getController();
         var location = controller.getLocation();
 
-        for (var fighter : ragnarok.getArena().getPlayersInArena()) {
+        for (var fighter : super.hydra.getArena().getPlayersInArena()) {
             fighter.playSound(location, Sound.ENTITY_WARDEN_ROAR, 10F, 0.5F);
             fighter.playSound(location, Sound.ITEM_GOAT_HORN_SOUND_6, 10F, 0.5F);
             fighter.playSound(location, Sound.ITEM_GOAT_HORN_SOUND_6, 10F, 0.76F);
         }
 
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
-            var arena = this.ragnarok.getArena();
+            var arena = this.hydra.getArena();
             var world = arena.center().getWorld();
             var level = ((CraftWorld) world).getHandle();
 
-            String[] mobs = {
-                    "TwistedBrute", "Headsman", "CataclystSkeleton", "CataclystStray", "MirageEye", "PaleBlaze",
-                    "PaleWhale", "PaleWhale", "PaleEnderman", "TwistedZombie", "ArcaneSpider", "AggressiveLlama"
-            };
+            String[] calamityMobs = {"Blaze", "Enderman", "Ghast", "Piglin", "Skeleton"};
 
             var locations = arena.getRandomLocations(40);
             for (var loc : locations) {
-                var random = ThreadLocalRandom.current().nextInt(0, mobs.length);
-                var calamityMob = CataclysmMob.instantiateMob(mobs[random], level);
+                var random = ThreadLocalRandom.current().nextInt(0, calamityMobs.length);
+                var name = "Calamity" + calamityMobs[random];
+
+                var calamityMob = CataclysmMob.instantiateMob(name, level);
                 spawnDelayedMob(loc, calamityMob);
             }
         }, 20);
@@ -55,7 +55,7 @@ public class CataclysmAbility extends RagnarokAbility {
             new ParticleHandler(loc).circle(2, Particle.SOUL_FIRE_FLAME);
         }
 
-        this.ragnarok.getThread().getService().schedule(() -> {
+        this.hydra.getThread().getService().schedule(() -> {
             Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
                 world.strikeLightning(location);
                 world.playSound(location, Sound.BLOCK_TRIAL_SPAWNER_SPAWN_MOB, 1F, 0.7F);

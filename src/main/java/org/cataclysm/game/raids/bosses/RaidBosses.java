@@ -10,7 +10,7 @@ import org.cataclysm.game.raids.bosses.twisted_warden.TwistedWarden;
 public enum RaidBosses {
     TWISTED_WARDEN(new TwistedWarden("Twisted Warden", 15000)),
     CALAMITY_HYDRA(new CalamityHydra("Calamity Hydra", 30000)),
-    PALE_KING(new PaleKing("Pale King", 20000)),
+    //PALE_KI(new PaleKing("Pale King", 20000)),
 
     ;
 

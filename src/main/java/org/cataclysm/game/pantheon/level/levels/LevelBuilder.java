@@ -14,22 +14,21 @@ import org.cataclysm.game.world.generator.VoidGenerator;
 public class LevelBuilder {
     public static void adapt() {
         handlePaleVoid(true);
-        handleEntrance();
+        handleStructures();
     }
 
     public static void restore() {
         handlePaleVoid(false);
     }
 
-    public static void handleEntrance() {
-        Location location = PantheonEntrance.getLocation();
-        getSchemLoader("entrance").pasteSchematic(location, true);
-        EntranceMob.handle(false);
-        EntranceMob.handle(true);
+    public static void handleStructures() {
+        for (PantheonZones zones : PantheonZones.values()) pasteStructure(zones);
     }
 
-    private static SchematicLoader getSchemLoader(String path) {
-        return new SchematicLoader("pantheon/schematics/" + path + ".schem");
+    private static void pasteStructure(PantheonZones zone) {
+        SchematicLoader loader = zone.getSchemLoader();
+        if (loader.getFile() == null) return;
+        loader.pasteSchematic(zone.getLocation());
     }
 
     public static void handlePaleVoid(boolean adapt) {

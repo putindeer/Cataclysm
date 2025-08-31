@@ -1,4 +1,4 @@
-package org.cataclysm.game.raids.bosses.pale_king;
+package org.cataclysm.game.pantheon.bosses.pale_king;
 
 import lombok.Getter;
 import net.kyori.adventure.bossbar.BossBar;
@@ -8,48 +8,45 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Ravager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.boss.CataclysmBoss;
 import org.cataclysm.api.color.CataclysmColor;
-import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.particle.ParticleHandler;
-import org.cataclysm.game.pantheon.PantheonOfCataclysm;
+import org.cataclysm.game.items.CataclysmItems;
+import org.cataclysm.game.pantheon.bosses.pale_king.abilities.BlasarosaAbility;
+import org.cataclysm.game.pantheon.bosses.pale_king.abilities.EmbraceTheVoidAbility;
+import org.cataclysm.game.pantheon.bosses.pale_king.abilities.KingsoulAbility;
+import org.cataclysm.game.pantheon.bosses.pale_king.abilities.TerracismaAbility;
+import org.cataclysm.game.pantheon.bosses.pale_king.attacks.PaleDashAttack;
+import org.cataclysm.game.pantheon.bosses.pale_king.attacks.PaleScourageAttack;
+import org.cataclysm.game.pantheon.bosses.pale_king.attacks.PaleTeleportAttack;
 import org.cataclysm.game.pantheon.level.levels.PantheonZones;
-import org.cataclysm.game.raids.bosses.calamity_hydra.HydraPhase;
-import org.cataclysm.game.raids.bosses.pale_king.abilities.BlasarosaAbility;
-import org.cataclysm.game.raids.bosses.pale_king.abilities.EmbraceTheVoidAbility;
-import org.cataclysm.game.raids.bosses.pale_king.abilities.KingsoulAbility;
-import org.cataclysm.game.raids.bosses.pale_king.abilities.TerracismaAbility;
-import org.cataclysm.game.raids.bosses.pale_king.attacks.PaleDashAttack;
-import org.cataclysm.game.raids.bosses.pale_king.attacks.PaleScourageAttack;
-import org.cataclysm.game.raids.bosses.pale_king.attacks.PaleTeleportAttack;
-import org.cataclysm.game.raids.structures.RaidStructures;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 
 import java.util.concurrent.TimeUnit;
 
 @Getter
 public class PaleKing extends CataclysmBoss {
+    public double amplifier = 1;
+
     private final ItemStack sword;
     public PaleKingPhase phase;
 
     public PaleKing() {
-        super("Pale King", 1000);
+        super("Pale King", 10000);
         super.arena = PantheonZones.PALE_PALACE.getArena();
         super.listener = new PaleKingListener();
         this.phase = new PaleKingPhase(this);
-        this.sword = new ItemBuilder(Material.IRON_SWORD).setUnbreakable(true).build();
+        this.sword = new ItemStack(Material.IRON_SWORD);
     }
 
     @Override
     public void onStart() {
-        super.soundtrack.loop("THEME", 170);
+        super.soundtrack.loop("PALE", 170);
         this.setUpAttributes(true);
 
         this.phase.start(1);
@@ -63,8 +60,8 @@ public class PaleKing extends CataclysmBoss {
 
     @Override
     public void registerTracks() {
-        super.soundtrack.addTrack("THEME", Key.key("cataclysm.boss.pale_king.theme"));
-        super.soundtrack.addTrack("VOID_LORD", Key.key("cataclysm.boss.void_lord.theme_1"));
+        super.soundtrack.addTrack("PALE", Key.key("cataclysm.boss.pale_king.paleking_theme"));
+        super.soundtrack.addTrack("VOID", Key.key("cataclysm.boss.pale_king.voidlord_theme"));
     }
 
     @Override
@@ -90,7 +87,7 @@ public class PaleKing extends CataclysmBoss {
 
     @Override
     public BossBar buildBossBar() {
-        if (display == null) display = "<" + CataclysmColor.PALE.getColor() +"> ❖ <" + CataclysmColor.PALE.getColor2() + "><obf>||<reset> <gradient:" + CataclysmColor.PALE.getColor() + ":#ffffff:" + CataclysmColor.PALE.getColor() + ">" +
+        if (display == null) display = "<" + CataclysmColor.VOID.getColor() +"> ❖ <" + CataclysmColor.VOID.getColor2() + "><obf>||<reset> <gradient:" + CataclysmColor.PALE.getColor() + ":#ffffff:" + CataclysmColor.PALE.getColor() + ">" +
                 TinyCaps.tinyCaps(this.name) +
                 "</gradient> <" + CataclysmColor.PALE.getColor2() + "> <obf>||<reset> <" + CataclysmColor.PALE.getColor() + ">❖";
 
@@ -103,7 +100,7 @@ public class PaleKing extends CataclysmBoss {
 
     public void damage(LivingEntity livingEntity, double amount) {
         if (livingEntity.equals(super.controller)) return;
-        livingEntity.damage(amount);
+        livingEntity.damage(amount * amplifier);
         livingEntity.setNoDamageTicks(40);
 
         if (!(livingEntity instanceof Player player) || !player.isBlocking()) return;

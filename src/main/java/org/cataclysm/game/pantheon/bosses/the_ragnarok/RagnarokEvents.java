@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
@@ -19,6 +18,32 @@ public class RagnarokEvents {
 
     public RagnarokEvents(TheRagnarok ragnarok) {
         this.ragnarok = ragnarok;
+    }
+
+    public void changePhase() {
+        ragnarok.getSoundtrack().stopAll();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1000, 0, false, false, false));
+        }
+
+        ragnarok.dispatcher.sendActionBar("Parece que aquí se acabo todo.", 1200);
+        ragnarok.dispatcher.sendActionBar("No queda nadie más para salvaros.", 1200, 1000);
+        ragnarok.dispatcher.sendActionBar("Este será el fin de vuestra aventura.", 1200, 1000);
+
+        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
+            ragnarok.getSoundtrack().loop("PHASE_2", 360);
+        }, 120);
+
+        ragnarok.dispatcher.sendActionBar("Que algo más pueda ayudaros...", 1500);
+        ragnarok.dispatcher.sendActionBar("Que ELLOS puedan ayudaros.", 1000);
+
+        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
+            ragnarok.dispatcher.sendMessage("La defensa ha bajado a 0!");
+        }, 200);
+
+        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
+            ragnarok.dispatcher.sendMessage("Muertos, escriban el nombre de un superviviente para ayudarle en la pelea!");
+        }, 270);
     }
 
     private final int startDelay = 31 * 20;

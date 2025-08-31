@@ -2,79 +2,131 @@ package org.cataclysm.game.pantheon.cmd;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.boss.CataclysmBoss;
 import org.cataclysm.game.pantheon.PantheonOfCataclysm;
+import org.cataclysm.game.pantheon.bosses.calamity_hydra.PantheonHydra;
+import org.cataclysm.game.pantheon.bosses.pale_king.PaleKing;
 import org.cataclysm.game.pantheon.bosses.the_ragnarok.TheRagnarok;
-import org.cataclysm.game.pantheon.level.levels.PantheonLevel;
-import org.cataclysm.game.pantheon.level.levels.entrance.PantheonEntrance;
+import org.cataclysm.game.pantheon.bosses.twisted_warden.PantheonWarden;
+import org.cataclysm.game.pantheon.helpers.PantheonTeleport;
+import org.cataclysm.game.pantheon.level.levels.LevelBuilder;
+import org.cataclysm.game.pantheon.level.levels.PantheonZones;
 import org.cataclysm.game.pantheon.level.levels.treehouse.TreeHouseWaiting;
 import org.cataclysm.game.pantheon.level.timer.PantheonTimer;
-import org.jetbrains.annotations.NotNull;
+
+import java.util.stream.Collectors;
 
 @CommandAlias("pantheon")
 @CommandPermission("admin.perms")
 public class PantheonCommand extends BaseCommand {
 
-    @Subcommand("boss")
-    @CommandCompletion("cast|stop THE_RAGNAROK|VOID_LORD")
-    private void boss(CommandSender sender, String action, String display) {
+    @Subcommand("update PALE_KING phase")
+    private void updatePaleKing() {
+        CataclysmBoss boss = Cataclysm.getBoss();
+        if (boss instanceof PaleKing king) {
+            king.getPhase().start(3);
+        }
+    }
+
+    @Subcommand("update PALE_KING amplifier")
+    private void updatePaleKingAmplifier(int amplifier) {
+        CataclysmBoss boss = Cataclysm.getBoss();
+        if (boss instanceof PaleKing king) {
+            king.amplifier = amplifier;
+        }
+    }
+
+    @Subcommand("update THE_RAGNAROK phase")
+    private void update() {
+        CataclysmBoss boss = Cataclysm.getBoss();
+        if (boss instanceof TheRagnarok ragnarok) {
+            ragnarok.event.changePhase();
+        }
+    }
+
+    @Subcommand("level warpAll")
+    public void teleport(PantheonZones zones) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            PantheonTeleport.teleport(player, zones.getLocation());
+        }
+    }
+
+    @Subcommand("boss stop")
+    private void bossStop() {
+        CataclysmBoss boss = Cataclysm.getBoss();
+        if (boss != null) boss.stopFight();
+    }
+
+    @Subcommand("boss cast")
+    @CommandCompletion("THE_RAGNAROK|PALE_KING|HYDRA|WARDEN")
+    private void boss(CommandSender sender, String display) {
         if (!(sender instanceof Player player)) return;
 
-        PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
-        if (pantheon == null) pantheon = PantheonOfCataclysm.createPantheon();
+        LevelBuilder.buildWorld();
 
         CataclysmBoss manager;
         switch (display.toUpperCase()) {
-            case "THE_RAGNAROK" -> manager = new TheRagnarok(pantheon);
-            case "VOID_LORD" -> manager = new TheRagnarok(pantheon);
-            default -> {
-                return;
-            }
+            case "THE_RAGNAROK" -> manager = new TheRagnarok();
+            case "PALE_KING" -> manager = new PaleKing();
+            case "HYDRA" -> manager = new PantheonHydra();
+            case "WARDEN" -> manager = new PantheonWarden();
+            default -> {return;}
         }
 
         manager.setController(player);
         manager.startFight();
     }
 
-    @Subcommand("timer")
-    private void toolsTimer(int seconds) {
+    @Subcommand("zone teleport")
+    private void zoneTeleport(CommandSender sender, PantheonZones zones) {
+        if (!(sender instanceof Player player)) return;
+        player.teleport(zones.getLocation());
+    }
+
+    @Subcommand("zone paste")
+    private void pasteScheme(PantheonZones zones) {
+        zones.getSchemLoader().pasteSchematic(zones.getLocation());
+    }
+
+    @Subcommand("zone pasteAll")
+    private void pasteSchemeAll() {
+        LevelBuilder.handleStructures();
+    }
+
+    @Subcommand("event")
+    @CommandCompletion("START|CANCEL|CREATE")
+    private void event(CommandSender sender, String action) {
+        switch (action) {
+            case "CREATE" -> PantheonOfCataclysm.createPantheon();
+            case "START" -> Cataclysm.getPantheon().startLevel(new TreeHouseWaiting(Cataclysm.getPantheon()));
+            case "CANCEL" -> Cataclysm.getPantheon().cancelEvent();
+        }
+    }
+
+    @Subcommand("system timer")
+    private void systemTimer(int seconds) {
         PantheonTimer timer = Cataclysm.getPantheon().getTimer();
         if (timer == null) return;
         timer.setTimeLeft(seconds);
     }
 
-    @Subcommand("event")
-    @CommandCompletion("START|CANCEL")
-    private void event(CommandSender sender, String action) {
-        switch (action) {
-            case "START" -> PantheonOfCataclysm.createPantheon().startLevel(new TreeHouseWaiting(Cataclysm.getPantheon()));
-            case "CANCEL" -> Cataclysm.getPantheon().cancelEvent();
-        }
+    @Subcommand("system audience")
+    private void systemAudience(CommandSender commandSender, int seconds) {
+        if (!(commandSender instanceof Player player)) return;
+        player.sendMessage("Survivors: " + getSurvivorsList());
     }
 
-    @Subcommand("level")
-    @CommandCompletion("FINALE|BREAK|TREE_COUNTDOWN|ENTRANCE|FIGHT_WARDEN|FIGHT_HYDRA|FIGHT_KING|FIGHT_LORD|FIGHT_RAGNAROK")
-    private void action(CommandSender sender, @NotNull String id) {
-        PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
-        if (pantheon == null) pantheon = PantheonOfCataclysm.createPantheon();
-
-        PantheonLevel level;
-        switch (id.toUpperCase()) {
-            case "BREAK" -> level = new PantheonEntrance(pantheon);
-            case "TREE_COUNTDOWN" -> level = new TreeHouseWaiting(pantheon);
-            case "ENTRANCE" -> level = new PantheonEntrance(pantheon);
-            case "FINALE" -> level = new PantheonEntrance(pantheon);
-
-            case "FIGHT_WARDEN" -> level = new PantheonEntrance(pantheon);
-            case "FIGHT_HYDRA" -> level = new PantheonEntrance(pantheon);
-            case "FIGHT_KING" -> level = new PantheonEntrance(pantheon);
-            case "FIGHT_LORD" -> level = new PantheonEntrance(pantheon);
-            case "FIGHT_RAGNAROK" -> level = new PantheonEntrance(pantheon);
-            default -> {return;}
-        }
-        pantheon.startLevel(level);
+    private static String getSurvivorsList() {
+        return Cataclysm.getPantheon()
+                .getAudience()
+                .getSurvivors()
+                .keySet() // si los nombres están en la clave
+                .stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(", "));
     }
 }

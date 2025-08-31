@@ -16,20 +16,14 @@ import org.cataclysm.game.pantheon.PantheonOfCataclysm;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class PantheonDispatcher {
+public class CataclysmDispatcher {
+    private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     private @Getter @Setter int acumulatedMillis;
-
-    private final PantheonOfCataclysm pantheon;
-    private final Audience audience;
-
-    public PantheonDispatcher(PantheonOfCataclysm pantheon) {
-        this.pantheon = pantheon;
-        this.audience = Audience.audience(Bukkit.getOnlinePlayers());
-        this.acumulatedMillis = 0;
-    }
 
     /**
      * Sends an animated action bar message to the audience, revealing the text one character at a time.
@@ -43,7 +37,6 @@ public class PantheonDispatcher {
         var characters = formatTxt.chars().mapToObj(c -> (char) c).toList();
         double interval = ((double) totalDuration / characters.size());
 
-        ScheduledExecutorService executor = this.pantheon.getExecutor();
         executor.schedule(() -> {
             for (int i = 0; i < characters.size(); i++) {
                 String display = formatTxt.substring(0, i + 1);
@@ -51,8 +44,10 @@ public class PantheonDispatcher {
 
                 executor.schedule(() -> {
                     Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-                        audience.sendActionBar(message);
-                        audience.playSound(Sound.sound(Key.key("ui.button.click"), Sound.Source.MASTER, 0.5F, 1.95F));
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            player.sendActionBar(message);
+                            player.playSound(Sound.sound(Key.key("ui.button.click"), Sound.Source.MASTER, 0.5F, 1.95F));
+                        }
                     });
                 }, (i * (long) interval), TimeUnit.MILLISECONDS);
             }
@@ -73,16 +68,18 @@ public class PantheonDispatcher {
     public void sendMessage(String text) {
         String prefix = wrapPrefix(CataclysmColor.PANTHEON.wrap(1) + "pantheon");
         String msg = CataclysmColor.PANTHEON.wrap(3) + text;
-        audience.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "  <#727272>» " + msg));
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "  <#727272>» " + msg));
+        }
     }
 
     public void playSounds(Sound... sounds) {
-        for (Sound sound : sounds) audience.playSound(sound);
+        for (Sound sound : sounds) Bukkit.getOnlinePlayers().forEach(player -> player.playSound(sound));
     }
 
     public void addEffects(PotionEffect... effects) {
-        for (PotionEffect effect : effects) audience.forEachAudience(ad -> {
-            if (ad instanceof Player player) player.addPotionEffect(effect);
+        for (PotionEffect effect : effects) Bukkit.getOnlinePlayers().forEach(player -> {
+            player.addPotionEffect(effect);
         });
     }
 

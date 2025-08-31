@@ -26,7 +26,7 @@ public class TreeHouseWaiting extends PantheonLevel {
     @Override
     public void onStart() {
         this.timer.start();
-        this.dispatcher.playSounds(
+        this.pantheon.getDispatcher().playSounds(
                 Sound.sound(Key.key("item.trident.return"), Sound.Source.MASTER, 5F, 0.5F)
         );
     }

@@ -1,6 +1,5 @@
 package org.cataclysm.game.pantheon.bosses.the_ragnarok.abilities;
 
-import lombok.Getter;
 import org.bukkit.Material;
 import org.cataclysm.api.boss.ability.Ability;
 import org.cataclysm.game.pantheon.bosses.the_ragnarok.TheRagnarok;

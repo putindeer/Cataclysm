@@ -26,25 +26,25 @@ public class PantheonEntrance extends PantheonLevel {
     }
 
     private void open() {
-        this.dispatcher.playSounds(Sound.sound(Key.key("item.trident.return"), Sound.Source.MASTER, 5F, 0.56F));
+        pantheon.getDispatcher().playSounds(Sound.sound(Key.key("item.trident.return"), Sound.Source.MASTER, 5F, 0.56F));
         this.thread.handle();
     }
 
     private void dialogue() {
         int coord = getLocation().getBlockX();
-        this.dispatcher.sendActionBar("Las puertas del abismo se reabren al fin.");
-        this.dispatcher.sendActionBar("En las lejanías...", 800, 600);
-        this.dispatcher.sendActionBar("en tierras muertas...", 800, 600);
-        this.dispatcher.sendActionBar("En " + coord + ", " + coord + ".");
-        this.dispatcher.setAcumulatedMillis(0);
+        pantheon.getDispatcher().sendActionBar("Las puertas del abismo se reabren al fin.");
+        pantheon.getDispatcher().sendActionBar("en tierras muertas...", 800, 600);
+        pantheon.getDispatcher().sendActionBar("En las lejanías...", 800, 600);
+        pantheon.getDispatcher().sendActionBar("En " + coord + ", " + coord + ".");
+        pantheon.getDispatcher().setAcumulatedMillis(0);
     }
 
     private void paralize(int duration) {
-        this.dispatcher.playSounds(
+        pantheon.getDispatcher().playSounds(
                 Sound.sound(Key.key("entity.elder_guardian.death"), Sound.Source.MASTER, 5F, 0.56F),
                 Sound.sound(Key.key("entity.elder_guardian.death"), Sound.Source.MASTER, 5F, 0.5F)
         );
-        this.dispatcher.addEffects(
+        pantheon.getDispatcher().addEffects(
                 new PotionEffect(ImmunityEffect.EFFECT_TYPE, duration, 0, false, false),
                 new PotionEffect(PotionEffectType.BLINDNESS, duration, 0, false, false),
                 new PotionEffect(PotionEffectType.SLOWNESS, duration, 9, false, false)

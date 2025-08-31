@@ -14,11 +14,9 @@ public abstract class PantheonLevel {
     protected int stopDelay;
 
     protected final PantheonOfCataclysm pantheon;
-    protected final PantheonDispatcher dispatcher;
 
     public PantheonLevel(PantheonOfCataclysm pantheon) {
         this.pantheon = pantheon;
-        this.dispatcher = pantheon.getDispatcher();
         this.defaults();
     }
 

@@ -4,6 +4,7 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -15,18 +16,18 @@ import org.cataclysm.game.pantheon.bosses.the_ragnarok.abilities.CataclysmAbilit
 import org.cataclysm.game.pantheon.bosses.the_ragnarok.abilities.DestroyerAbility;
 import org.cataclysm.game.pantheon.bosses.the_ragnarok.abilities.NoGodToSaveYouAbility;
 import org.cataclysm.game.pantheon.bosses.the_ragnarok.abilities.YouSeeBIGGIRLAbility;
-import org.cataclysm.game.pantheon.level.levels.stormeye.StormEye;
+import org.cataclysm.game.pantheon.helpers.CataclysmDispatcher;
+import org.cataclysm.game.pantheon.level.levels.PantheonZones;
 
 public class TheRagnarok extends CataclysmBoss {
-    protected final RagnarokEvents event;
-    protected final PantheonOfCataclysm pantheon;
+    public final CataclysmDispatcher dispatcher = new CataclysmDispatcher();
+    public final RagnarokEvents event;
 
-    public TheRagnarok(PantheonOfCataclysm pantheon) {
+    public TheRagnarok() {
         super("The Ragnarök", 3500);
-        this.pantheon = pantheon;
-        super.arena = new CataclysmArea(StormEye.getLocation(), 100);
-        this.event = new RagnarokEvents(this);
-        super.listener = new RagnarokListener();
+        super.arena = PantheonZones.STORM_EYE.getArena();
+        event = new RagnarokEvents(this);
+        listener = new RagnarokListener();
     }
 
     @Override
@@ -39,24 +40,22 @@ public class TheRagnarok extends CataclysmBoss {
 
     @Override
     public void registerTracks() {
-        super.soundtrack.addTrack("PHASE_1", Key.key("cataclysm.pantheon.boss.ragnarok.phase_1"));
-        super.soundtrack.addTrack("PHASE_2", Key.key("cataclysm.pantheon.boss.ragnarok.phase_2"));
+        super.soundtrack.addTrack("PHASE_1", Key.key("cataclysm.boss.ragnarok.ragnarok_phase"));
+        super.soundtrack.addTrack("PHASE_2", Key.key("cataclysm.boss.ragnarok.ragnarok_phase"));
     }
 
     @Override
     public void onStart() {
-        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> this.pantheon.getDispatcher().sendActionBar("Deus misereatur animarum suarum...", 2000), 60);
+        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> this.dispatcher.sendActionBar("Deus misereatur animarum suarum...", 2000), 60);
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> this.soundtrack.loop("PHASE_1", 600), 100);
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), this.event::entrance, 140);
     }
 
     @Override
-    public void onStop() {
-    }
+    public void onStop() {}
 
     @Override
-    public void tick() {
-    }
+    public void tick() {}
 
     public void damage(LivingEntity livingEntity, double amount) {
         if (livingEntity.equals(super.controller)) return;

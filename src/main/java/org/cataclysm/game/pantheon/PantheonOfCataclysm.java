@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
+import org.cataclysm.api.boss.CataclysmBoss;
 import org.cataclysm.game.pantheon.level.audience.PantheonAudience;
 import org.cataclysm.game.pantheon.level.levels.LevelBuilder;
 import org.cataclysm.game.pantheon.level.levels.entrance.PantheonEntrance;
@@ -29,6 +30,7 @@ public class PantheonOfCataclysm {
 
     private PantheonTimer timer;
     private PantheonStates state;
+    private CataclysmBoss boss;
     private PantheonLevel level;
 
     private final PantheonDispatcher dispatcher;
@@ -56,7 +58,6 @@ public class PantheonOfCataclysm {
         Cataclysm.setPantheon(null);
     }
 
-
     public void schedule(Runnable runnable, int ticks) {
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), runnable, ticks);
     }
@@ -77,9 +78,7 @@ public class PantheonOfCataclysm {
         pantheon.audience.globalAssistanceVerify();
         pantheon.handler.registerListeners();
 
-        LevelBuilder.adapt();
         Cataclysm.setPantheon(pantheon);
-
         return pantheon;
     }
 }
