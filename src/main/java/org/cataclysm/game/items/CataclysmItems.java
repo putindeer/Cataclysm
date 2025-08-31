@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.item.CataclysmItem;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.global.utils.text.font.TinyCaps;

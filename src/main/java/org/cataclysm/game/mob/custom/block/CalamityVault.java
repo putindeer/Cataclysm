@@ -7,7 +7,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.level.Level;
 import org.bukkit.Material;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.jetbrains.annotations.NotNull;
 

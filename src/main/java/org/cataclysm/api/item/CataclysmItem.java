@@ -7,7 +7,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemFlag;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;

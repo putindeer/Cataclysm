@@ -10,7 +10,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.structure.schematic.SchematicLoader;
-import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
+import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
 import org.jetbrains.annotations.NotNull;
 
 public class DeathAltar {

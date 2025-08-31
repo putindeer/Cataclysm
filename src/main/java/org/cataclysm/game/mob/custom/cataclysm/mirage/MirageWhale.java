@@ -6,7 +6,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.level.Level;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.item.loot.LootContainer;
 import org.cataclysm.api.item.loot.LootHolder;
 import org.cataclysm.api.mob.CataclysmMob;

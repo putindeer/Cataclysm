@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.cataclysm.api.boss.CataclysmBoss;
-import org.cataclysm.api.event.EventManager;
-import org.cataclysm.api.event.data.EventLoader;
+import org.cataclysm.game.events.limited.EventManager;
+import org.cataclysm.game.events.limited.data.EventLoader;
 import org.cataclysm.api.item.crafting.CataclysmRecipes;
 import org.cataclysm.api.listener.registrable.RegistrableUtils;
 import org.cataclysm.api.mob.CataclysmMob;
@@ -24,26 +24,20 @@ import org.cataclysm.discord.DiscordConnection;
 import org.cataclysm.discord.DiscordListener;
 import org.cataclysm.game.GameManager;
 import org.cataclysm.game.data.GameDataManager;
+import org.cataclysm.game.events.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.mob.task.MobTask;
-import org.cataclysm.game.pantheon.cmd.PantheonCommand;
-import org.cataclysm.game.pantheon.PantheonOfCataclysm;
-import org.cataclysm.game.pantheon.cmd.ProfileCommand;
-import org.cataclysm.game.pantheon.level.levels.LevelBuilder;
+import org.cataclysm.game.events.pantheon.PantheonCMD;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerTask;
 import org.cataclysm.game.player.data.PlayerLoader;
 import org.cataclysm.game.player.survival.death.DeathSequence;
-import org.cataclysm.game.raids.structures.RaidStructures;
+import org.cataclysm.game.events.raids.structures.RaidStructures;
 import org.cataclysm.game.world.day.DayLoader;
 import org.cataclysm.game.world.day.DayManager;
 import org.cataclysm.game.world.generator.CataclysmGenerator;
 import org.cataclysm.game.world.ragnarok.Ragnarok;
 import org.cataclysm.game.world.ragnarok.RagnarokLoader;
-import org.cataclysm.game.world.structures.PaleTree;
-import org.cataclysm.global.commands.RaidCommand;
-import org.cataclysm.global.commands.CataclysmCommand;
-import org.cataclysm.global.commands.PodiumCommand;
-import org.cataclysm.global.commands.StaffCommand;
+import org.cataclysm.global.commands.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -57,7 +51,6 @@ public final class Cataclysm extends JavaPlugin {
     private static final @Getter Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
     private static final @Getter HashMap<String, CataclysmPlayer> cataclysmPlayers = new HashMap<>();
 
-    //Pantheon of Cataclysm instance
     private static @Getter @Setter PantheonOfCataclysm pantheon;
 
     private static @Getter Cataclysm instance;
@@ -89,8 +82,6 @@ public final class Cataclysm extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        LevelBuilder.buildWorld();
-
         for (var player : Bukkit.getOnlinePlayers()) {
             if (ragnarok != null) ragnarok.getBossBar().addViewer(player);
             if (eventManager != null) eventManager.barManager.bossBar.addViewer(player);
@@ -102,8 +93,7 @@ public final class Cataclysm extends JavaPlugin {
         paperCommandManager.registerCommand(new StaffCommand());
         paperCommandManager.registerCommand(new PodiumCommand());
         paperCommandManager.registerCommand(new RaidCommand());
-        paperCommandManager.registerCommand(new PantheonCommand());
-        paperCommandManager.registerCommand(new ProfileCommand());
+        paperCommandManager.registerCommand(new PantheonCMD());
 
         if (isMainHost()) {
             Bukkit.getPluginManager().registerEvents(new DiscordListener(), this);
@@ -123,8 +113,6 @@ public final class Cataclysm extends JavaPlugin {
 
         CataclysmGenerator.setUp();
         DisguiseConfig.setPlayerNameType(DisguiseConfig.PlayerNameType.VANILLA);
-
-        PaleTree.runSoundTask();
 
         Bukkit.getConsoleSender().sendMessage("   ___   _ _____ _   ___ _ __   _____ __  __ ");
         Bukkit.getConsoleSender().sendMessage("  / __| /_\\_   _/_\\ / __| |\\ \\ / / __|  \\/  |");

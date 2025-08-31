@@ -1,7 +1,7 @@
 package org.cataclysm.api.mob.family;
 
 import lombok.Getter;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.jetbrains.annotations.NotNull;
 

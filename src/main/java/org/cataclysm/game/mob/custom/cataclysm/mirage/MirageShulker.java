@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftShulker;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.jetbrains.annotations.NotNull;
 

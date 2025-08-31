@@ -35,7 +35,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionEffectTypeCategory;
 import org.bukkit.util.Vector;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.item.ItemRestorer;

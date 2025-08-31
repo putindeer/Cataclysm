@@ -1,5 +1,7 @@
 package org.cataclysm.api.boss;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -19,18 +21,40 @@ import org.cataclysm.api.boss.ability.Ability;
 import org.cataclysm.api.boss.ability.AbilityBooster;
 import org.cataclysm.api.boss.events.BossCastAbilityEvent;
 import org.cataclysm.api.boss.events.BossChannelAbilityEvent;
+import org.cataclysm.api.boss.events.BossFightEndEvent;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.listener.registrable.Registrable;
-import org.cataclysm.game.raids.bosses.calamity_hydra.rage.RageAbility;
-import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
+import org.cataclysm.game.events.pantheon.boss.PantheonBoss;
+import org.cataclysm.game.events.raids.bosses.calamity_hydra.rage.RageAbility;
+import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.cataclysm.global.utils.text.TextUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
 import java.util.List;
 
 @Registrable
 public class BossListener implements Listener {
+
+    @EventHandler
+    public void onBossFightEnd(BossFightEndEvent event) {
+        CataclysmBoss boss = event.getBoss();
+
+        if (boss instanceof PantheonBoss) return;
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 0.9F);
+            player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1.50F);
+            player.showTitle(Title.title(
+                    MiniMessage.miniMessage().deserialize("<#a18d60>¡Incursión Finalizada!"),
+                    MiniMessage.miniMessage().deserialize("<#b0a897>" + boss.getName() + " derrotado"),
+                    Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(4), Duration.ofSeconds(2))
+            ));
+            boss.getBossBar().removeViewer(player);
+            boss.getHealthBar().removeViewer(player);
+        }
+    }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {

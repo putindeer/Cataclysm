@@ -10,7 +10,7 @@ import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.level.Level;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.item.loot.LootContainer;
 import org.cataclysm.api.item.loot.LootHolder;

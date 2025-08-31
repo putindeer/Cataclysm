@@ -27,7 +27,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.mob.CataclysmMob;
-import org.cataclysm.api.particle.ParticleHandler;
+import org.cataclysm.api.ParticleHandler;
 import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.items.ItemFamily;

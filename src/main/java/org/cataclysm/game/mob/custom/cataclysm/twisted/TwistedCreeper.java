@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.bukkit.craftbukkit.entity.CraftCreeper;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.item.loot.LootContainer;
 import org.cataclysm.api.item.loot.LootHolder;
 import org.cataclysm.api.mob.CataclysmMob;

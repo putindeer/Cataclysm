@@ -10,7 +10,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.listener.registrable.Registrable;
-import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
+import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;

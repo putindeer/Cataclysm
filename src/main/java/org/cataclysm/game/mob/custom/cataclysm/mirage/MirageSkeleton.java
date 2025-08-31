@@ -15,7 +15,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.item.loot.LootContainer;
 import org.cataclysm.api.item.loot.LootHolder;

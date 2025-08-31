@@ -4,11 +4,9 @@ import lombok.Getter;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
@@ -21,15 +19,15 @@ import org.cataclysm.api.boss.ability.AbilityBooster;
 import org.cataclysm.api.boss.ability.AbilityManager;
 import org.cataclysm.api.boss.events.BossCastAbilityEvent;
 import org.cataclysm.api.boss.events.BossChannelAbilityEvent;
-import org.cataclysm.api.boss.events.BossFightStopEvent;
+import org.cataclysm.api.boss.events.BossFightEndEvent;
+import org.cataclysm.api.boss.events.BossFightStartEvent;
 import org.cataclysm.api.data.PersistentData;
-import org.cataclysm.api.sound.Soundtrack;
-import org.cataclysm.game.raids.bosses.twisted_warden.keys.TwistedWardenKeys;
+import org.cataclysm.api.Soundtrack;
+import org.cataclysm.game.events.raids.bosses.twisted_warden.keys.TwistedWardenKeys;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
-import java.time.Duration;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -55,7 +53,7 @@ public abstract class CataclysmBoss implements Cloneable {
         this.maxHealth = health;
         this.bossBar = this.buildBossBar();
         this.healthBar = BossBar.bossBar(this.getHealthBarName(), 1.0F, BossBar.Color.YELLOW, BossBar.Overlay.PROGRESS);
-        this.registerTracks();
+        this.registerSoundtrack();
         this.registerAbilities();
     }
 
@@ -63,7 +61,7 @@ public abstract class CataclysmBoss implements Cloneable {
 
     public abstract void onStop();
 
-    public abstract void registerTracks();
+    public abstract void registerSoundtrack();
 
     public abstract void registerAbilities();
 
@@ -72,52 +70,33 @@ public abstract class CataclysmBoss implements Cloneable {
     public abstract BossBar buildBossBar();
 
     public void startFight() {
-        this.setUpController(true);
+        setUpController(true);
 
         if (this.listener != null) Bukkit.getPluginManager().registerEvents(this.listener, Cataclysm.getInstance());
         this.thread.startTickTask();
 
-        var arena = this.getArena();
         for (var player : arena.getPlayersInArena()) {
             this.bossBar.addViewer(player);
             this.healthBar.addViewer(player);
         }
 
-        Cataclysm.setBoss(this);
+        new BossFightStartEvent(this).callEvent();
+        onStart();
 
-        this.onStart();
+        Cataclysm.setBoss(this);
     }
 
     public void stopFight() {
         this.thread.service.shutdownNow();
-        this.setUpController(false);
-
-        var nearby = this.arena.center().getNearbyPlayers(this.arena.radius());
-        for (var player : nearby) {
-            var title = Title.title(
-                    MiniMessage.miniMessage().deserialize("<#a18d60>¡Incursión Finalizada!"),
-                    MiniMessage.miniMessage().deserialize("<#b0a897>" + this.name + " derrotado"),
-                    Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(4), Duration.ofSeconds(2))
-            );
-            player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 0.9F);
-            player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1.50F);
-            player.showTitle(title);
-            this.bossBar.removeViewer(player);
-            this.healthBar.removeViewer(player);
-        }
-
-        for (var player : arena.getPlayersInArena()) {
-            this.bossBar.removeViewer(player);
-            this.healthBar.removeViewer(player);
-        }
-
-        Cataclysm.setBoss(null);
-
-        new BossFightStopEvent().callEvent();
-
         this.soundtrack.stopAll();
 
-        this.onStop();
+        setUpBossBar(true);
+        setUpController(false);
+
+        new BossFightEndEvent(this).callEvent();
+        onStop();
+
+        Cataclysm.setBoss(null);
     }
 
     public void castAbility(@NotNull Ability ability) {
@@ -146,11 +125,23 @@ public abstract class CataclysmBoss implements Cloneable {
 
     public void setController(@NotNull Player controller) {
         this.controller = controller;
-        this.setUpInventory();
+        setUpInventory();
         setControllerData(controller, true);
     }
 
-    public void setUpController(boolean fighting) {
+    private void setUpBossBar(boolean bossBar) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (bossBar) {
+                this.bossBar.addViewer(player);
+                this.healthBar.addViewer(player);
+            } else {
+                this.bossBar.removeViewer(player);
+                this.healthBar.removeViewer(player);
+            }
+        }
+    }
+
+    private void setUpController(boolean fighting) {
         if (this.controller == null) return;
 
         double value;

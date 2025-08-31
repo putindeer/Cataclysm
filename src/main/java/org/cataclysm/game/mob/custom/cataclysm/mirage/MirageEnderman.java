@@ -9,7 +9,7 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.PathType;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.item.loot.LootContainer;
 import org.cataclysm.api.item.loot.LootHolder;
 import org.cataclysm.api.mob.CataclysmMob;

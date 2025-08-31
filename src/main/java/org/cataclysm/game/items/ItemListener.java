@@ -34,7 +34,7 @@ import org.cataclysm.game.player.mechanics.upgrade.UpgradeCatalogue;
 import org.cataclysm.game.player.mechanics.upgrade.Upgrades;
 import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
 import org.cataclysm.game.player.systems.cooldown.PlayerCooldown;
-import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
+import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
 import org.cataclysm.game.world.Dimensions;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.jetbrains.annotations.NotNull;

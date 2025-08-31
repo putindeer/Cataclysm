@@ -29,7 +29,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.data.json.JsonConfig;
 import org.cataclysm.api.mob.drops.CataclysmDrops;

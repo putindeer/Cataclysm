@@ -2,7 +2,7 @@ package org.cataclysm.api.boss;
 
 import lombok.Getter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.cataclysm.game.raids.bosses.calamity_hydra.CalamityHydra;
+import org.cataclysm.game.events.raids.bosses.calamity_hydra.CalamityHydra;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

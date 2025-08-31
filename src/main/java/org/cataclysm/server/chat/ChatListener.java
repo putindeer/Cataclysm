@@ -20,7 +20,7 @@ import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.data.PlayerData;
 import org.cataclysm.game.player.tag.role.RoleManager;
 import org.cataclysm.game.player.tag.team.TeamManager;
-import org.cataclysm.game.raids.bosses.pale_king.PaleKing;
+import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 
 @Registrable

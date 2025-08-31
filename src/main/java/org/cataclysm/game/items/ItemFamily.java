@@ -1,7 +1,7 @@
 package org.cataclysm.game.items;
 
 import lombok.Getter;
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

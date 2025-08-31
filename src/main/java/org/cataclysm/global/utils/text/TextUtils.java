@@ -1,6 +1,6 @@
 package org.cataclysm.global.utils.text;
 
-import org.cataclysm.api.color.CataclysmColor;
+import org.cataclysm.api.CataclysmColor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
