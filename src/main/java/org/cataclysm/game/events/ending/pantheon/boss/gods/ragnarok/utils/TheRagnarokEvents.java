@@ -1,6 +1,6 @@
-package org.cataclysm.game.events.pantheon.boss.ragnarok.utils;
+package org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.utils;
 
-import org.cataclysm.game.events.pantheon.boss.ragnarok.TheRagnarok;
+import org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.TheRagnarok;
 
 public class TheRagnarokEvents {
     private final TheRagnarok ragnarok;

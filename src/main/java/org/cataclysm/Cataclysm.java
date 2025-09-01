@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.cataclysm.api.boss.CataclysmBoss;
+import org.cataclysm.game.events.ending.finale.CataclysmFinale;
 import org.cataclysm.game.events.limited.EventManager;
 import org.cataclysm.game.events.limited.data.EventLoader;
 import org.cataclysm.api.item.crafting.CataclysmRecipes;
@@ -24,9 +25,9 @@ import org.cataclysm.discord.DiscordConnection;
 import org.cataclysm.discord.DiscordListener;
 import org.cataclysm.game.GameManager;
 import org.cataclysm.game.data.GameDataManager;
-import org.cataclysm.game.events.pantheon.PantheonOfCataclysm;
+import org.cataclysm.game.events.ending.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.mob.task.MobTask;
-import org.cataclysm.game.events.pantheon.PantheonCMD;
+import org.cataclysm.game.events.ending.pantheon.PantheonCMD;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerTask;
 import org.cataclysm.game.player.data.PlayerLoader;
@@ -52,6 +53,7 @@ public final class Cataclysm extends JavaPlugin {
     private static final @Getter HashMap<String, CataclysmPlayer> cataclysmPlayers = new HashMap<>();
 
     private static @Getter @Setter PantheonOfCataclysm pantheon;
+    private static @Getter @Setter CataclysmFinale finale;
 
     private static @Getter Cataclysm instance;
     private static @Getter MobStore store;
@@ -114,6 +116,8 @@ public final class Cataclysm extends JavaPlugin {
         CataclysmGenerator.setUp();
         DisguiseConfig.setPlayerNameType(DisguiseConfig.PlayerNameType.VANILLA);
 
+        Cataclysm.updateEvents();
+
         Bukkit.getConsoleSender().sendMessage("   ___   _ _____ _   ___ _ __   _____ __  __ ");
         Bukkit.getConsoleSender().sendMessage("  / __| /_\\_   _/_\\ / __| |\\ \\ / / __|  \\/  |");
         Bukkit.getConsoleSender().sendMessage(" | (__ / _ \\| |/ _ \\ (__| |_\\ V /\\__ \\ |\\/| |");
@@ -151,6 +155,14 @@ public final class Cataclysm extends JavaPlugin {
         tasks.forEach((uuid, task) -> Bukkit.getScheduler().cancelTask(task));
         tasks.clear();
         Bukkit.getConsoleSender().sendMessage("Cataclysm has been succesfully disabled.");
+    }
+
+    public static void updateEvents() {
+        if (pantheon != null) pantheon.stop();
+        if (finale != null) finale.stop();
+
+        if (getDay() == 34) pantheon = new PantheonOfCataclysm();
+        else if (getDay() == 35) finale = new CataclysmFinale();
     }
 
     public static void debug(String info) {

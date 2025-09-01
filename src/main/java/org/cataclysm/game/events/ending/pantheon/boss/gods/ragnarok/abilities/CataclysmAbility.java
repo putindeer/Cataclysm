@@ -1,11 +1,11 @@
-package org.cataclysm.game.events.pantheon.boss.ragnarok.abilities;
+package org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.abilities;
 
 import org.bukkit.*;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.ParticleHandler;
-import org.cataclysm.game.events.pantheon.boss.ragnarok.TheRagnarok;
+import org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.TheRagnarok;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;

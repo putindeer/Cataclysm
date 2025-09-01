@@ -47,6 +47,12 @@ import java.util.UUID;
 @CommandAlias("staff")
 @CommandPermission("admin.perms")
 public class StaffCommand extends BaseCommand {
+
+    @Subcommand("updateEvents")
+    private void updateEvents() {
+        Cataclysm.updateEvents();
+    }
+
     @Subcommand("palevoid entrance")
     @CommandCompletion("@players true|false")
     private void palevoidEntrance(Player player, boolean entrance) {

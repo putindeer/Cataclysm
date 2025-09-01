@@ -13,25 +13,27 @@ import org.jetbrains.annotations.NotNull;
 
 public class CataclysmTablist {
     protected static void updateWeek(Player player) {
-        var header = "\n" + ChatMessenger.getCataclysmColor() + " Tʜᴇ Cᴀᴛᴀᴄʟʏꜱᴍ SMP \n" + ChatMessenger.getTextColor() + getWeek() + " \n";
+        var header = "\n" + ChatMessenger.getCataclysmColor() + " Tʜᴇ Cᴀᴛᴀᴄʟʏꜱᴍ SMP \n" + ChatMessenger.getTextColor() + getSubtitle(Cataclysm.getDay()) + " \n";
         player.sendPlayerListHeader(MiniMessage.miniMessage().deserialize(ChatMessenger.getCataclysmColor() + header));
-        player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize("\n " + ChatMessenger.getTextColor() + "Día: <#CCCCCC>" + Cataclysm.getDay() + ChatMessenger.getTextColor() + "/35 \n"));
+        player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize("\n " + ChatMessenger.getTextColor() + "Día: <#CCCCCC>" + Cataclysm.getDay() + ChatMessenger.getTextColor() + "/35\n"));
     }
 
-    private static @NotNull String getWeek() {
-        var week = (Cataclysm.getDayManager().getDay() / 7) + 1;
+    private static @NotNull String getSubtitle(int day) {
+        var week = (day / 7) + 1;
+
         var text = "";
         switch (week) {
-            case 1 -> text = "primera";
-            case 2 -> text = "segunda";
-            case 3 -> text = "tercera";
-            case 4 -> text = "cuarta";
-            case 5 -> text = "quinta";
-            case 6 -> {
-                return TinyCaps.tinyCaps("día final");
-            }
+            case 1 -> text = "primera semana";
+            case 2 -> text = "segunda semana";
+            case 3 -> text = "tercera semana";
+            case 4 -> text = "cuarta semana";
+            case 5 -> text = "quinta semana";
         }
-        return TinyCaps.tinyCaps(text + " semana");
+
+        if (day == 34) text = "panteón de cataclysm";
+        if (day == 35) text = "finale";
+
+        return TinyCaps.tinyCaps(text);
     }
 
     public static void organizePlayer(Player player) {

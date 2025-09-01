@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.utils;
+package org.cataclysm.game.events.ending.pantheon.utils;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;

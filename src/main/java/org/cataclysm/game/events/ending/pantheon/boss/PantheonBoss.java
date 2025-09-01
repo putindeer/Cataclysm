@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.boss;
+package org.cataclysm.game.events.ending.pantheon.boss;
 
 import net.kyori.adventure.bossbar.BossBar;
 import org.cataclysm.api.boss.CataclysmBoss;

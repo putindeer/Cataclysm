@@ -1,18 +1,17 @@
-package org.cataclysm.game.events.pantheon.boss.ragnarok;
+package org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.LivingEntity;
-import org.cataclysm.game.events.pantheon.boss.PantheonBoss;
-import org.cataclysm.game.events.pantheon.boss.ragnarok.abilities.CataclysmAbility;
-import org.cataclysm.game.events.pantheon.boss.ragnarok.abilities.DestroyerAbility;
-import org.cataclysm.game.events.pantheon.boss.ragnarok.abilities.NoGodToSaveYouAbility;
-import org.cataclysm.game.events.pantheon.boss.ragnarok.abilities.YouSeeBIGGIRLAbility;
-import org.cataclysm.game.events.pantheon.boss.ragnarok.utils.TheRagnarokEvents;
+import org.cataclysm.game.events.ending.pantheon.boss.PantheonBoss;
+import org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.abilities.CataclysmAbility;
+import org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.abilities.DestroyerAbility;
+import org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.abilities.NoGodToSaveYouAbility;
+import org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.abilities.YouSeeBIGGIRLAbility;
+import org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.utils.TheRagnarokEvents;
 
 @Getter @Setter
 public class TheRagnarok extends PantheonBoss {

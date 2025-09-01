@@ -1,11 +1,11 @@
-package org.cataclysm.game.events.pantheon.boss.ragnarok.abilities;
+package org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.abilities;
 
 import org.bukkit.*;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.ParticleHandler;
-import org.cataclysm.game.events.pantheon.boss.ragnarok.TheRagnarok;
+import org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.TheRagnarok;
 
 import java.util.List;
 import java.util.Random;

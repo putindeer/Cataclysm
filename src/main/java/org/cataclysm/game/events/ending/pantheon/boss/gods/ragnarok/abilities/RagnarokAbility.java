@@ -1,8 +1,8 @@
-package org.cataclysm.game.events.pantheon.boss.ragnarok.abilities;
+package org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.abilities;
 
 import org.bukkit.Material;
 import org.cataclysm.api.boss.ability.Ability;
-import org.cataclysm.game.events.pantheon.boss.ragnarok.TheRagnarok;
+import org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.TheRagnarok;
 
 public abstract class RagnarokAbility extends Ability {
     public final TheRagnarok ragnarok;

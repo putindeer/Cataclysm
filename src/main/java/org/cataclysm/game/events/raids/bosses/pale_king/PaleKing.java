@@ -34,8 +34,8 @@ public class PaleKing extends CataclysmBoss {
     private final ItemStack sword;
     public PaleKingPhase phase;
 
-    public PaleKing() {
-        super("Pale King", 1000);
+    public PaleKing(String name, int health) {
+        super(name, health);
         super.arena = RaidStructures.PALE_PALACE.getStructure().getBossArena();
         super.listener = new PaleKingListener();
         this.phase = new PaleKingPhase(this);

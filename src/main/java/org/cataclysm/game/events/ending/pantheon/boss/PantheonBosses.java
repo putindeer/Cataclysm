@@ -1,7 +1,7 @@
-package org.cataclysm.game.events.pantheon.boss;
+package org.cataclysm.game.events.ending.pantheon.boss;
 
 import lombok.Getter;
-import org.cataclysm.game.events.pantheon.boss.ragnarok.TheRagnarok;
+import org.cataclysm.game.events.ending.pantheon.boss.gods.ragnarok.TheRagnarok;
 
 @Getter
 public enum PantheonBosses {

@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.utils;
+package org.cataclysm.game.events.ending.pantheon.utils;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.listeners;
+package org.cataclysm.game.events.ending.pantheon.listeners;
 
 import org.bukkit.event.Listener;
 import org.cataclysm.api.listener.registrable.Registrable;

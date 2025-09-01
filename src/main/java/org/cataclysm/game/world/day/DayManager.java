@@ -52,7 +52,6 @@ public record DayManager(DayData data) {
             throw new RuntimeException(e);
         }
     }
-
     public static void restore(@NotNull JsonConfig jsonConfig) {
         var data = DayData.generate();
 
