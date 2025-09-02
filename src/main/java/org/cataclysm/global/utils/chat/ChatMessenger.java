@@ -42,7 +42,7 @@ public class ChatMessenger {
     }
 
     @NotNull
-    private static String wrapPrefix(String prefix) {
+    public static String wrapPrefix(String prefix) {
         return "<#8c8c8c><b>[<reset>" + TinyCaps.tinyCaps(prefix) + "<#8c8c8c><b>]<reset> <#727272>» " + textColor;
     }
 }

@@ -11,6 +11,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.game.events.pantheon.utils.PantheonDispatcher;
 import org.cataclysm.game.events.pantheon.utils.PantheonWarper;
+import org.cataclysm.global.utils.text.font.TinyCaps;
 
 import java.time.Duration;
 
@@ -27,45 +28,54 @@ public class PantheonEvents {
         if (level == PantheonLevels.TWISTED_CITY) this.startPantheon();
     }
 
+    public void startTwistedWardenFight() {
+
+    }
+
     public void startPantheon() {
-        dispatcher.addEffects(new PotionEffect(PotionEffectType.BLINDNESS, 200, 0, false, false));
+        dispatcher.addEffects(new PotionEffect(PotionEffectType.BLINDNESS, 100, 0, false, false));
         dispatcher.playSounds(
                 Sound.sound(Key.key("entity.elder_guardian.ambient"), SoundCategory.MASTER, 2F, 0.55F),
                 Sound.sound(Key.key("entity.elder_guardian.death"), SoundCategory.MASTER, 2F, 0.55F)
         );
         dispatcher.addDelay(2000);
-
         dispatcher.sendActionBar("Del horizonte asoma el crepúsculo.");
         dispatcher.sendActionBar("Aunque parece el mismo de siempre...");
         dispatcher.sendActionBar("hoy se siente diferente.");
         dispatcher.sendActionBar("Hoy, la mayoría no verá la luz del mediodía.");
-        dispatcher.sendActionBar("En esta tumba reposan cinco dioses.");
-        dispatcher.sendActionBar("Sus nombres se desvanecen...");
-        dispatcher.sendActionBar("mas sus leyendas perduran.");
+        dispatcher.addDelay(2000);
+        dispatcher.sendActionBar("En esta tumba reposan cinco dioses.", 12);
+        dispatcher.sendActionBar("Sus nombres se desvanecen...", 12);
+        dispatcher.sendActionBar("mas sus leyendas perduran.", 12);
+        dispatcher.addDelay(1500);
+        dispatcher.sendActionBar("Mortales...");
         dispatcher.sendActionBar("Venced al retorcido.");
         dispatcher.sendActionBar("Enfrentaos a la calamidad.");
         dispatcher.sendActionBar("Derrocad al pálido...");
         dispatcher.sendActionBar("Abrazad el vacío...");
-        dispatcher.sendActionBar("...y poned fin al Cataclismo.");
         dispatcher.addDelay(1000);
-
+        dispatcher.sendActionBar("...y poned fin al Cataclismo.", 5);
+        dispatcher.addDelay(1000);
         dispatcher.playSounds(
                 Sound.sound(Key.key("item.trident.thunder"), SoundCategory.MASTER, 2F, 0.55F),
                 Sound.sound(Key.key("item.trident.thunder"), SoundCategory.MASTER, 2F, 0.65F),
                 Sound.sound(Key.key("entity.elder_guardian.death"), SoundCategory.MASTER, 2F, 0.55F),
-                Sound.sound(Key.key("cataclysm.pantheon.teleport"), SoundCategory.MASTER, 5F, 0.5F)
+                Sound.sound(Key.key("cataclysm.pantheon.teleport"), SoundCategory.MASTER, 5F, 0.5F),
+                Sound.sound(Key.key("cataclysm.pantheon.teleport"), SoundCategory.MASTER, 5F, 0.65F),
+                Sound.sound(Key.key("music_disc.stal"), SoundCategory.MASTER, 2F, 0.65F)
         );
         dispatcher.schedule(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 player.showTitle(Title.title(
-                        MiniMessage.miniMessage().deserialize("<gradient:#3a0ca3:#4361ee:#4cc9f0><bold>✦ El Panteón de Cataclysm ✦</bold></gradient>"),
-                        MiniMessage.miniMessage().deserialize("<color:#a1a1aa>Se abre ante vosotros...</color>"),
+                        MiniMessage.miniMessage().deserialize("<gradient:#D3AF37:#E1B768><b>Pantheon Of Cataclysm</b></gradient>"),
+                        MiniMessage.miniMessage().deserialize("<#DBC094>ꜱᴇᴇᴋ ᴏᴠᴇʀᴡᴏʀʟᴅ'ꜱ ꜰᴏʀɢᴏᴛᴛᴇɴ ʟᴏʀᴅ"),
                         Title.Times.times(Duration.ofMillis(500), Duration.ofSeconds(4), Duration.ofSeconds(2))
                 ));
             }
         });
-        dispatcher.addDelay(6000);
-
+        dispatcher.addDelay(7000);
         dispatcher.schedule(() -> PantheonWarper.warp(PantheonLevels.TWISTED_CITY));
+        dispatcher.addDelay(7000);
+        dispatcher.schedule(this::startTwistedWardenFight);
     }
 }

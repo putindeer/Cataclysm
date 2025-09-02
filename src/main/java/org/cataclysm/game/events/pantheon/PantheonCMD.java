@@ -32,21 +32,25 @@ public class PantheonCMD extends BaseCommand {
         else PantheonWarper.teleport(player, zones);
     }
 
-    @Subcommand("boss")
-    @CommandCompletion("cast|stop")
-    private void bossCast(CommandSender sender, String action, PantheonBosses boss) {
+    @Subcommand("boss cast")
+    private void bossCast(CommandSender sender, PantheonBosses boss) {
         if (!(sender instanceof Player player)) return;
+        PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
+        if (pantheon == null) return;
 
-        PantheonOfCataclysm pantheon = getOrCreatePantheon();
-        switch (action) {
-            case "cast" -> {
-                PantheonBoss instance = boss.getInstance();
-                instance.setPantheon(pantheon);
-                instance.setController(player);
-                instance.startPantheonFight();
-            }
-            case "stop" -> pantheon.getBoss().stopPantheonFight();
-        }
+        PantheonBoss instance = boss.getInstance();
+        instance.setPantheon(pantheon);
+        instance.setController(player);
+        instance.startPantheonFight();
+    }
+
+    @Subcommand("boss stop")
+    private void bossStop() {
+        PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
+        if (pantheon == null) return;
+
+        PantheonBoss instance = pantheon.getBoss();
+        instance.stopPantheonFight();
     }
 
     private @NotNull PantheonOfCataclysm getOrCreatePantheon() {

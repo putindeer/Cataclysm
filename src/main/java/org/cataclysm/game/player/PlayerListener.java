@@ -147,7 +147,6 @@ public class PlayerListener implements Listener {
         );
     }
 
-    //Shouldnt this be LOWEST so that PlayerLoader always gets called first???
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onJoin(PlayerJoinEvent event) {
         var player = event.getPlayer();
@@ -161,8 +160,8 @@ public class PlayerListener implements Listener {
         cataclysmPlayer.getTotemManager().updateStatistic();
         cataclysmPlayer.getCooldownManager().restore();
 
-        ItemRestorer restorer = new ItemRestorer(player.getInventory());
-        restorer.check();
+        //ItemRestorer restorer = new ItemRestorer(player.getInventory());
+        //restorer.check();
 
         event.joinMessage(
                 MiniMessage.miniMessage().deserialize("<#6EEC6C>[<#7FEE7D>+<#6EEC6C>]")

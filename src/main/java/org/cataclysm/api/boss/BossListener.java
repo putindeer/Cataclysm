@@ -24,6 +24,7 @@ import org.cataclysm.api.boss.events.BossChannelAbilityEvent;
 import org.cataclysm.api.boss.events.BossFightEndEvent;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.listener.registrable.Registrable;
+import org.cataclysm.game.events.pantheon.boss.PantheonAbility;
 import org.cataclysm.game.events.pantheon.boss.PantheonBoss;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.rage.RageAbility;
 import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
@@ -125,6 +126,9 @@ public class BossListener implements Listener {
     @EventHandler
     private void onBossCastAbility(BossCastAbilityEvent event) {
         var ability = event.getAbility();
+
+        if (ability instanceof PantheonAbility) return;
+
         var boss = event.getBoss();
 
         if (ability.isBoosted()) {
@@ -141,6 +145,8 @@ public class BossListener implements Listener {
         if (!boss.getAbilityVisibility()) return;
 
         var ability = event.getAbility().clone();
+
+        if (ability instanceof PantheonAbility) return;
 
         if (!ability.isBroadcast()) return;
         if (ability instanceof RageAbility rageAbility && !rageAbility.isBroadcast()) return;
