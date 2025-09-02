@@ -569,6 +569,21 @@ public class PlayerListener implements Listener {
 
         if (day < 21) return;
 
+        if (day >= 35 && cause.equals(PlayerTeleportEvent.TeleportCause.END_PORTAL)) {
+            var inventory = player.getInventory();
+            boolean flag = inventory.contains(CataclysmItems.OVERWORLD_KEY.build())
+                    && inventory.contains(CataclysmItems.NETHER_KEY.build())
+                    && inventory.contains(CataclysmItems.END_KEY.build());
+
+            if (flag) {
+                event.setCancelled(true);
+                player.setGameMode(GameMode.SPECTATOR);
+                //TODO Add title and music
+            }
+
+            return;
+        }
+
         switch (cause) {
             case NETHER_PORTAL, END_PORTAL, END_GATEWAY -> player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 20 * 5, 0));
         }

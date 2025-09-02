@@ -188,6 +188,8 @@ public class DeathSequence {
                     )
             ));
 
+            player.getWorld().playSound(player, org.bukkit.Sound.ITEM_GOAT_HORN_SOUND_5, 5F, 1F);
+
         });
     }
 
