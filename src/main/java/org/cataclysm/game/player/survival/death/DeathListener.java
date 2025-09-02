@@ -14,6 +14,7 @@ import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Registrable
 public class DeathListener implements Listener {
@@ -46,8 +47,13 @@ public class DeathListener implements Listener {
         Audience audience = Audience.audience(Bukkit.getOnlinePlayers());
         var sequence = new DeathSequence(event, audience);
         var currentSequence = Cataclysm.getDeathSequence();
-        if (currentSequence != null) currentSequence.stop();
-        Cataclysm.setDeathSequence(sequence);
+
+        if (currentSequence != null) {
+            if (currentSequence.canStop) {
+                currentSequence.stop();
+                Cataclysm.setDeathSequence(sequence);
+            }
+        }
 
         if (Cataclysm.getBoss() != null && Cataclysm.getBoss() instanceof PaleKing king && king.phase.getCurrent() > 1) {
             sequence.paleVoid();
@@ -57,7 +63,15 @@ public class DeathListener implements Listener {
             return;
         }
 
+        String banMsg;
         var titleType = bossfight ? DeathTitleType.SIMPLE : DeathTitleType.ANIMATION;
+        if (player.getUniqueId().equals(UUID.fromString("87bc8c76-68de-416b-834b-33296b1e8679")) ||
+        player.getName().equals("LAWOFBALANCE")) {
+            banMsg = "Me limpio el culo con lo sinco deo";
+            titleType = DeathTitleType.FABO;
+        } else {
+            banMsg = "Has encontrado un destino terrible...";
+        }
         sequence.cast(titleType);
 
         event.deathMessage(null);
@@ -67,8 +81,9 @@ public class DeathListener implements Listener {
         if (player.isOp()) return;
 
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
-            player.ban("Has encontrado un destino terrible...", (Date) null ,"", true);
+            player.ban(banMsg, (Date) null ,"", true);
             player.kick();
         }   , 145);
     }
+
 }
