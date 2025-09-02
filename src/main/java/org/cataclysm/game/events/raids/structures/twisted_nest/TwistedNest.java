@@ -17,6 +17,6 @@ public class TwistedNest extends RaidStructure {
 
     @Override
     public CataclysmArea getBossArena() {
-        return new CataclysmArea(new Location(Dimensions.OVERWORLD.getWorld(), 1344.5, -58, 9784), 70);
+        return new CataclysmArea(new Location(Dimensions.OVERWORLD.createWorld(), 1344.5, -58, 9784), 70);
     }
 }

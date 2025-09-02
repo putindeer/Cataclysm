@@ -65,7 +65,7 @@ public class Fishmoth extends CataclysmMob {
             CataclysmToken token = CataclysmMob.getToken(damager);
             if (token == null || !token.key().equals(this.fishmoth.getMobToken().key())) return;
 
-            if (damager.getWorld() != Dimensions.PALE_VOID.getWorld()) return;
+            if (damager.getWorld() != Dimensions.PALE_VOID.createWorld()) return;
             if (!(event.getEntity() instanceof Player player)) return;
 
             player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 100, 0));

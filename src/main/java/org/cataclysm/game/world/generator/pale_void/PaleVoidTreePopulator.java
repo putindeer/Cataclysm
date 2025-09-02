@@ -1,11 +1,8 @@
 package org.cataclysm.game.world.generator.pale_void;
 
-import com.sk89q.worldedit.world.block.BlockType;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
-import org.bukkit.block.data.type.CreakingHeart;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.LimitedRegion;
 import org.bukkit.generator.WorldInfo;
@@ -13,7 +10,6 @@ import org.cataclysm.game.world.Dimensions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class PaleVoidTreePopulator extends BlockPopulator {
 
@@ -23,11 +19,11 @@ public class PaleVoidTreePopulator extends BlockPopulator {
         int Z = random.nextInt(16) + (chunkZ * 16);
         int Y = 16;
 
-        if (!limitedRegion.isInRegion(new Location(Dimensions.PALE_VOID.getWorld(), X, Y, Z))) return;
+        if (!limitedRegion.isInRegion(new Location(Dimensions.PALE_VOID.createWorld(), X, Y, Z))) return;
 
         while (limitedRegion.getType(X, Y, Z) != Material.AIR) Y++;
 
-        Location firstTreeLocation = new Location(Dimensions.PALE_VOID.getWorld(), X, Y, Z);
+        Location firstTreeLocation = new Location(Dimensions.PALE_VOID.createWorld(), X, Y, Z);
         Material startMaterial = limitedRegion.getType(firstTreeLocation.clone().add(0.0D, -1.0D, 0.0D));
 
         if (!limitedRegion.isInRegion(firstTreeLocation)) return;
@@ -43,7 +39,7 @@ public class PaleVoidTreePopulator extends BlockPopulator {
                 int newZ = Z + offsetZ;
                 int newY = Y;
 
-                Location newTreeLocation = new Location(Dimensions.PALE_VOID.getWorld(), newX, newY, newZ);
+                Location newTreeLocation = new Location(Dimensions.PALE_VOID.createWorld(), newX, newY, newZ);
                 if (!limitedRegion.isInRegion(newTreeLocation)) continue;
 
                 while (newY > 0 && limitedRegion.getType(newX, newY, newZ) == Material.AIR) newY--;

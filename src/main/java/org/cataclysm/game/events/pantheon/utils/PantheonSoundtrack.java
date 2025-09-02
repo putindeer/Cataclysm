@@ -1,8 +1,7 @@
-package org.cataclysm.game.events.ending.pantheon.utils;
+package org.cataclysm.game.events.pantheon.utils;
 
 import net.kyori.adventure.key.Key;
 import org.cataclysm.api.Soundtrack;
-import org.cataclysm.game.events.ending.pantheon.PantheonOfCataclysm;
 
 public class PantheonSoundtrack {
     private final Soundtrack soundtrack = new Soundtrack();
@@ -28,7 +27,6 @@ public class PantheonSoundtrack {
 
     public void registerTracks() {
         soundtrack.addTrack("RAGNAROK_THEME", Key.key("cataclysm.ragnarok.theme"));
-
         soundtrack.addTrack("CATACLYSM_THEME_1", Key.key("cataclysm.cataclysm.theme_1"));
         soundtrack.addTrack("CATACLYSM_THEME_2", Key.key("cataclysm.ragnarok.theme_2"));
     }

@@ -142,7 +142,7 @@ public class BiomeBasedSpawner {
     }
 
     private boolean spawnForestMob(SpawnContext ctx, int probability) {
-        if (ctx.location.getWorld().equals(Dimensions.NETHER.getWorld())) return false;
+        if (ctx.location.getWorld().equals(Dimensions.NETHER.createWorld())) return false;
         if (ctx.location.getY() < 60) return false;
 
         if (SpawnUtils.isForestBiome(ctx.biomeName)) {

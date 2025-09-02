@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.ending.pantheon.utils;
+package org.cataclysm.game.events.pantheon.utils;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,6 @@ import org.bukkit.potion.PotionEffect;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.global.utils.text.font.TinyCaps;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -51,7 +50,7 @@ public class PantheonDispatcher {
                 executor.schedule(() -> {
                     Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
                         audience.sendActionBar(message);
-                        audience.playSound(Sound.sound(Key.key("ui.button.click"), Sound.Source.MASTER, 0.5F, 1.95F));
+                        audience.playSound(Sound.sound(Key.key("ui.button.click"), Sound.Source.MASTER, 0.35F, 2F));
                     });
                 }, (i * (long) interval), TimeUnit.MILLISECONDS);
             }
@@ -59,8 +58,19 @@ public class PantheonDispatcher {
         this.acumulatedMillis += (totalDuration + cooldown);
     }
 
+    public void sendActionBar(String text) {
+        sendActionBar(text, 10.0);
+    }
+
+    public void sendActionBar(String text, double lps) {
+        long letterCount = text.chars().filter(Character::isLetter).count();
+        int totalDuration = (int) ((letterCount / lps) * 1000);
+        if (totalDuration < 1000 && letterCount > 0) totalDuration = 1000;
+        this.sendActionBar(text, totalDuration, totalDuration/2);
+    }
+
     /**
-     * Sends a formatted message to the audience with a prefixed "pantheon of cataclysm" label.
+     * Sends a formatted message to the audience with a prefixed label.
      * The prefix and message are colorized using CataclysmColor and formatted with MiniMessage.
      *
      * @param text the message content to send
@@ -71,17 +81,59 @@ public class PantheonDispatcher {
         audience.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "  <#727272>» " + msg));
     }
 
-    public void playSounds(Sound @NotNull ... sounds) {
-        for (Sound sound : sounds) audience.playSound(sound);
+    /**
+     * Plays the given sounds for the audience.
+     *
+     * @param sounds the sounds to play
+     */
+    public void playSounds(Sound... sounds) {
+        executor.schedule(() -> {
+            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
+                for (Sound sound : sounds) audience.playSound(sound);
+            });
+        }, this.acumulatedMillis, TimeUnit.MILLISECONDS);
     }
 
-    public void addEffects(PotionEffect @NotNull ... effects) {
+    /**
+     * Adds the specified potion effects to all players in the audience.
+     *
+     * @param effects the potion effects to add
+     */
+    public void addEffects(PotionEffect... effects) {
         for (PotionEffect effect : effects) audience.forEachAudience(ad -> {
             if (ad instanceof Player player) player.addPotionEffect(effect);
         });
     }
 
-    private @NotNull String wrapPrefix(String prefix) {
+    public void schedule(Runnable runnable, int millis) {
+        executor.schedule(() -> {
+            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), runnable);
+        }, this.acumulatedMillis + millis, TimeUnit.MILLISECONDS);
+    }
+
+    public void schedule(Runnable runnable) {
+        executor.schedule(() -> {
+            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), runnable);
+        }, this.acumulatedMillis, TimeUnit.MILLISECONDS);
+    }
+
+    public void addDelay(int millis) {
+        this.acumulatedMillis += millis;
+    }
+
+    public void resetDelay() {
+        this.acumulatedMillis = 0;
+    }
+
+    /**
+     * Wraps the given prefix string in a formatted tag for display.
+     * Applies a color and bold style to the brackets, resets formatting inside,
+     * and converts the prefix to tiny caps using TinyCaps.
+     *
+     * @param prefix the prefix string to format
+     * @return the formatted prefix string for MiniMessage
+     */
+    private String wrapPrefix(String prefix) {
         return "<#8c8c8c><b>[<reset>" + TinyCaps.tinyCaps(prefix) + "<#8c8c8c><b>]<reset>";
     }
 }

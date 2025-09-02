@@ -24,7 +24,7 @@ import org.cataclysm.api.boss.events.BossChannelAbilityEvent;
 import org.cataclysm.api.boss.events.BossFightEndEvent;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.listener.registrable.Registrable;
-import org.cataclysm.game.events.ending.pantheon.boss.PantheonBoss;
+import org.cataclysm.game.events.pantheon.boss.PantheonBoss;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.rage.RageAbility;
 import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
 import org.cataclysm.global.utils.chat.ChatMessenger;
@@ -201,6 +201,7 @@ public class BossListener implements Listener {
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent event) {
         var player = event.getPlayer();
+
         var bossFight = Cataclysm.getBoss();
 
         if (bossFight != null) {
@@ -222,5 +223,4 @@ public class BossListener implements Listener {
 
         if (event.getTarget() != null && event.getTarget() == bossFight.controller) event.setCancelled(true);
     }
-
 }

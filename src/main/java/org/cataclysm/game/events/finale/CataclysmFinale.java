@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.ending.finale;
+package org.cataclysm.game.events.finale;
 
 public class CataclysmFinale {
 

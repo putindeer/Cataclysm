@@ -1,17 +1,14 @@
 package org.cataclysm.game.world;
 
 import lombok.Getter;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
+import org.bukkit.*;
 import org.bukkit.util.NumberConversions;
 import org.cataclysm.game.world.generator.VoidGenerator;
 
 @Getter
 public enum Dimensions {
     BETA(new WorldCreator("world_beta").type(WorldType.FLAT)),
-    PANTHEON(new WorldCreator("world_pantheon").generator(new VoidGenerator())),
+    PANTHEON(new WorldCreator("world_pantheon")),
 
     OVERWORLD(new WorldCreator("world")),
     NETHER(new WorldCreator("world_nether")),
@@ -26,11 +23,23 @@ public enum Dimensions {
     }
 
     public World getWorld() {
-        return this.worldCreator.createWorld();
+        return Bukkit.getWorld(worldCreator.name());
+    }
+
+    public World createWorld() {
+        World world = this.worldCreator.createWorld();
+        if (world == null) return Bukkit.getWorld(this.worldCreator.name());
+        if (this == PANTHEON) {
+            world.setTime(18000);
+            world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+            world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+            world.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, true);
+        }
+        return world;
     }
 
     public double getDistanceFromSpawn(Location location) {
-        var spawnLocation = this.getWorld().getSpawnLocation();
+        var spawnLocation = this.createWorld().getSpawnLocation();
         int spawnX = spawnLocation.getBlockX();
         int spawnZ = spawnLocation.getBlockZ();
         int otherX = location.getBlockX();

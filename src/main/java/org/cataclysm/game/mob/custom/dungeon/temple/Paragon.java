@@ -252,7 +252,7 @@ public class Paragon extends CataclysmMob {
                 Location location = MobUtils.getNearestBlock(livingEntity.getLocation(), CORE_BLOCK_TYPE, DISPER_RADIUS);
                 if (location != null) {
                     this.paragon.setCoreBlock(location);
-                    if (location.getWorld() == Dimensions.PALE_VOID.getWorld()) {
+                    if (location.getWorld() == Dimensions.PALE_VOID.createWorld()) {
                         livingEntity.customName(MiniMessage.miniMessage().deserialize("<" + ItemFamily.PALE_ARMOR.getColor() + ">Pale Paragon"));
                     }
                 } else Bukkit.getConsoleSender().sendMessage("Paragon location was null");
@@ -276,7 +276,7 @@ public class Paragon extends CataclysmMob {
     public double getBaseSpeed() {
         float velocity = 0.25F;
         if (Cataclysm.getDay() >= 7) velocity += 0.10F;
-        if (this.getBukkitLivingEntity().getWorld() == Dimensions.PALE_VOID.getWorld()) velocity *= 2;
+        if (this.getBukkitLivingEntity().getWorld() == Dimensions.PALE_VOID.createWorld()) velocity *= 2;
         return velocity;
     }
 }

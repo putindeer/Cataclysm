@@ -27,6 +27,7 @@ public class Soundtrack {
         for (var player : Bukkit.getOnlinePlayers()) {
             player.playSound(sound);
         }
+        if (this.future == null) return;
         this.future.cancel(true);
         this.future = null;
     }
