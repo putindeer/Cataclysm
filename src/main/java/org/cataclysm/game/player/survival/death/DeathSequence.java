@@ -57,7 +57,7 @@ public class DeathSequence {
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 50, 0)), 20);
 
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
-            Location location = Dimensions.PALE_VOID.getWorld().getSpawnLocation().clone().add(0, 30, 0);
+            Location location = Dimensions.PALE_VOID.createWorld().getSpawnLocation().clone().add(0, 30, 0);
             player.teleport(location);
             player.setGameMode(GameMode.SURVIVAL);
             player.playSound(player, org.bukkit.Sound.ENTITY_ELDER_GUARDIAN_DEATH, 5F, 0.55F);

@@ -236,7 +236,7 @@ public class PlayerTask {
         }
 
         if (day >= 16) {
-            if (location.getBlockY() >= 190 && Dimensions.NETHER.getWorld().equals(location.getWorld()) && !PlayerUtils.hasMirageHelmet(player)) {
+            if (location.getBlockY() >= 190 && Dimensions.NETHER.createWorld().equals(location.getWorld()) && !PlayerUtils.hasMirageHelmet(player)) {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 60, 0));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 30, 0));
             }
@@ -255,7 +255,7 @@ public class PlayerTask {
                     }
                 }
 
-                if (world.equals(Dimensions.PALE_VOID.getWorld())) {
+                if (world.equals(Dimensions.PALE_VOID.createWorld())) {
                     if (player.getLocation().distance(spawnLocation) < 200) {
                         player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 60, 9, true, false, false));
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 60, 0, true, false, false));
@@ -269,7 +269,7 @@ public class PlayerTask {
         }
 
         if (day >= 35) {
-            if (player.getWorld().equals(Dimensions.NETHER.getWorld())) {
+            if (player.getWorld().equals(Dimensions.NETHER.createWorld())) {
                 player.removePotionEffect(PotionEffectType.FIRE_RESISTANCE);
                 player.setFireTicks(20 * 60 * 60);
             }

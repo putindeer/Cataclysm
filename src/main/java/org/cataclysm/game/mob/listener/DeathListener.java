@@ -49,7 +49,7 @@ public class DeathListener implements Listener {
                     for (var face : faces) {
                         var spawnLocation = location.getBlock().getRelative(face).getLocation();
                         CataclysmMob vexToSpawn = new TwilightVex(level);
-                        if (location.getWorld().equals(Dimensions.PALE_VOID.getWorld())) vexToSpawn = new PaleVex(level);
+                        if (location.getWorld().equals(Dimensions.PALE_VOID.createWorld())) vexToSpawn = new PaleVex(level);
                         vexToSpawn.addFreshEntity(spawnLocation);
                     }
                 }

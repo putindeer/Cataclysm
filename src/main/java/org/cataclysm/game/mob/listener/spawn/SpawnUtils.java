@@ -27,7 +27,7 @@ public class SpawnUtils {
     public static void setMobCap(Entity entity, double maxPerPlayer, int maxPerChunk, double multiplier) {
         if (entity.getEntitySpawnReason().equals(CreatureSpawnEvent.SpawnReason.SPAWNER_EGG) || entity.getEntitySpawnReason().equals(CreatureSpawnEvent.SpawnReason.COMMAND)) return;
 
-        if (!entity.getLocation().getWorld().equals(Dimensions.THE_END.getWorld())){
+        if (!entity.getLocation().getWorld().equals(Dimensions.THE_END.createWorld())){
            if (maxPerPlayer > 12) maxPerPlayer = 12;
            maxPerChunk = 2;
        }

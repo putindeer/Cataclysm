@@ -12,11 +12,11 @@ public class PalePalace extends RaidStructure {
 
     @Override
     public CataclysmArea getArea() {
-        return new CataclysmArea(new Location(Dimensions.THE_END.getWorld(), -145, 20, -648), 200);
+        return new CataclysmArea(new Location(Dimensions.THE_END.createWorld(), -145, 20, -648), 200);
     }
 
     @Override
     public CataclysmArea getBossArena() {
-        return new CataclysmArea(new Location(Dimensions.THE_END.getWorld(), -145, -58, -648), 65);
+        return new CataclysmArea(new Location(Dimensions.THE_END.createWorld(), -145, -58, -648), 65);
     }
 }

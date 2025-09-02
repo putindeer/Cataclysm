@@ -26,7 +26,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.persistence.PersistentDataType;
-import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.mob.MobUtils;
@@ -101,7 +100,7 @@ public class Headsman extends CataclysmMob {
             CataclysmToken token = CataclysmMob.getToken(damager);
             if (token == null || !token.key().equals(this.headsman.getMobToken().key())) return;
 
-            if (damager.getWorld() != Dimensions.PALE_VOID.getWorld()) return;
+            if (damager.getWorld() != Dimensions.PALE_VOID.createWorld()) return;
             event.setDamage(event.getFinalDamage() * 2);
         }
 

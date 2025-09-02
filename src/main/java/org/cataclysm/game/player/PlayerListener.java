@@ -68,7 +68,7 @@ public class PlayerListener implements Listener {
         Boolean paleVoid = PersistentData.get(player, "HAS-ENTERED-PALE-VOID", PersistentDataType.BOOLEAN);
         if (paleVoid != null && paleVoid) return;
 
-        Location location = Dimensions.PALE_VOID.getWorld().getSpawnLocation().clone();
+        Location location = Dimensions.PALE_VOID.createWorld().getSpawnLocation().clone();
         player.teleport(location.add(0, 15, 0));
         player.clearActivePotionEffects();
         player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, 200, 0, false, false, false));
@@ -327,8 +327,8 @@ public class PlayerListener implements Listener {
         if (day >= 28) {
             if (cause == EntityDamageEvent.DamageCause.VOID) event.setDamage(999);
 
-            if (player.getWorld().equals(Dimensions.PALE_VOID.getWorld())) {
-                var distance = player.getLocation().distance(Dimensions.PALE_VOID.getWorld().getSpawnLocation());
+            if (player.getWorld().equals(Dimensions.PALE_VOID.createWorld())) {
+                var distance = player.getLocation().distance(Dimensions.PALE_VOID.createWorld().getSpawnLocation());
 
                 if (distance <= 150) return;
 
@@ -574,13 +574,13 @@ public class PlayerListener implements Listener {
             case NETHER_PORTAL, END_PORTAL, END_GATEWAY -> player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 20 * 5, 0));
         }
 
-        if (locationFrom.getWorld().equals(Dimensions.OVERWORLD.getWorld())
+        if (locationFrom.getWorld().equals(Dimensions.OVERWORLD.createWorld())
                 && locationTo.getWorld().getName().equalsIgnoreCase("world_the_end")) {
 
             event.setCancelled(true);
 
             // Teleport diferido para evitar recursión infinita
-            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> player.teleport(new Location(Dimensions.THE_END.getWorld(), 0, -56, -290)));
+            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> player.teleport(new Location(Dimensions.THE_END.createWorld(), 0, -56, -290)));
         }
     }
 

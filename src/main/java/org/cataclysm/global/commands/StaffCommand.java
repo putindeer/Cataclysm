@@ -47,6 +47,7 @@ import java.util.UUID;
 @CommandAlias("staff")
 @CommandPermission("admin.perms")
 public class StaffCommand extends BaseCommand {
+
     @Subcommand("palevoid entrance")
     @CommandCompletion("@players true|false")
     private void palevoidEntrance(Player player, boolean entrance) {
@@ -147,7 +148,7 @@ public class StaffCommand extends BaseCommand {
     @Subcommand("teleport")
     private void teleport(CommandSender commandSender, Dimensions dimensions) {
         if (!(commandSender instanceof Player player)) return;
-        player.teleport(dimensions.getWorld().getSpawnLocation());
+        player.teleport(dimensions.createWorld().getSpawnLocation());
     }
 
     @Subcommand("structure")

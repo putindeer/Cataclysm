@@ -31,7 +31,7 @@ public class LootListener implements Listener {
     @EventHandler
     private void onTrialSpawnerSpawn(TrialSpawnerSpawnEvent event) {
         var entity = event.getEntity();
-        if (!entity.getWorld().equals(Dimensions.NETHER.getWorld())) return;
+        if (!entity.getWorld().equals(Dimensions.NETHER.createWorld())) return;
         var location = entity.getLocation();
         var level = ((CraftWorld) location.getWorld()).getHandle();
         CataclysmMob mobToSpawn = null;
@@ -62,7 +62,7 @@ public class LootListener implements Listener {
     private void onGenerateLoot(BlockDispenseLootEvent event) {
         var block = event.getBlock();
         var world = block.getWorld();
-        if (!world.equals(Dimensions.NETHER.getWorld())) return;
+        if (!world.equals(Dimensions.NETHER.createWorld())) return;
         List<ItemStack> lootPool = List.of();
         int roll = RANDOM.nextInt(100);
 

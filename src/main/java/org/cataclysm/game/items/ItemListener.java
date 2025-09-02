@@ -191,7 +191,7 @@ public class ItemListener implements Listener {
                 }
 
                 var nearestStructure = CataclysmStructure.getNearestStructure(
-                        Dimensions.valueOf(builder.getCustomData("dimension")).getWorld(),
+                        Dimensions.valueOf(builder.getCustomData("dimension")).createWorld(),
                         builder.getCustomData("structure")
                 );
 

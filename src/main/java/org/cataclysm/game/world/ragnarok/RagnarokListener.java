@@ -26,7 +26,7 @@ public class RagnarokListener implements Listener {
 
     @EventHandler
     private void onCreatureSpawn(CreatureSpawnEvent event) {
-        if (event.getLocation().getWorld().equals(Dimensions.THE_END.getWorld())) return;
+        if (event.getLocation().getWorld().equals(Dimensions.THE_END.createWorld())) return;
         var ragnarok = Cataclysm.getRagnarok();
         if (ragnarok == null) return;
 

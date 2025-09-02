@@ -295,7 +295,7 @@ public class VanillaMobTransformer {
 
             if (level >= 7) {
                 if (level >= 8) probability += 20;
-                if (ctx.entity.getWorld().equals(Dimensions.OVERWORLD.getWorld()) && probability >= 75) {
+                if (ctx.entity.getWorld().equals(Dimensions.OVERWORLD.createWorld()) && probability >= 75) {
                     switch (ctx.random.nextInt(4)) {
                         case 0 -> phantom = new TrinityGhast(ctx.level);
                         case 1 -> phantom = new WraithGhast(ctx.level);
@@ -395,7 +395,7 @@ public class VanillaMobTransformer {
 
     private boolean transformEnderman(SpawnContext ctx) {
         if (ctx.day >= 14) {
-            if (ctx.location.getWorld() == Dimensions.NETHER.getWorld() || ctx.day < 21) {
+            if (ctx.location.getWorld() == Dimensions.NETHER.createWorld() || ctx.day < 21) {
                 ctx.entity.remove();
                 AggressiveEnderMan aggressiveEnderman = new AggressiveEnderMan(ctx.level);
                 aggressiveEnderman.addFreshEntity(ctx.location);

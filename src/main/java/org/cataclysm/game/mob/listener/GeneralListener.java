@@ -7,7 +7,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
@@ -25,7 +24,7 @@ public class GeneralListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onSpawn(CreatureSpawnEvent event) {
-        World world = Dimensions.PALE_VOID.getWorld();
+        World world = Dimensions.PALE_VOID.createWorld();
         if (world == null) return;
 
         Location spawnLocation = world.getSpawnLocation();

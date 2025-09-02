@@ -1,12 +1,11 @@
 package org.cataclysm.game.events.pantheon.boss;
 
 import lombok.Getter;
-import org.cataclysm.game.events.pantheon.boss.ragnarok.TheRagnarok;
+import org.cataclysm.game.events.pantheon.boss.the_cataclysm.TheCataclysm;
 
 @Getter
 public enum PantheonBosses {
-
-    THE_RAGNAROK(new TheRagnarok())
+    THE_CATACLYSM(new TheCataclysm())
 
     ;
 

@@ -43,7 +43,7 @@ public class SpecialMobTransformer {
     }
 
     private boolean replacePaleMobs(SpawnContext ctx) {
-        if (!ctx.location.getWorld().equals(Dimensions.PALE_VOID.getWorld())) return false;
+        if (!ctx.location.getWorld().equals(Dimensions.PALE_VOID.createWorld())) return false;
 
         if (Dimensions.PALE_VOID.getDistanceFromSpawn(ctx.location) <= 150) { // Avoid spawning mobs in a radius of 150 blocks of spawn center
             ctx.entity.remove();
@@ -130,7 +130,7 @@ public class SpecialMobTransformer {
     }
 
     private boolean replaceEndMobs(SpawnContext ctx) {
-        if (!ctx.location.getWorld().equals(Dimensions.THE_END.getWorld())) return false;
+        if (!ctx.location.getWorld().equals(Dimensions.THE_END.createWorld())) return false;
 
         CataclysmMob mobToSpawn = null;
         int mobsPerPlayer = 20;

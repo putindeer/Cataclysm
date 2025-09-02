@@ -201,6 +201,7 @@ public class BossListener implements Listener {
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent event) {
         var player = event.getPlayer();
+
         var bossFight = Cataclysm.getBoss();
 
         if (bossFight != null) {
@@ -222,5 +223,4 @@ public class BossListener implements Listener {
 
         if (event.getTarget() != null && event.getTarget() == bossFight.controller) event.setCancelled(true);
     }
-
 }

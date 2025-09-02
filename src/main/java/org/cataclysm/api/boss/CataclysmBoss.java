@@ -38,6 +38,7 @@ public abstract class CataclysmBoss implements Cloneable {
 
     protected @Getter BossBar bossBar;
     protected @Getter BossBar healthBar;
+
     protected @Getter Player controller;
     protected @Getter CataclysmArea arena;
 
@@ -70,15 +71,11 @@ public abstract class CataclysmBoss implements Cloneable {
     public abstract BossBar buildBossBar();
 
     public void startFight() {
-        setUpController(true);
-
         if (this.listener != null) Bukkit.getPluginManager().registerEvents(this.listener, Cataclysm.getInstance());
         this.thread.startTickTask();
 
-        for (var player : arena.getPlayersInArena()) {
-            this.bossBar.addViewer(player);
-            this.healthBar.addViewer(player);
-        }
+        setUpBossBar(true);
+        setUpController(true);
 
         new BossFightStartEvent(this).callEvent();
         onStart();
@@ -90,7 +87,7 @@ public abstract class CataclysmBoss implements Cloneable {
         this.thread.service.shutdownNow();
         this.soundtrack.stopAll();
 
-        setUpBossBar(true);
+        setUpBossBar(false);
         setUpController(false);
 
         new BossFightEndEvent(this).callEvent();
@@ -129,7 +126,7 @@ public abstract class CataclysmBoss implements Cloneable {
         setControllerData(controller, true);
     }
 
-    private void setUpBossBar(boolean bossBar) {
+    public void setUpBossBar(boolean bossBar) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (bossBar) {
                 this.bossBar.addViewer(player);
@@ -141,7 +138,7 @@ public abstract class CataclysmBoss implements Cloneable {
         }
     }
 
-    private void setUpController(boolean fighting) {
+    public void setUpController(boolean fighting) {
         if (this.controller == null) return;
 
         double value;

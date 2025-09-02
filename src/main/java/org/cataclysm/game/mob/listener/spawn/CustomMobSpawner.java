@@ -1,15 +1,8 @@
 package org.cataclysm.game.mob.listener.spawn;
 
-import net.minecraft.world.entity.EquipmentSlot;
-import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Skeleton;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.FireworkMeta;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.game.mob.custom.cataclysm.QuantumReactor;
@@ -19,11 +12,9 @@ import org.cataclysm.game.mob.custom.cataclysm.arcane.ArcaneSpider;
 import org.cataclysm.game.mob.custom.cataclysm.calamity.*;
 import org.cataclysm.game.mob.custom.cataclysm.twisted.*;
 import org.cataclysm.game.mob.custom.vanilla.ghast.*;
-import org.cataclysm.game.mob.custom.vanilla.piglin.Pyrotechnic;
 import org.cataclysm.game.mob.custom.vanilla.skeleton.wither.Bowmaster;
 import org.cataclysm.game.mob.custom.vanilla.skeleton.wither.NetherNightmare;
 import org.cataclysm.game.mob.custom.vanilla.skeleton.wither.Swordmaster;
-import org.cataclysm.game.mob.utils.MobUtils;
 import org.cataclysm.game.world.Dimensions;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,7 +39,7 @@ public class CustomMobSpawner {
     private boolean spawnCalamityMobs(SpawnContext ctx) {
         if (ctx.day < 21) return false;
         if (ctx.random.nextBoolean()) return false;
-        if (!ctx.location.getWorld().equals(Dimensions.NETHER.getWorld())) return false;
+        if (!ctx.location.getWorld().equals(Dimensions.NETHER.createWorld())) return false;
 
         CataclysmMob mobToSpawn = null;
 

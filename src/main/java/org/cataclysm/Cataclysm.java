@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.cataclysm.api.boss.CataclysmBoss;
+import org.cataclysm.game.events.finale.CataclysmFinale;
 import org.cataclysm.game.events.limited.EventManager;
 import org.cataclysm.game.events.limited.data.EventLoader;
 import org.cataclysm.api.item.crafting.CataclysmRecipes;
@@ -52,6 +53,7 @@ public final class Cataclysm extends JavaPlugin {
     private static final @Getter HashMap<String, CataclysmPlayer> cataclysmPlayers = new HashMap<>();
 
     private static @Getter @Setter PantheonOfCataclysm pantheon;
+    private static @Getter @Setter CataclysmFinale finale;
 
     private static @Getter Cataclysm instance;
     private static @Getter MobStore store;

@@ -3,6 +3,7 @@ package org.cataclysm.api;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
 
 import java.util.HashMap;
@@ -26,11 +27,13 @@ public class Soundtrack {
         for (var player : Bukkit.getOnlinePlayers()) {
             player.playSound(sound);
         }
+        if (this.future == null) return;
         this.future.cancel(true);
         this.future = null;
     }
 
     public void stopAll() {
+        if (this.future == null) return;
         for (var player : Bukkit.getOnlinePlayers()) {
             for (var x : this.soundtrack.entrySet()) {
                 player.stopSound(x.getValue());
@@ -47,16 +50,15 @@ public class Soundtrack {
     }
 
     public void loop(Sound sound, int duration) {
-        var bossFight = Cataclysm.getBoss();
-        if (bossFight == null) return;
+        for (Player player : Bukkit.getOnlinePlayers()) player.playSound(sound);
 
-        var arena = bossFight.getArena();
-        var nearby = arena.getPlayersInArena();
-        for (var player : nearby) player.playSound(sound);
-
-        ScheduledExecutorService service = bossFight.getThread().getService();
+        ScheduledExecutorService service = Cataclysm.getService();
         this.future = service.schedule(() -> {
             Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> this.loop(sound, duration));
         }, duration, TimeUnit.SECONDS);
+    }
+
+    public HashMap<String, Sound> getTrackList() {
+        return soundtrack;
     }
 }
