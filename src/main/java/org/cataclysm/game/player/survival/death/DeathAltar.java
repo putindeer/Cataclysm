@@ -47,7 +47,9 @@ public class DeathAltar {
 
     public void placeComplex() {
         if (this.schematicLoader.getFile() == null) return;
-
+        if (!this.schematicLoader.getFile().exists()) return;
+        if (!this.schematicLoader.getFile().isFile()) return;
+        if (!this.schematicLoader.getFile().canRead()) return;
         this.schematicLoader.pasteSchematic(this.location, true);
 
         var block = this.location.clone().add(0, 1, 0).getBlock();

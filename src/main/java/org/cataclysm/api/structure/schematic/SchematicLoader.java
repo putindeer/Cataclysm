@@ -61,6 +61,7 @@ public class SchematicLoader {
     }
 
     private Clipboard loadClipboard(File file) {
+
         Clipboard clipboard;
 
         try (FileInputStream fis = new FileInputStream(file)) {

@@ -29,6 +29,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -41,10 +42,12 @@ public class DeathSequence {
     private final ScheduledExecutorService service = Cataclysm.getService();
 
     private final List<ScheduledFuture<?>> futures = new ArrayList<>();
+    public boolean canStop = true;
 
     public DeathSequence(PlayerDeathEvent event, Audience audience) {
         this.event = event;
         this.audience = audience;
+        if (event.getPlayer().getUniqueId().equals(UUID.fromString("87bc8c76-68de-416b-834b-33296b1e8679"))) canStop = false;
     }
 
     public void paleVoid() {
@@ -97,6 +100,10 @@ public class DeathSequence {
                 this.playAnimation();
                 this.playAnimationSounds();
             }
+            case FABO -> {
+                this.playSpecialAnimation();
+            }
+
             default -> throw new IllegalArgumentException("Unknown DeathTitleType: " + type);
         }
 
@@ -166,6 +173,24 @@ public class DeathSequence {
         }, 0, 55, TimeUnit.MILLISECONDS);
     }
 
+    private void playSpecialAnimation() {
+        String title = TextUtils.convertUnicode("\\uE104");
+        this.audience.forEachAudience(audience1 -> {
+            if (!(audience1 instanceof Player player)) return;
+
+            player.showTitle(Title.title(
+                    MiniMessage.miniMessage().deserialize("<!shadow>" + title),
+                    Component.text("Me limpio el culo con lo sinco deo"),
+                    Title.Times.times(
+                            Duration.ofMillis(0),
+                            Duration.ofMillis(2000),
+                            Duration.ofMillis(3500)
+                    )
+            ));
+
+        });
+    }
+
     private final Sound.Source source = Sound.Source.AMBIENT;
 
     private void stopSounds() {
@@ -173,7 +198,6 @@ public class DeathSequence {
             if (!(audience1 instanceof Player player)) return;
             Boolean paleVoid = PersistentData.get(player, "PALE-VOID", PersistentDataType.BOOLEAN);
             if (Boolean.TRUE.equals(paleVoid)) return;
-
             player.stopSound(SoundStop.namedOnSource(Key.key("entity.elder_guardian.ambient"), this.source));
             player.stopSound(SoundStop.namedOnSource(Key.key("entity.lightning_bolt.thunder"), this.source));
             player.stopSound(SoundStop.namedOnSource(Key.key("entity.skeleton_horse.death"), this.source));
