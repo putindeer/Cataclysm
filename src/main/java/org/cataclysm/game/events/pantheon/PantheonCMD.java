@@ -19,9 +19,15 @@ public class PantheonCMD extends BaseCommand {
         Cataclysm.setPantheon(new PantheonOfCataclysm());
     }
 
+    @Subcommand("change")
+    private void change(PantheonLevels level) {
+        PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
+        pantheon.changeLevel(level);
+    }
+
     @Subcommand("warp")
     @CommandCompletion(" @players")
-    private void warp(CommandSender sender, PantheonZones zones, @Optional Player player) {
+    private void warp(CommandSender sender, PantheonLevels zones, @Optional Player player) {
         if (player == null) PantheonWarper.warp(zones);
         else PantheonWarper.teleport(player, zones);
     }

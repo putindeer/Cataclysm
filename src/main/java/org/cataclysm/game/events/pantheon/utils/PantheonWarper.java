@@ -8,7 +8,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.effect.ImmunityEffect;
-import org.cataclysm.game.events.pantheon.PantheonZones;
+import org.cataclysm.game.events.pantheon.PantheonLevels;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
@@ -20,7 +20,7 @@ public class PantheonWarper {
      *
      * @param zone the PantheonZones destination to warp players to
      */
-    public static void warp(PantheonZones zone) {
+    public static void warp(PantheonLevels zone) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 100, 0, false, false));
             player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, 100, 0, false, false));
@@ -37,7 +37,7 @@ public class PantheonWarper {
      * @param player   the player to teleport (must not be null)
      * @param zone the PantheonZone destination
      */
-    public static void teleport(@NotNull Player player, PantheonZones zone) {
+    public static void teleport(@NotNull Player player, PantheonLevels zone) {
         playTeleportSound(player);
         showWhitescreen(player, 1000, 4500, 1500);
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () ->

@@ -8,7 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.entity.LivingEntity;
 import org.cataclysm.api.boss.CataclysmArea;
-import org.cataclysm.game.events.pantheon.PantheonZones;
+import org.cataclysm.game.events.pantheon.PantheonLevels;
 import org.cataclysm.game.events.pantheon.boss.PantheonBoss;
 import org.cataclysm.game.events.pantheon.boss.the_ragnarok.TheRagnarok;
 import org.cataclysm.game.events.pantheon.boss.the_cataclysm.utils.TheCataclysmEvents;
@@ -24,7 +24,7 @@ public class TheCataclysm extends PantheonBoss {
 
     public TheCataclysm() {
         super("The Cataclysm", 3000);
-        super.arena = new CataclysmArea(PantheonZones.STORMS_EYE.getLocation(), 100);
+        super.arena = new CataclysmArea(PantheonLevels.STORMS_EYE.getLocation(), 100);
         this.eventManager = new TheCataclysmEvents(this);
     }
 

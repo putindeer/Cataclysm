@@ -6,7 +6,7 @@ import org.bukkit.World;
 import org.cataclysm.game.world.Dimensions;
 
 @Getter
-public enum PantheonZones {
+public enum PantheonLevels {
     PANTHEON_ENTRANCE(new Location(Dimensions.PALE_VOID.getWorld(), 1000, 140, 1000)),
     PANTHEON_FOUNTAIN(new Location(Dimensions.PANTHEON.getWorld(), 0, 1, 0)),
     TWISTED_CITY(new Location(Dimensions.PANTHEON.getWorld(), -500, 1, 0)),
@@ -18,7 +18,7 @@ public enum PantheonZones {
 
     private final Location location;
 
-    PantheonZones(Location location) {this.location = location;}
+    PantheonLevels(Location location) {this.location = location;}
 
     public static World getPantheonWorld() {
         return Dimensions.PANTHEON.createWorld().getSpawnLocation().getWorld();
