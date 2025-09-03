@@ -1,5 +1,7 @@
 package org.cataclysm.game.events.pantheon.boss;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -19,11 +21,15 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.boss.CataclysmBoss;
+import org.cataclysm.api.boss.events.BossCastAbilityEvent;
 import org.cataclysm.api.boss.events.BossChannelAbilityEvent;
+import org.cataclysm.api.boss.events.BossFightEndEvent;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.game.events.pantheon.PantheonOfCataclysm;
+import org.cataclysm.global.utils.text.TextUtils;
 
+import java.time.Duration;
 import java.util.List;
 
 @Registrable
@@ -36,6 +42,24 @@ public class PantheonBossListener implements Listener {
             EntityDamageEvent.DamageCause.BLOCK_EXPLOSION,
             EntityDamageEvent.DamageCause.LIGHTNING
     );
+
+    @EventHandler
+    public void onBossFightEnd(BossFightEndEvent event) {
+        PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
+        if (pantheon == null || !(event.getBoss() instanceof PantheonBoss boss)) return;
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.showTitle(Title.title(
+                    MiniMessage.miniMessage().deserialize("<#a18d60>¡Sección Completada!"),
+                    MiniMessage.miniMessage().deserialize("<#b0a897>" + boss.getName() + " liberado"),
+                    Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(4), Duration.ofSeconds(2))
+            ));
+            player.playSound(player, Sound.ITEM_TRIDENT_THUNDER, 1, .75F);
+            player.playSound(player, Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, .9F);
+        }
+
+        boss.setUpBossBar(false);
+    }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
@@ -99,6 +123,20 @@ public class PantheonBossListener implements Listener {
     }
 
     @EventHandler
+    private void onBossCastAbility(BossCastAbilityEvent event) {
+        PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
+        if (pantheon == null || !(event.getBoss() instanceof PantheonBoss boss)) return;
+
+        PantheonAbility ability = (PantheonAbility) event.getAbility().clone();
+        if (ability.isBoosted()) {
+            Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
+                ability.setBoosted(false);
+                boss.setBoosted(false);
+            }, 20);
+        }
+    }
+
+    @EventHandler
     private void onBossChannelAbility(BossChannelAbilityEvent event) {
         PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
         if (pantheon == null || !(event.getBoss() instanceof PantheonBoss boss)) return;
@@ -106,10 +144,15 @@ public class PantheonBossListener implements Listener {
         if (!boss.getAbilityVisibility()) return;
 
         PantheonAbility ability = (PantheonAbility) event.getAbility().clone();
+
+        String display = ability.getHoverName();
+        if (ability.isBoosted()) display = TextUtils.buildGlitchedNotification(display);
+
         for (Player player : Bukkit.getOnlinePlayers()) {
-            pantheon.getDispatcher().sendMessage("El jefe usará la habilidad " + ability.getHoverName());
+            pantheon.getDispatcher().sendMessage("El jefe usará la habilidad " + display);
             player.playSound(player, Sound.BLOCK_END_PORTAL_FRAME_FILL, 3.0F, 0.65F);
             player.playSound(player, Sound.BLOCK_ENDER_CHEST_OPEN, 2.0F, 0.65F);
+            if (ability.getTitle() != null) player.showTitle(ability.getTitle());
         }
     }
 
@@ -137,7 +180,6 @@ public class PantheonBossListener implements Listener {
         abilities.forEach(ability -> {
             String triggerID = new ItemBuilder(ability.getTrigger()).getID();
             if (triggerID == null || !triggerID.equals(id)) return;
-
             boss.castAbility(ability);
             event.setCancelled(true);
         });

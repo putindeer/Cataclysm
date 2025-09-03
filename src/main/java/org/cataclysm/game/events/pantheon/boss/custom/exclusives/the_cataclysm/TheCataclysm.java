@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.boss.the_cataclysm;
+package org.cataclysm.game.events.pantheon.boss.custom.exclusives.the_cataclysm;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,9 +10,9 @@ import org.bukkit.entity.LivingEntity;
 import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.game.events.pantheon.PantheonLevels;
 import org.cataclysm.game.events.pantheon.boss.PantheonBoss;
-import org.cataclysm.game.events.pantheon.boss.the_ragnarok.TheRagnarok;
-import org.cataclysm.game.events.pantheon.boss.the_cataclysm.utils.TheCataclysmEvents;
-import org.cataclysm.game.events.pantheon.boss.the_cataclysm.utils.TheCataclysmPhases;
+import org.cataclysm.game.events.pantheon.boss.custom.exclusives.the_ragnarok.TheRagnarok;
+import org.cataclysm.game.events.pantheon.boss.custom.exclusives.the_cataclysm.utils.TheCataclysmEvents;
+import org.cataclysm.game.events.pantheon.boss.custom.exclusives.the_cataclysm.utils.TheCataclysmPhases;
 
 @Getter
 public class TheCataclysm extends PantheonBoss {

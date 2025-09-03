@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.boss.twisted_warden.abilities;
+package org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.abilities;
 
 import org.bukkit.*;
 import org.bukkit.craftbukkit.CraftWorld;
@@ -7,10 +7,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.ParticleHandler;
-import org.cataclysm.api.boss.ability.Ability;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.game.events.pantheon.boss.PantheonAbility;
-import org.cataclysm.game.events.pantheon.boss.twisted_warden.PantheonWarden;
+import org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.PantheonWarden;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;

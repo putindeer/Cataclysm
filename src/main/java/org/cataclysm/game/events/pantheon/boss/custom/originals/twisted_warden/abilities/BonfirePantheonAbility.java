@@ -1,11 +1,11 @@
-package org.cataclysm.game.events.pantheon.boss.twisted_warden.abilities;
+package org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.abilities;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.game.events.pantheon.boss.PantheonAbility;
-import org.cataclysm.game.events.pantheon.boss.twisted_warden.PantheonWarden;
+import org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.PantheonWarden;
 
 public class BonfirePantheonAbility extends PantheonAbility {
     private final PantheonWarden warden;

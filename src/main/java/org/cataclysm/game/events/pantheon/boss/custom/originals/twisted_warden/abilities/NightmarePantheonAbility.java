@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.boss.twisted_warden.abilities;
+package org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.abilities;
 
 import lombok.Getter;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -11,11 +11,10 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.boss.ability.AbilityUltimate;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.game.events.pantheon.boss.PantheonAbility;
-import org.cataclysm.game.events.pantheon.boss.twisted_warden.PantheonWarden;
-import org.cataclysm.game.events.pantheon.boss.twisted_warden.keys.PantheonWardenKeys;
+import org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.PantheonWarden;
+import org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.keys.PantheonWardenKeys;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
@@ -30,7 +29,12 @@ public class NightmarePantheonAbility extends PantheonAbility {
     private final PantheonWarden warden;
 
     public NightmarePantheonAbility(PantheonWarden warden) {
-        super(Material.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE, "Nightmare", "<#3E2270>", 4);
+        super(Material.SILENCE_ARMOR_TRIM_SMITHING_TEMPLATE, "Nightmare", "#3E2270", 4);
+        super.setTitle(Title.title(
+                MiniMessage.miniMessage().deserialize("<" + getColor() + ">" + getName()),
+                MiniMessage.miniMessage().deserialize("<#6a6070>ʏᴏᴜ ᴄᴀɴ'ᴛ ꜱᴇᴇ ɴᴏᴛʜɪɴɢ"),
+                Title.Times.times(Duration.ofSeconds(1), Duration.ofSeconds(3), Duration.ofSeconds(1))
+        ));
         this.warden = warden;
     }
 
@@ -55,7 +59,6 @@ public class NightmarePantheonAbility extends PantheonAbility {
             if (activate) this.warden.getSoundtrack().stopAll();
             else this.warden.getSoundtrack().loop("THEME", 224);
         });
-
         this.warden.setAbilityVisibility(!activate);
         this.toggleGlobalNightmare(activate);
     }
@@ -95,7 +98,7 @@ public class NightmarePantheonAbility extends PantheonAbility {
         player.showTitle(
                 Title.title(MiniMessage.miniMessage().deserialize("<#3E2270><obf>Nightmare"),
                 MiniMessage.miniMessage().deserialize("<#504A52><i>ɪ ꜱᴇᴇ ʏᴏᴜ..."),
-                Title.Times.times(Duration.ofMillis(500), Duration.ofSeconds(4000), Duration.ofMillis(2000))));
+                Title.Times.times(Duration.ofMillis(500), Duration.ofSeconds(4), Duration.ofMillis(2))));
         for (int i = 0; i < SECONDS * 2; i++) {
             Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
                 Sound sound = sounds.get(new Random().nextInt(0, sounds.size()));

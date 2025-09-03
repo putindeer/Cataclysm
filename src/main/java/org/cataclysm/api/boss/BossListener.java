@@ -161,7 +161,7 @@ public class BossListener implements Listener {
             ability.setChannelTime(ability.getChannelTime() / 2);
         }
 
-            var playersInArena = boss.arena.getPlayersInArena();
+        var playersInArena = boss.arena.getPlayersInArena();
         for (var player : playersInArena) {
             ChatMessenger.sendMessage(player, notification);
             player.playSound(player, Sound.BLOCK_ENDER_CHEST_OPEN, 1.0F, 0.85F);

@@ -35,7 +35,6 @@ public class TwistedWarden extends CataclysmBoss {
 
     @Override
     public void onStop() {
-
     }
 
     @Override

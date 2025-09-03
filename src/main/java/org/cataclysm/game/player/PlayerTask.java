@@ -230,7 +230,7 @@ public class PlayerTask {
             player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 60, 1));
         }
 
-        if (day >= 7 && block.getBiome() == Biome.DEEP_DARK && !PlayerUtils.hasMirageHelmet(player)) {
+        if (day >= 7 && block.getBiome() == Biome.DEEP_DARK && !PlayerUtils.hasMirageHelmet(player) && day < 34) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 60, 0));
             player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 2));
         }
@@ -242,7 +242,6 @@ public class PlayerTask {
             }
 
             if (block.getType().equals(Material.MAGMA_BLOCK)) player.setFireTicks(20 * 4);
-
         }
 
         if (day >= 21) {

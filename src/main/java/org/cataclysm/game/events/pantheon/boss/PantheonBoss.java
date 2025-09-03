@@ -6,6 +6,7 @@ import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.cataclysm.Cataclysm;
+import org.cataclysm.api.boss.BossUtils;
 import org.cataclysm.api.boss.CataclysmBoss;
 import org.cataclysm.api.boss.events.BossFightEndEvent;
 import org.cataclysm.api.boss.events.BossFightStartEvent;
@@ -47,6 +48,7 @@ public abstract class PantheonBoss extends CataclysmBoss {
 
         setUpBossBar(false);
         setUpController(false);
+        BossUtils.removeModel(controller);
 
         new BossFightEndEvent(this).callEvent();
         onStop();

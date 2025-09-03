@@ -10,6 +10,10 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public class BossUtils {
 
+    public static void removeModel(Player player) {
+        if (DisguiseAPI.getDisguise(player) != null) DisguiseAPI.getDisguise(player).removeDisguise();
+    }
+
     public static void updateModel(Player player, EntityType type, String name) {
         if (DisguiseAPI.getDisguise(player) != null) DisguiseAPI.getDisguise(player).removeDisguise();
         DisguiseConfig.setPlayerNameType(DisguiseConfig.PlayerNameType.VANILLA);

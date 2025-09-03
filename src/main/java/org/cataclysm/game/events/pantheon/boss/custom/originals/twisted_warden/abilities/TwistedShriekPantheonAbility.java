@@ -1,10 +1,9 @@
-package org.cataclysm.game.events.pantheon.boss.twisted_warden.abilities;
+package org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.abilities;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.cataclysm.api.boss.ability.Ability;
 import org.cataclysm.game.events.pantheon.boss.PantheonAbility;
-import org.cataclysm.game.events.pantheon.boss.twisted_warden.PantheonWarden;
+import org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.PantheonWarden;
 import org.jetbrains.annotations.NotNull;
 
 public class TwistedShriekPantheonAbility extends PantheonAbility {

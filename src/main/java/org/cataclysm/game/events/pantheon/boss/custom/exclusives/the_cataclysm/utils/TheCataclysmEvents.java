@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.boss.the_cataclysm.utils;
+package org.cataclysm.game.events.pantheon.boss.custom.exclusives.the_cataclysm.utils;
 
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
@@ -9,7 +9,7 @@ import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.Soundtrack;
-import org.cataclysm.game.events.pantheon.boss.the_cataclysm.TheCataclysm;
+import org.cataclysm.game.events.pantheon.boss.custom.exclusives.the_cataclysm.TheCataclysm;
 import org.cataclysm.game.events.pantheon.utils.PantheonDispatcher;
 
 import java.time.Duration;

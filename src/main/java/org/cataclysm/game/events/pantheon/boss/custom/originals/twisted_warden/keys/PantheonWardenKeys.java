@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.boss.twisted_warden.keys;
+package org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.keys;
 
 import lombok.Getter;
 

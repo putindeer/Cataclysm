@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.boss.twisted_warden;
+package org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden;
 
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
@@ -17,7 +17,7 @@ import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.game.events.pantheon.PantheonLevels;
 import org.cataclysm.game.events.pantheon.boss.PantheonBoss;
 import org.cataclysm.api.boss.BossUtils;
-import org.cataclysm.game.events.pantheon.boss.twisted_warden.abilities.*;
+import org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.abilities.*;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +27,6 @@ public class PantheonWarden extends PantheonBoss {
     public PantheonWarden() {
         super("Twisted Warden", 10000);
         super.arena = new CataclysmArea(PantheonLevels.TWISTED_CITY.getLocation(), 70);
-        super.listener = new PantheonWardenListener();
     }
 
     public void damage(LivingEntity livingEntity, double damage) {
@@ -59,9 +58,11 @@ public class PantheonWarden extends PantheonBoss {
 
     @Override
     public void onStart() {
-        BossUtils.updateModel(controller, EntityType.WARDEN, name);
+        setBoosted(false);
+        setUpBossBar(true);
         setUpAttributes(true);
-        this.soundtrack.loop("THEME", 224);
+        getSoundtrack().loop("THEME", 224);
+        BossUtils.updateModel(getController(), EntityType.WARDEN, getName());
     }
 
     @Override

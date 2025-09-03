@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.boss.twisted_warden.abilities;
+package org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.abilities;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -8,9 +8,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.ParticleHandler;
-import org.cataclysm.api.boss.ability.Ability;
 import org.cataclysm.game.events.pantheon.boss.PantheonAbility;
-import org.cataclysm.game.events.pantheon.boss.twisted_warden.PantheonWarden;
+import org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.PantheonWarden;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +18,7 @@ public class AppleSeedPantheonAbility extends PantheonAbility {
     private final PantheonWarden warden;
 
     public AppleSeedPantheonAbility(PantheonWarden warden) {
-        super(Material.TNT_MINECART, "Apple Seed", 3);
+        super(Material.TNT_MINECART, "Apple Seed", 2);
         this.warden = warden;
     }
 
@@ -38,7 +37,7 @@ public class AppleSeedPantheonAbility extends PantheonAbility {
                 this.warden.playAlarmSound(location, 10F);
 
                 Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-                    new ParticleHandler(location).sphere(Particle.END_ROD, this.explosionRadius, 30);
+                    new ParticleHandler(location).sphere(Particle.END_ROD, this.explosionRadius, this.explosionRadius * 2);
                     location.getWorld().strikeLightningEffect(location);
                     for (var livingEntity : this.warden.getNearbyLivingEntities(location, this.explosionRadius)) {
                         livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 15, 0, true, true));
@@ -53,8 +52,8 @@ public class AppleSeedPantheonAbility extends PantheonAbility {
         var controller = this.warden.getController();
         var location = controller.getLocation();
 
-        new ParticleHandler(location).sphere(Particle.EXPLOSION_EMITTER, this.explosionRadius, 10);
-        location.getWorld().playSound(location, Sound.ENTITY_GENERIC_EXPLODE, 2F, 0.6F);
+        new ParticleHandler(location).sphere(Particle.EXPLOSION_EMITTER, this.explosionRadius, this.explosionRadius * 2);
+        location.getWorld().playSound(location, "cataclysm.pantheon.radiance", 10F, 0.78F);
 
         this.warden.getNearbyLivingEntities(location, this.explosionRadius).forEach(livingEntity -> {
             warden.damage(livingEntity, 200);
@@ -62,6 +61,7 @@ public class AppleSeedPantheonAbility extends PantheonAbility {
             livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 200, 2));
             livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 200, 0));
             livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 200, 0));
+            livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 2F, 0.65F);
             livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 2F, 0.65F);
             livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ENTITY_WARDEN_SONIC_BOOM, 2F, 0.55F);
             livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ENTITY_GHAST_SCREAM, 1F, 0.55F);

@@ -76,7 +76,7 @@ public class PantheonDispatcher {
      * @param text the message content to send
      */
     public void sendMessage(String text) {
-        String prefix = wrapPrefix("<gradient:[#c28d3c]:#e0b169:ᴘᴀɴᴛʜᴇᴏɴ>");
+        String prefix = wrapPrefix("<gradient:#c28d3c:#c4b59f>ᴘᴀɴᴛʜᴇᴏɴ>");
         audience.sendMessage(MiniMessage.miniMessage().deserialize(prefix + "  <#727272>» <#c4b59f>" + text));
         audience.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.MASTER, 3F, .5F));
         audience.playSound(Sound.sound(Key.key("item.trident.return"), Sound.Source.MASTER, 3F, 1.5F));
