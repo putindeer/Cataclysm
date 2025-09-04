@@ -1,6 +1,9 @@
 package org.cataclysm.api.boss;
 
 import lombok.Getter;
+import lombok.Setter;
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.DisguiseConfig;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -9,9 +12,12 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.boss.ability.Ability;
@@ -43,8 +49,8 @@ public abstract class CataclysmBoss implements Cloneable {
     protected @Getter CataclysmArea arena;
 
     protected final @Getter String name;
-    public final int maxHealth;
-    public int health;
+    public final @Getter int maxHealth;
+    public @Getter @Setter int health;
 
     protected @Nullable Listener listener;
 
@@ -244,6 +250,27 @@ public abstract class CataclysmBoss implements Cloneable {
     private Component getHealthBarName() {
         DecimalFormat formatter = new DecimalFormat("#,###");
         return MiniMessage.miniMessage().deserialize("« " + formatter.format(this.health) + " »");
+    }
+
+    public void removeModel() {
+        if (DisguiseAPI.getDisguise(controller) != null) {
+            DisguiseAPI.getDisguise(controller).removeDisguise();
+        }
+    }
+
+    public void updateModel(EntityType type, String name) {
+        if (DisguiseAPI.getDisguise(controller) != null) DisguiseAPI.getDisguise(controller).removeDisguise();
+        DisguiseConfig.setPlayerNameType(DisguiseConfig.PlayerNameType.VANILLA);
+
+        Entity entity = controller.getWorld().spawnEntity(controller.getLocation(), type, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        entity.customName(MiniMessage.miniMessage().deserialize(name));
+        entity.setCustomNameVisible(false);
+
+        DisguiseAPI.disguiseToAll(controller, DisguiseAPI.constructDisguise(entity));
+        DisguiseAPI.setActionBarShown(controller, false);
+        DisguiseAPI.getDisguise(controller).getInternals().setSelfDisguiseTallScaleMax(2);
+
+        entity.remove();
     }
 
     @Override

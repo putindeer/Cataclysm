@@ -25,22 +25,13 @@ public class TwistedShriekPantheonAbility extends PantheonAbility {
 
     @Override
     public void cast() {
-        var controller = this.warden.getController();
+        double range = 30 * super.amplifier;
+        double damage = 60 * super.amplifier;
+        int radius = (int) (2 * super.amplifier);
+        float pitch = (float) (0.75F + (0.2 * super.amplifier));
 
-        var range = 30;
-        var damage = 60;
-        var radius = 2;
-        var pitch = 0.85F;
-
-        if (super.isBoosted()) {
-            range *= 2;
-            damage *= 2;
-            radius *= 2;
-            pitch *= 1.5F;
-        }
-
-        var world = controller.getWorld();
-        var location = controller.getLocation();
+        var location = this.warden.getController().getLocation();
+        var world = location.getWorld();
 
         world.playSound(location, Sound.ENTITY_WARDEN_SONIC_BOOM, 6F, pitch);
         world.playSound(location, Sound.ENTITY_WARDEN_SONIC_BOOM, 6F, pitch);

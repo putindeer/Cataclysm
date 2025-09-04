@@ -1,5 +1,6 @@
 package org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.abilities;
 
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -13,6 +14,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class DevourerPantheonAbility extends PantheonAbility {
+    private static final @Getter int RADIUS = 7;
+
     private final PantheonWarden warden;
     private ScheduledFuture<?> future;
 
@@ -42,8 +45,8 @@ public class DevourerPantheonAbility extends PantheonAbility {
     }
 
     private void tick() {
-        this.drainSphere(7, 50);
-        this.absorbEffects(7);
+        this.drainSphere(RADIUS, RADIUS * 4);
+        this.absorbEffects(RADIUS);
     }
 
     private void stop() {
@@ -76,8 +79,8 @@ public class DevourerPantheonAbility extends PantheonAbility {
 
                 var particleLoc = location.clone().add(x, y, z);
                 Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-                    location.getWorld().spawnParticle(Particle.SCULK_SOUL, particleLoc, 0, 0, 0, 0, 0, null, true);
-                    location.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, particleLoc, 0, 0, 0, 0, 0, null, true);
+                            location.getWorld().spawnParticle(Particle.SCULK_SOUL, particleLoc, 0, 0, 0, 0, 0, null, true);
+                            location.getWorld().spawnParticle(Particle.SOUL_FIRE_FLAME, particleLoc, 0, 0, 0, 0, 0, null, true);
                         }
                 );
             }

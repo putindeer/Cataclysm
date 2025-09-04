@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.events.pantheon.boss.PantheonAbility;
 import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.PantheonHydra;
-import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.attacks.CalamityExplosion;
+import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.attacks.PantheonExplosion;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -33,7 +33,7 @@ public class HydrazerPantheonAbility extends PantheonAbility {
 
     @Override
     public void channel() {
-        Location location = this.hydra.getLocation();
+        Location location = this.hydra.getController().getLocation();
         location.getWorld().playSound(location, Sound.ENTITY_WARDEN_ANGRY, 5F, 0.77F);
         this.throwEntities(30, -6.5);
     }
@@ -46,7 +46,7 @@ public class HydrazerPantheonAbility extends PantheonAbility {
         controller.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, TICKS, 4));
         this.future = service.scheduleAtFixedRate(() -> {
             Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () ->
-                    this.hydra.createHydraExplosion(controller.getLocation(), 8, CalamityExplosion.Type.MACRO));
+                    new PantheonExplosion(this.hydra).create(controller.getLocation(), 8, PantheonExplosion.Type.MACRO));
         }, 0, 250, TimeUnit.MILLISECONDS);
         service.schedule(() -> this.future.cancel(true), DURATION, TimeUnit.SECONDS);
     }

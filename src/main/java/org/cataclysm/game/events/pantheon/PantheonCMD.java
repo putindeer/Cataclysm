@@ -32,6 +32,16 @@ public class PantheonCMD extends BaseCommand {
         else PantheonWarper.teleport(player, zones);
     }
 
+    @Subcommand("boss manage setHealth")
+    private void bossManageSetHealth(int health) {
+        PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
+        if (pantheon == null) return;
+
+        PantheonBoss instance = pantheon.getBoss();
+        instance.setHealth(health);
+        instance.updateBar();
+    }
+
     @Subcommand("boss cast")
     private void bossCast(CommandSender sender, PantheonBosses boss) {
         if (!(sender instanceof Player player)) return;
@@ -51,11 +61,5 @@ public class PantheonCMD extends BaseCommand {
 
         PantheonBoss instance = pantheon.getBoss();
         instance.stopPantheonFight();
-    }
-
-    private @NotNull PantheonOfCataclysm getOrCreatePantheon() {
-        var pantheon = Cataclysm.getPantheon();
-        if (pantheon == null) pantheon = new PantheonOfCataclysm();
-        return pantheon;
     }
 }

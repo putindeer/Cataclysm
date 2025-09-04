@@ -20,7 +20,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.cataclysm.Cataclysm;
+import org.cataclysm.api.boss.BossUtils;
 import org.cataclysm.api.boss.CataclysmBoss;
+import org.cataclysm.api.boss.ability.AbilityBooster;
 import org.cataclysm.api.boss.events.BossCastAbilityEvent;
 import org.cataclysm.api.boss.events.BossChannelAbilityEvent;
 import org.cataclysm.api.boss.events.BossFightEndEvent;
@@ -34,14 +36,6 @@ import java.util.List;
 
 @Registrable
 public class PantheonBossListener implements Listener {
-    private static final List<EntityDamageEvent.DamageCause> immunities = List.of(
-            EntityDamageEvent.DamageCause.FALL,
-            EntityDamageEvent.DamageCause.FIRE_TICK,
-            EntityDamageEvent.DamageCause.FIRE,
-            EntityDamageEvent.DamageCause.ENTITY_EXPLOSION,
-            EntityDamageEvent.DamageCause.BLOCK_EXPLOSION,
-            EntityDamageEvent.DamageCause.LIGHTNING
-    );
 
     @EventHandler
     public void onBossFightEnd(BossFightEndEvent event) {
@@ -99,15 +93,25 @@ public class PantheonBossListener implements Listener {
         var cause = event.getCause();
         if (cause == EntityDamageEvent.DamageCause.CUSTOM) event.setDamage(0);
 
+        List<EntityDamageEvent.DamageCause> immunities = List.of(
+                EntityDamageEvent.DamageCause.LAVA,
+                EntityDamageEvent.DamageCause.FALL,
+                EntityDamageEvent.DamageCause.FIRE_TICK,
+                EntityDamageEvent.DamageCause.FIRE,
+                EntityDamageEvent.DamageCause.ENTITY_EXPLOSION,
+                EntityDamageEvent.DamageCause.BLOCK_EXPLOSION,
+                EntityDamageEvent.DamageCause.LIGHTNING
+        );
+
+        player.setNoDamageTicks(20);
+        player.setFireTicks(0);
+
         if (!immunities.contains(cause)) {
             boss.health -= (int) event.getDamage();
             boss.updateBar();
             event.setDamage(0);
-            //if (bossFight.health <= 0) bossFight.stopFight();
         }
         else event.setCancelled(true);
-
-        player.setFireTicks(0);
     }
 
     @EventHandler
@@ -146,14 +150,23 @@ public class PantheonBossListener implements Listener {
         PantheonAbility ability = (PantheonAbility) event.getAbility().clone();
 
         String display = ability.getHoverName();
-        if (ability.isBoosted()) display = TextUtils.buildGlitchedNotification(display);
 
+        if (isBossBoosted(boss, ability)) {
+            display = TextUtils.buildGlitchedNotification(display);
+            ability.setChannelTime(ability.getChannelTime()/2);
+            ability.setAmplifier(ability.getAmplifier()*2);
+        }
+
+        pantheon.getDispatcher().sendMessage("El jefe usará la habilidad " + display);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            pantheon.getDispatcher().sendMessage("El jefe usará la habilidad " + display);
-            player.playSound(player, Sound.BLOCK_END_PORTAL_FRAME_FILL, 3.0F, 0.65F);
+            player.playSound(player, Sound.BLOCK_END_PORTAL_FRAME_FILL, 7.0F, 0.65F);
             player.playSound(player, Sound.BLOCK_ENDER_CHEST_OPEN, 2.0F, 0.65F);
             if (ability.getTitle() != null) player.showTitle(ability.getTitle());
         }
+    }
+
+    private boolean isBossBoosted(PantheonBoss boss, PantheonAbility ability) {
+        return boss.isBoosted() && !ability.getName().equalsIgnoreCase("Bonfire");
     }
 
     @EventHandler

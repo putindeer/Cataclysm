@@ -11,17 +11,17 @@ import org.cataclysm.api.ParticleHandler;
 import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.PantheonHydra;
 import org.cataclysm.game.mob.utils.EffectUtils;
 
-public class CalamityExplosion {
+public class PantheonExplosion {
     public enum Type {SMALL, MACRO, MAGIC}
 
     private final PantheonHydra hydra;
 
-    public CalamityExplosion(PantheonHydra hydra) {
+    public PantheonExplosion(PantheonHydra hydra) {
         this.hydra = hydra;
     }
 
     public void create(Location location, double power, Type type) {
-        World world = this.hydra.getLocation().getWorld();
+        World world = location.getWorld();
 
         ParticleHandler handler = new ParticleHandler(location);
         int steps = (int) (power/2);
@@ -56,7 +56,7 @@ public class CalamityExplosion {
 
         location.getNearbyLivingEntities(power).forEach(livingEntity -> {
             if (livingEntity.equals(this.hydra.getController()) || livingEntity instanceof Ravager) return;
-            livingEntity.damage(power * (7 + this.hydra.heads), this.hydra.getController());
+            livingEntity.damage(power * (7 + this.hydra.getHeads()), this.hydra.getController());
             livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 100, 0));
             livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 100, 3));
             world.playSound(livingEntity, Sound.ENTITY_RAVAGER_STUNNED, 1F, 0.95F);

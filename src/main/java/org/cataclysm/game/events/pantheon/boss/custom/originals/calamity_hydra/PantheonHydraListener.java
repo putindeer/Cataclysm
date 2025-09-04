@@ -21,8 +21,8 @@ public class PantheonHydraListener implements Listener {
                 || !(event.getEntity() instanceof Player player)
                 || !CataclysmBoss.isController(player)) return;
 
-        PantheonHydraPhase phase = hydra.phaseManager;
-        if (phase.getPhase() == 1) event.setDamage(event.getDamage() * 4);
+        double amplifier = hydra.getResistance();
+        event.setDamage(event.getDamage()/amplifier);
     }
 
 }

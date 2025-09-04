@@ -7,9 +7,12 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.craftbukkit.CraftWorld;
+import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.PantheonHydra;
@@ -17,14 +20,14 @@ import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.P
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class CalamityCharge {
+public class PantheonCharge {
     private final PantheonHydra hydra;
     private ChargeEntity chargeEntity;
     private final float radius;
     private final int amplifier;
     private final double scale;
 
-    public CalamityCharge(PantheonHydra hydra, float radius, int amplifier, double scale) {
+    public PantheonCharge(PantheonHydra hydra, float radius, int amplifier, double scale) {
         this.hydra = hydra;
         this.radius = radius;
         this.amplifier = amplifier;
@@ -49,8 +52,8 @@ public class CalamityCharge {
             service.schedule(() -> {
                 Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
                     if (type.isSolid()) {
-                        this.hydra.createHydraExplosion(point, power, CalamityExplosion.Type.MACRO);
-                        this.hydra.summonAreaEffectCloud(point, this.radius, this.amplifier);
+                        new PantheonExplosion(this.hydra).create(point, power, PantheonExplosion.Type.MACRO);
+                        this.summonAreaEffectCloud(controller, point, this.radius, this.amplifier);
                         livingEntity.remove();
                     }
                     livingEntity.teleport(point);
@@ -82,8 +85,8 @@ public class CalamityCharge {
             service.schedule(() -> {
                 Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
                     if (type.isSolid()) {
-                        this.hydra.createHydraExplosion(point, power, CalamityExplosion.Type.MACRO);
-                        this.hydra.summonAreaEffectCloud(point, this.radius, this.amplifier);
+                        new PantheonExplosion(this.hydra).create(point, power, PantheonExplosion.Type.MACRO);
+                        this.summonAreaEffectCloud(controller, point, this.radius, this.amplifier);
                         livingEntity.remove();
                     }
                     world.spawnParticle(Particle.FLAME, point, 2, 0.05, 0.05, 0.05, 0);
@@ -93,6 +96,15 @@ public class CalamityCharge {
 
             if (type.isSolid()) break;
         }
+    }
+
+    public void summonAreaEffectCloud(Player controller, Location location, float radius, int amplifier) {
+        AreaEffectCloud effectCloud = (AreaEffectCloud) location.getWorld().spawnEntity(location, org.bukkit.entity.EntityType.AREA_EFFECT_CLOUD);
+        effectCloud.addCustomEffect(new PotionEffect(PotionEffectType.INSTANT_DAMAGE, 200, amplifier), true);
+        effectCloud.setSource(controller);
+        effectCloud.setColor(Color.RED);
+        effectCloud.setDuration(150);
+        effectCloud.setRadius(radius);
     }
 
     static class ChargeEntity extends ArmorStand {

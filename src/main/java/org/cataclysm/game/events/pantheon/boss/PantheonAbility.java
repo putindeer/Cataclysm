@@ -13,6 +13,7 @@ public abstract class PantheonAbility extends Ability {
     public Title title;
     public String color;
     public String description;
+    public double amplifier;
     public final String hoverName;
 
     public PantheonAbility(Material triggerMaterial, String name, int channelTime) {
@@ -20,8 +21,9 @@ public abstract class PantheonAbility extends Ability {
     }
 
     public PantheonAbility(Material triggerMaterial, String name, @NotNull String color, int channelTime) {
-        super(triggerMaterial, name, channelTime, 7);
+        super(triggerMaterial, name, channelTime, 4);
         this.color = color;
         this.hoverName = "<" + color.toUpperCase() + ">" + "[" + TinyCaps.tinyCaps(name) + "]";
+        this.amplifier = 1.0;
     }
 }

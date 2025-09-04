@@ -4,21 +4,30 @@ import org.bukkit.*;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.ParticleHandler;
 import org.cataclysm.api.boss.CataclysmArea;
+import org.cataclysm.game.events.pantheon.boss.PantheonAbility;
 import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.PantheonHydra;
-import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.attacks.CalamityCharge;
-import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.rage.RagePantheonAbility;
+import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.attacks.PantheonCharge;
 
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class MeteorShowerPantheonAbility extends RagePantheonAbility {
+public class MeteorShowerPantheonAbility extends PantheonAbility {
+    private final PantheonHydra hydra;
+
     public MeteorShowerPantheonAbility(PantheonHydra hydra) {
-        super(hydra, Material.FIRE_CHARGE, "Draco Meteor", 50);
+        super(Material.FIRE_CHARGE, "Draco Meteor", 0);
+        this.hydra = hydra;
     }
 
     @Override
-    public void tick() {
+    public void channel() {}
+
+    @Override
+    public void cast() {
+        Location location = this.hydra.getController().getLocation();
+        World world = location.getWorld();
+
         ScheduledExecutorService service = this.hydra.getThread().getService();
         CataclysmArea arena = this.hydra.getArena();
 
@@ -29,9 +38,9 @@ public class MeteorShowerPantheonAbility extends RagePantheonAbility {
         for (int i = 0; i < loops; i++) {
             service.schedule(() -> {
                 Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-                    this.hydra.playSound(Sound.ITEM_TRIDENT_THUNDER, power, 0.5F);
-                    this.hydra.playSound(Sound.ENTITY_ENDER_DRAGON_GROWL, power, 0.55F);
-                    this.hydra.playSound(Sound.ENTITY_ENDER_DRAGON_GROWL, power, 0.75F);
+                    world.playSound(location, Sound.ITEM_TRIDENT_THUNDER, power, 0.5F);
+                    world.playSound(location, Sound.ENTITY_ENDER_DRAGON_GROWL, power, 0.55F);
+                    world.playSound(location, Sound.ENTITY_ENDER_DRAGON_GROWL, power, 0.75F);
 
                     List<Location> randomLocations = arena.getRandomLocations(amount);
                     for (int j = 0; j < randomLocations.size(); j++) {
@@ -46,7 +55,7 @@ public class MeteorShowerPantheonAbility extends RagePantheonAbility {
 
                         service.schedule(() -> {
                             Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-                                CalamityCharge charge = new CalamityCharge(this.hydra, power, 3, 7);
+                                PantheonCharge charge = new PantheonCharge(this.hydra, power, 3, 7);
                                 charge.drop(dropLoc, power);
                             });
                         }   , (long) j * 100, TimeUnit.MILLISECONDS);

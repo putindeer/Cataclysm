@@ -1,5 +1,6 @@
 package org.cataclysm.game.events.pantheon.boss.custom.originals.twisted_warden.abilities;
 
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
@@ -15,18 +16,19 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 public class ArmageddonPantheonAbility extends PantheonAbility {
+    private static final @Getter int AMOUNT = 25;
+
     private final PantheonWarden warden;
 
     public ArmageddonPantheonAbility(PantheonWarden warden) {
-        super(Material.SKULL_BANNER_PATTERN, "Armageddon", 1);
+        super(Material.SKULL_BANNER_PATTERN, "Armageddon", 2);
         this.warden = warden;
     }
 
     @Override
     public void channel() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 40, 0));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 100, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 0));
             player.playSound(player, Sound.ENTITY_WARDEN_ROAR, 10F, 0.5F);
             player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_6, 10F, 0.5F);
             player.playSound(player, Sound.ITEM_GOAT_HORN_SOUND_6, 10F, 0.76F);
@@ -44,7 +46,7 @@ public class ArmageddonPantheonAbility extends PantheonAbility {
                 "Spider", "Blaze",
         };
 
-        var locations = arena.getRandomLocations(40);
+        var locations = arena.getRandomLocations(AMOUNT);
         for (var loc : locations) {
             var random = ThreadLocalRandom.current().nextInt(0, twistedMobTypes.length);
             var name = "Twisted" + twistedMobTypes[random];

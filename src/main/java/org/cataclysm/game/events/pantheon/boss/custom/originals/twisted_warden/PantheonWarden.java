@@ -33,7 +33,6 @@ public class PantheonWarden extends PantheonBoss {
         super.damage(livingEntity, damage);
         livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0));
         livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 60, 0));
-        livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ENTITY_WARDEN_ATTACK_IMPACT, 1F, 0.8F);
     }
 
     public void shriek(double range, double damage, int radius) {
@@ -105,9 +104,13 @@ public class PantheonWarden extends PantheonBoss {
     public void tick() {
         Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
             controller.getLocation().getNearbyLivingEntities(3, 3, 3).forEach(livingEntity -> {
-                if (livingEntity != controller) damage(livingEntity, 40);
+                if (livingEntity == controller) return;
+                damage(livingEntity, 40);
+                livingEntity.getWorld().playSound(livingEntity.getLocation(), Sound.ENTITY_WARDEN_ATTACK_IMPACT, 1F, 0.8F);
             });
-            controller.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 40, 0, true, false));
+            if (isBoosted()) {
+                controller.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 40, 0, true, false));
+            }
         });
     }
 

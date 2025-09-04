@@ -1,15 +1,12 @@
 package org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.abilities;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.events.pantheon.boss.PantheonAbility;
 import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.PantheonHydra;
-import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.attacks.CalamityExplosion;
+import org.cataclysm.game.events.pantheon.boss.custom.originals.calamity_hydra.attacks.PantheonExplosion;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ScheduledExecutorService;
@@ -29,36 +26,44 @@ public class HellquakePantheonAbility extends PantheonAbility {
 
     @Override
     public void channel() {
-        this.hydra.playSound(Sound.ENTITY_RAVAGER_STUNNED, 12F, 0.66F);
-        this.hydra.playSound(Sound.ENTITY_RAVAGER_STUNNED, 12F, 0.86F);
-        this.hydra.playSound(Sound.ENTITY_BLAZE_DEATH, 12F, 0.86F);
+        Location location = this.hydra.getController().getLocation();
+        World world = location.getWorld();
+
+        world.playSound(location, Sound.ENTITY_RAVAGER_STUNNED, 12F, 0.66F);
+        world.playSound(location, Sound.ENTITY_RAVAGER_STUNNED, 12F, 0.86F);
+        world.playSound(location, Sound.ENTITY_BLAZE_DEATH, 12F, 0.86F);
     }
 
     @Override
     public void cast() {
-        this.hydra.playSound(Sound.ENTITY_BLAZE_DEATH, 12F, 0.5F);
-        this.hydra.playSound(Sound.ENTITY_ENDER_DRAGON_GROWL, 12F, 0.66F);
-        this.hydra.playSound(Sound.ENTITY_ENDER_DRAGON_GROWL, 12F, 0.86F);
+        Location location = this.hydra.getController().getLocation();
+        World world = location.getWorld();
+
+        world.playSound(location, Sound.ENTITY_BLAZE_DEATH, 12F, 0.5F);
+        world.playSound(location, Sound.ENTITY_ENDER_DRAGON_GROWL, 12F, 0.66F);
+        world.playSound(location, Sound.ENTITY_ENDER_DRAGON_GROWL, 12F, 0.86F);
+
         this.toggleJumpMode(true);
     }
 
     private void castEarthquake(ScheduledExecutorService service) {
-        Location location = this.hydra.getLocation();
+        Location location = this.hydra.getController().getLocation();
+        World world = location.getWorld();
 
         Block blockBelow = location.getWorld().getBlockAt(location.clone().add(0, -1, 0));
         if (!blockBelow.isSolid()) return;
 
         double scale = this.hydra.getAttribute(Attribute.SCALE);
         Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-            location.getWorld().strikeLightning(location);
-            this.hydra.playSound(Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 7F, 0.5F);
-            this.hydra.playSound(Sound.ITEM_TRIDENT_THUNDER, 5F, 0.5F);
-            this.hydra.playSound(Sound.ITEM_TRIDENT_THUNDER, 5F, 0.65F);
-            this.hydra.createHydraExplosion(location, scale, CalamityExplosion.Type.MACRO);
+            world.strikeLightning(location);
+            world.playSound(location, Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 7F, 0.5F);
+            world.playSound(location, Sound.ITEM_TRIDENT_THUNDER, 5F, 0.5F);
+            world.playSound(location, Sound.ITEM_TRIDENT_THUNDER, 5F, 0.65F);
+            new PantheonExplosion(this.hydra).create(location, scale, PantheonExplosion.Type.MACRO);
         });
 
-        double radius = (scale * 15);
-        float power = 5.0F;
+        double radius = (scale * 25);
+        float power = 8.0F;
         long interval = 70L;
         for (int i = 0; i < radius; i++) {
             final int finalI = i;
@@ -87,7 +92,8 @@ public class HellquakePantheonAbility extends PantheonAbility {
             final var x = center.getX() + Math.cos(angleRadians) * radius;
             final var z = center.getZ() + Math.sin(angleRadians) * radius;
             Location pointLocation = new Location(center.getWorld(), x, y, z);
-            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> this.hydra.createHydraExplosion(pointLocation, power, CalamityExplosion.Type.SMALL));
+            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () ->
+                    new PantheonExplosion(this.hydra).create(pointLocation, power, PantheonExplosion.Type.SMALL));
         }
     }
 }

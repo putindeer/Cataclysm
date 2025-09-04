@@ -34,26 +34,25 @@ public abstract class PantheonBoss extends CataclysmBoss {
         super.setUpController(true);
 
         if (this.listener != null) Bukkit.getPluginManager().registerEvents(this.listener, Cataclysm.getInstance());
-        this.thread.startTickTask();
-
         new BossFightStartEvent(this).callEvent();
-        onStart();
 
-        pantheon.setBoss(this);
+        this.onStart();
+        this.thread.startTickTask();
+        this.pantheon.setBoss(this);
     }
 
     public void stopPantheonFight() {
         this.thread.getService().shutdownNow();
         this.soundtrack.stopAll();
 
-        setUpBossBar(false);
-        setUpController(false);
-        BossUtils.removeModel(controller);
+        super.setUpBossBar(false);
+        super.setUpController(false);
+        super.removeModel();
 
         new BossFightEndEvent(this).callEvent();
-        onStop();
 
-        pantheon.setBoss(null);
+        this.onStop();
+        this.pantheon.setBoss(null);
     }
 
     @Override
