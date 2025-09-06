@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.cataclysm.api.listener.registrable.Registrable;
-import org.cataclysm.game.world.day.events.ChangeDayEvent;
+import org.cataclysm.game.world.time.events.ChangeDayEvent;
 
 @Registrable
 public class TablistListener implements Listener {
@@ -15,18 +15,18 @@ public class TablistListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     private void onPlayerJoin(PlayerJoinEvent event) {
         CataclysmTablist.organizePlayer(event.getPlayer());
-        CataclysmTablist.updateWeek(event.getPlayer());
+        CataclysmTablist.update(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     private void onPlayerQuit(PlayerQuitEvent event) {
         CataclysmTablist.organizePlayer(event.getPlayer());
-        CataclysmTablist.updateWeek(event.getPlayer());
+        CataclysmTablist.update(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     private void onChangeDay(ChangeDayEvent event) {
-        for (var player : Bukkit.getOnlinePlayers()) CataclysmTablist.updateWeek(player);
+        for (var player : Bukkit.getOnlinePlayers()) CataclysmTablist.update(player);
     }
 
 }

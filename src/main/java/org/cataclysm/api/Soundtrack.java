@@ -57,8 +57,4 @@ public class Soundtrack {
             Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> this.loop(sound, duration));
         }, duration, TimeUnit.SECONDS);
     }
-
-    public HashMap<String, Sound> getTrackList() {
-        return soundtrack;
-    }
 }

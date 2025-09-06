@@ -547,7 +547,7 @@ public class StaffCommand extends BaseCommand {
     @Subcommand("day set")
     private void setDay(CommandSender commandSender, int day) {
         if (!(commandSender instanceof Player)) return;
-        Cataclysm.getDayManager().setDay(day);
+        Cataclysm.getTimeManager().setDay(day);
     }
 
     @Subcommand("damagetwisted")
@@ -555,5 +555,4 @@ public class StaffCommand extends BaseCommand {
         if (!(commandSender instanceof Player player)) return;
         TwistedWarden.damagePlayersSeeing(player);
     }
-
 }

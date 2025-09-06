@@ -48,9 +48,9 @@ public abstract class CataclysmBoss implements Cloneable {
     protected @Getter Player controller;
     protected @Getter CataclysmArea arena;
 
-    protected final @Getter String name;
-    public final @Getter int maxHealth;
-    public @Getter @Setter int health;
+    protected @Getter @Setter String name;
+    public final @Getter double maxHealth;
+    public @Getter @Setter double health;
 
     protected @Nullable Listener listener;
 
@@ -218,7 +218,7 @@ public abstract class CataclysmBoss implements Cloneable {
     }
 
     public void updateBar() {
-        float progress = ((float) this.health/this.maxHealth);
+        float progress = (float) ((float) this.health/this.maxHealth);
         this.bossBar.progress(progress);
         this.healthBar.name(this.getHealthBarName());
     }
@@ -268,7 +268,7 @@ public abstract class CataclysmBoss implements Cloneable {
 
         DisguiseAPI.disguiseToAll(controller, DisguiseAPI.constructDisguise(entity));
         DisguiseAPI.setActionBarShown(controller, false);
-        DisguiseAPI.getDisguise(controller).getInternals().setSelfDisguiseTallScaleMax(2);
+        DisguiseAPI.getDisguise(controller).getInternals().setSelfDisguiseTallScaleMax(.25);
 
         entity.remove();
     }

@@ -571,10 +571,9 @@ public class PlayerListener implements Listener {
 
         if (day >= 35 && cause.equals(PlayerTeleportEvent.TeleportCause.END_PORTAL)) {
             var inventory = player.getInventory();
-            boolean flag = inventory.contains(CataclysmItems.OVERWORLD_KEY.build())
-                    && inventory.contains(CataclysmItems.NETHER_KEY.build())
-                    && inventory.contains(CataclysmItems.END_KEY.build());
-
+            boolean flag = inventory.contains(CataclysmItems.OVERWORLDS_CHALICE.build())
+                    && inventory.contains(CataclysmItems.NETHERS_CHALICE.build())
+                    && inventory.contains(CataclysmItems.ENDS_CHALICE.build());
             if (flag) {
                 event.setCancelled(true);
                 player.setGameMode(GameMode.SPECTATOR);

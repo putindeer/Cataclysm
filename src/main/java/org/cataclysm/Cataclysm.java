@@ -26,18 +26,19 @@ import org.cataclysm.discord.DiscordListener;
 import org.cataclysm.game.GameManager;
 import org.cataclysm.game.data.GameDataManager;
 import org.cataclysm.game.events.pantheon.PantheonOfCataclysm;
+import org.cataclysm.game.events.pantheon.cmd.ProfileCommand;
 import org.cataclysm.game.mob.task.MobTask;
-import org.cataclysm.game.events.pantheon.PantheonCMD;
+import org.cataclysm.game.events.pantheon.cmd.PantheonCommand;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.PlayerTask;
 import org.cataclysm.game.player.data.PlayerLoader;
 import org.cataclysm.game.player.survival.death.DeathSequence;
 import org.cataclysm.game.events.raids.structures.RaidStructures;
-import org.cataclysm.game.world.day.DayLoader;
-import org.cataclysm.game.world.day.DayManager;
 import org.cataclysm.game.world.generator.CataclysmGenerator;
 import org.cataclysm.game.world.ragnarok.Ragnarok;
 import org.cataclysm.game.world.ragnarok.RagnarokLoader;
+import org.cataclysm.game.world.time.TimeManager;
+import org.cataclysm.game.world.time.data.TimeLoader;
 import org.cataclysm.global.commands.*;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,6 +56,9 @@ public final class Cataclysm extends JavaPlugin {
     private static @Getter @Setter PantheonOfCataclysm pantheon;
     private static @Getter @Setter CataclysmFinale finale;
 
+    private static @Getter @Setter TimeManager timeManager;
+    private static @Getter @Setter int day;
+
     private static @Getter Cataclysm instance;
     private static @Getter MobStore store;
 
@@ -62,10 +66,8 @@ public final class Cataclysm extends JavaPlugin {
     private static @Getter @Setter DiscordConnection discord;
     private static @Getter @Setter DeathSequence deathSequence;
     private static @Getter @Setter GameManager gameManager;
-    private static @Getter @Setter DayManager dayManager;
     private static @Getter @Setter EventManager eventManager;
     private static @Getter @Setter Ragnarok ragnarok;
-    private static @Getter @Setter int day;
 
     @Override
     public void onEnable() {
@@ -76,7 +78,7 @@ public final class Cataclysm extends JavaPlugin {
         try {
             StructureLoader.loadAll();
             PlayerLoader.loadAll();
-            new DayLoader().restore();
+            new TimeLoader().restore();
             new GameDataManager().restore();
             new RagnarokLoader().restore();
             new EventLoader().restore();
@@ -95,7 +97,9 @@ public final class Cataclysm extends JavaPlugin {
         paperCommandManager.registerCommand(new StaffCommand());
         paperCommandManager.registerCommand(new PodiumCommand());
         paperCommandManager.registerCommand(new RaidCommand());
-        paperCommandManager.registerCommand(new PantheonCMD());
+        //Pantheon Commands
+        paperCommandManager.registerCommand(new PantheonCommand());
+        paperCommandManager.registerCommand(new ProfileCommand());
 
         if (isMainHost()) {
             Bukkit.getPluginManager().registerEvents(new DiscordListener(), this);
@@ -126,6 +130,8 @@ public final class Cataclysm extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (pantheon != null) pantheon.getConfigurator().save();
+
         if (ragnarok != null) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 ragnarok.getBossBar().removeViewer(player);
@@ -142,7 +148,7 @@ public final class Cataclysm extends JavaPlugin {
             StructureLoader.saveAll();
             PlayerLoader.saveAll();
 
-            new DayLoader().save();
+            new TimeLoader().save();
             new GameDataManager().save();
             new RagnarokLoader().save();
             new EventLoader().save();

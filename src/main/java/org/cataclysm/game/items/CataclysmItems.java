@@ -127,9 +127,11 @@ public enum CataclysmItems {
     PALE_BOOTS(new CataclysmItem(Material.NETHERITE_BOOTS, ItemFamily.PALE_ARMOR).setDisplay("Pale Boots").setDescription("Ex essentia silvae nullius confectum", true).setPassive("Aeternitas", "Al portar el set completo Pale otorga los efectos de la Calamity Armor, corazones adicionales e inmunidad a Pale Corrosion y Mortem").setAttributeLore(Attribute.ARMOR, 4, EquipmentSlotGroup.FEET).setAttributeLore(Attribute.ARMOR, 9, EquipmentSlotGroup.FEET).setAttributeLore(Attribute.KNOCKBACK_RESISTANCE, 0.1, EquipmentSlotGroup.FEET).setUnbreakable(true).addTrims(new ArmorTrim(TrimMaterial.IRON, TrimPattern.TIDE)).setFlag(ItemFlag.HIDE_ARMOR_TRIM)),
 
     REGENERATE_STRUCTURE(new CataclysmItem(Material.GOLD_NUGGET, ItemFamily.ARCANE_TOOLS).setDisplay("REGENERATE STRUCTURE").setUnbreakable(true)),
-    OVERWORLD_KEY(new CataclysmItem(Material.SADDLE, CataclysmColor.PANTHEON).setDisplay("Overworld Key").setDescription("Llave overworld no se").setGlint(true)),
-    NETHER_KEY(new CataclysmItem(Material.SADDLE, CataclysmColor.PANTHEON).setDisplay("Nether Key").setDescription("Llave nether no se").setGlint(true)),
-    END_KEY(new CataclysmItem(Material.SADDLE, CataclysmColor.PANTHEON).setDisplay("End Key").setDescription("Llave end no se").setGlint(true)),
+
+    OVERWORLDS_CHALICE(new CataclysmItem(Material.CARROT_ON_A_STICK, CataclysmColor.PANTHEON).setDisplay("Overworld's Chalice").setGlint(true)),
+    NETHERS_CHALICE(new CataclysmItem(Material.CARROT_ON_A_STICK, CataclysmColor.PANTHEON).setDisplay("Nether's Chalice").setGlint(true)),
+    ENDS_CHALICE(new CataclysmItem(Material.CARROT_ON_A_STICK, CataclysmColor.PANTHEON).setDisplay("End's Chalice").setGlint(true)),
+    GRYMPESITO_TOTEM(new CataclysmItem(Material.TOTEM_OF_UNDYING, CataclysmColor.PARAGON).setDisplay("Grympesito Totem").setDescription("Superstes Numisma").setAbility("Postmortalis", "Se activa incluso con Mortem. No reduce la mortalidad y otorga inmunidad por 7 segundos.").setGlint(true)),
 
     ;
 

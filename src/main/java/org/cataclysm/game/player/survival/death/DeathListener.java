@@ -41,7 +41,7 @@ public class DeathListener implements Listener {
         var bossfight = Cataclysm.getBoss() != null;
 
         DeathAltar altar = new DeathAltar(player);
-        if ((deathInChamber == null || !deathInChamber) && !bossfight) altar.placeComplex();
+        if ((deathInChamber == null || !deathInChamber) && !bossfight && Cataclysm.getPantheon() == null) altar.placeComplex();
         else altar.placeSimple();
 
         Audience audience = Audience.audience(Bukkit.getOnlinePlayers());

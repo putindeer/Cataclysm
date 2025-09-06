@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.CataclysmColor;
+import org.cataclysm.game.events.pantheon.PantheonOfCataclysm;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 
 import java.util.concurrent.ScheduledExecutorService;
@@ -23,9 +24,9 @@ public class PantheonDispatcher {
     private final ScheduledExecutorService executor;
     private final Audience audience;
 
-    public PantheonDispatcher(ScheduledExecutorService executor, Audience audience) {
-        this.executor = executor;
-        this.audience = audience;
+    public PantheonDispatcher(PantheonOfCataclysm pantheon) {
+        this.executor = pantheon.getExecutor();
+        this.audience = Audience.audience(Bukkit.getOnlinePlayers());
         this.acumulatedMillis = 0;
     }
 

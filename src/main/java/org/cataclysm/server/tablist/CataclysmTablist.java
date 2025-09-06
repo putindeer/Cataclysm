@@ -12,7 +12,7 @@ import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
 public class CataclysmTablist {
-    protected static void updateWeek(Player player) {
+    public static void update(Player player) {
         var header = "\n" + ChatMessenger.getCataclysmColor() + " Tʜᴇ Cᴀᴛᴀᴄʟʏꜱᴍ SMP \n" + ChatMessenger.getTextColor() + getSubtitle(Cataclysm.getDay()) + " \n";
         player.sendPlayerListHeader(MiniMessage.miniMessage().deserialize(ChatMessenger.getCataclysmColor() + header));
         player.sendPlayerListFooter(MiniMessage.miniMessage().deserialize("\n " + ChatMessenger.getTextColor() + "Día: <#CCCCCC>" + Cataclysm.getDay() + ChatMessenger.getTextColor() + "/35\n"));
@@ -30,7 +30,7 @@ public class CataclysmTablist {
             case 5 -> text = "quinta semana";
         }
 
-        if (day == 34) text = "panteón de cataclysm";
+        if (Cataclysm.getPantheon() != null) text = "panteón de cataclysm";
         if (day == 35) text = "finale";
 
         return TinyCaps.tinyCaps(text);
