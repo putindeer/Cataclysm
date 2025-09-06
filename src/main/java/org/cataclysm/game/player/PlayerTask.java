@@ -8,6 +8,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -78,7 +79,6 @@ public class PlayerTask {
         var paleCorrosionDebuff = PersistentData.get(player, "PALE_CORROSION_HEALTH_DEBUFF", PersistentDataType.DOUBLE);
         if (player.hasPotionEffect(PaleCorrosionEffect.EFFECT_TYPE)) {
             if (paleCorrosionDebuff != null) {
-                Bukkit.getConsoleSender().sendMessage(paleCorrosionDebuff.toString());
                 defaultHealth -= paleCorrosionDebuff;
             }
         } else PersistentData.set(player, "PALE_CORROSION_HEALTH_DEBUFF", PersistentDataType.DOUBLE, 0.0);
@@ -123,6 +123,7 @@ public class PlayerTask {
                 defaultHealth -= 500;
                 if (player.hasPotionEffect(PotionEffectType.ABSORPTION)) player.removePotionEffect(PotionEffectType.ABSORPTION);
             }
+
         }
 
         //Incursion extra health
@@ -132,7 +133,25 @@ public class PlayerTask {
         var noExtraHealth = PersistentData.get(player, "NO_INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER);
         if (noExtraHealth != null) defaultHealth += noExtraHealth * 4.0;
 
+        int overworldKeys = handleFinaleKeys(CataclysmItems.OVERWORLDS_CHALICE.build());
+        int netherKeys = handleFinaleKeys(CataclysmItems.NETHERS_CHALICE.build());
+        int endKeys = handleFinaleKeys(CataclysmItems.ENDS_CHALICE.build());
+
+            defaultHealth -= (overworldKeys + netherKeys + endKeys);
+
         if (PlayerUtils.getMaxHealth(player) != defaultHealth) PlayerUtils.setMaxHealth(player, defaultHealth);
+    }
+
+    private int handleFinaleKeys(ItemStack chalice) {
+        int count = 1;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            var inventory = player.getInventory();
+            boolean hasKey = inventory.contains(chalice);
+            if (hasKey) {
+                count*=4;
+            }
+        }
+        return count;
     }
 
     private void handleDisper(Player player) {
@@ -329,10 +348,10 @@ public class PlayerTask {
                 }
 
                 mobToSpawn.addFreshEntity(TeleportUtils.getNearestRandomPlayerLocation(player, 50, 2, 6));
-                PersistentData.set(player, "SPAWN_MOB_TIMER", PersistentDataType.INTEGER, 5);
+                PersistentData.set(player, "SPAWN_MOB_TIMER", PersistentDataType.INTEGER, 15);
             }
 
-        } else PersistentData.set(player, "SPAWN_MOB_TIMER", PersistentDataType.INTEGER, 5);
+        } else PersistentData.set(player, "SPAWN_MOB_TIMER", PersistentDataType.INTEGER, 15);
     }
 
 }

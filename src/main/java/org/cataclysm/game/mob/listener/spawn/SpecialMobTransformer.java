@@ -209,7 +209,8 @@ public class SpecialMobTransformer {
             }
 
             var ragnarok = Cataclysm.getRagnarok();
-            if (ragnarok != null && ragnarok.getData().getLevel() >= 8) {
+            if (ragnarok != null && ragnarok.getData().getLevel() >= 8 && Cataclysm.getBoss() == null
+            && Cataclysm.getPantheon().getBoss() == null) {
                 if (ctx.random.nextBoolean()) mobToSpawn = new QuantumReactor(ctx.level);
             }
 
