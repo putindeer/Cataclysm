@@ -65,11 +65,11 @@ public class PlayerListener implements Listener {
 
         Player player = event.getPlayer();
 
-        Boolean paleVoid = PersistentData.get(player, "HAS-ENTERED-PALE-VOID", PersistentDataType.BOOLEAN);
+        Boolean paleVoid = PersistentData.get(player, "PANTHEON-JOIN", PersistentDataType.BOOLEAN);
         if (paleVoid != null && paleVoid) return;
 
         Location location = Dimensions.PALE_VOID.createWorld().getSpawnLocation().clone();
-        player.teleport(location.add(0, 15, 0));
+        player.teleport(location.add(0, 25, 0));
         player.clearActivePotionEffects();
         player.addPotionEffect(new PotionEffect(ImmunityEffect.EFFECT_TYPE, 200, 0, false, false, false));
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 200, 0, false, false, false));
@@ -83,9 +83,9 @@ public class PlayerListener implements Listener {
         ));
 
         player.playSound(player, org.bukkit.Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1F, 0.45F);
-        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> player.playSound(player, org.bukkit.Sound.MUSIC_DISC_STAL, 1F, 0.95F), 40L);
+        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> player.playSound(player, org.bukkit.Sound.MUSIC_DISC_STAL, 1F, 0.85F), 40L);
 
-        PersistentData.set(player, "HAS-ENTERED-PALE-VOID", PersistentDataType.BOOLEAN, true);
+        PersistentData.set(player, "PANTHEON-JOIN", PersistentDataType.BOOLEAN, true);
     }
 
     @EventHandler

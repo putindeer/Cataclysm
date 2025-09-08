@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.bosses.the_cataclysm.utils;
+package org.cataclysm.game.events.pantheon.bosses.the_cataclysm;
 
 public enum TheCataclysmPhases {
     INTRO,

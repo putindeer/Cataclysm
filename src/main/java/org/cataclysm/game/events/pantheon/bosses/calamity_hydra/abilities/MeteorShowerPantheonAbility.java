@@ -54,7 +54,7 @@ public class MeteorShowerPantheonAbility extends PantheonHydraAbility {
 
                         service.schedule(() -> {
                             Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-                                PantheonCharge charge = new PantheonCharge(this.hydra, power, 3, 7);
+                                PantheonCharge charge = new PantheonCharge(this.hydra, 10, 3, 7);
                                 charge.drop(dropLoc, power);
                             });
                         }   , (long) j * 100, TimeUnit.MILLISECONDS);

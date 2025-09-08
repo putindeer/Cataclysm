@@ -26,7 +26,6 @@ public class HydraBreathPantheonAbility extends PantheonHydraAbility {
 
     @Override
     public void cast() {
-        PantheonCharge charge = new PantheonCharge(this.hydra, 12, 3, 1.5);
         Location location = this.hydra.getController().getLocation();
         World world = location.getWorld();
 
@@ -36,6 +35,7 @@ public class HydraBreathPantheonAbility extends PantheonHydraAbility {
                     world.playSound(location, Sound.ENTITY_ENDER_DRAGON_SHOOT, 2F, 1.28F);
                     world.playSound(location, Sound.ENTITY_ENDER_DRAGON_SHOOT, 4F, .8F);
                     world.playSound(location, Sound.ENTITY_ENDER_DRAGON_SHOOT, 1F, .6F);
+                    PantheonCharge charge = new PantheonCharge(this.hydra, 8, 3, 1.5);
                     charge.shoot(5);
                 });
             }, i * 500L, TimeUnit.MILLISECONDS);

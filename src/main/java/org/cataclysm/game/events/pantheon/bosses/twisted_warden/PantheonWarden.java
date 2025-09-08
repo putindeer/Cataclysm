@@ -1,19 +1,20 @@
 package org.cataclysm.game.events.pantheon.bosses.twisted_warden;
 
+import io.papermc.paper.datacomponent.item.PaperBannerPatternLayers;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import net.kyori.adventure.title.Title;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.boss.CataclysmArea;
+import org.cataclysm.game.events.pantheon.PantheonBosses;
 import org.cataclysm.game.events.pantheon.PantheonLevels;
 import org.cataclysm.game.events.pantheon.bosses.PantheonBoss;
 import org.cataclysm.api.boss.BossUtils;
@@ -21,6 +22,7 @@ import org.cataclysm.game.events.pantheon.bosses.twisted_warden.abilities.*;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class PantheonWarden extends PantheonBoss {
@@ -61,15 +63,21 @@ public class PantheonWarden extends PantheonBoss {
         setBoosted(false);
         setUpAttributes(true);
         BossUtils.updateModel(getController(), EntityType.WARDEN, getName());
-        getController().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 14 * 20, 0));
-        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
-            setUpBossBar(true);
-        }, 14 * 20);
+        setUpBossBar(true);
     }
 
     @Override
     public void onStop() {
-        setUpAttributes(false);
+        var location = controller.getLocation();
+        var nearby = Bukkit.getOnlinePlayers();
+        for (var target : nearby) {
+            var targetLoc = target.getLocation();
+            var direction = targetLoc.toVector().subtract(location.toVector()).normalize();
+            var velocity = direction.multiply(-6.5).setY(2.5);
+            target.setVelocity(velocity);
+            target.playSound(target, "cataclysm.pantheon.death", 1, .8F);
+            target.playSound(target, Sound.ITEM_TRIDENT_RIPTIDE_3, 3F, 2);
+        }
     }
 
     public void setUpAttributes(boolean setUp) {

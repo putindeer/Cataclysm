@@ -53,11 +53,7 @@ public class VoidLord extends PantheonBoss {
 
 
     public void damage(LivingEntity livingEntity, double amount) {
-        if (livingEntity.equals(super.controller)) return;
-
-        livingEntity.damage(amount);
-        livingEntity.setNoDamageTicks(40);
-
+        super.damage(livingEntity, amount);
         if (livingEntity instanceof Player player && player.isBlocking()) {
             player.setCooldown(Material.SHIELD, (int) (amount * 10));
             player.playSound(player, Sound.ITEM_SHIELD_BREAK, 2F, .55F);

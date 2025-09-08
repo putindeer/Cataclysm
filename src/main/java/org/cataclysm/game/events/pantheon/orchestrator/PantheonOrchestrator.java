@@ -35,6 +35,7 @@ public class PantheonOrchestrator {
             case PANTHEON_ENTRANCE -> this.eventManager.castPantheonReopenEvent(autoElapse);
             case TWISTED_CITY -> this.eventManager.castStartEvent(autoElapse);
             case PALE_HEART -> this.battleManager.startPaleHeartBattle();
+            case STORMS_EYE -> this.battleManager.startCataclysmFinalBattle();
         }
         this.pantheon.getDispatcher().resetDelay();
     }
@@ -44,6 +45,7 @@ public class PantheonOrchestrator {
             case TWISTED_WARDEN -> this.battleManager.startTwistedCityBattle();
             case CALAMITY_HYDRA -> this.battleManager.startHydrasDungeonBattle();
             case VOID_LORD -> this.battleManager.startPaleHeartBattle();
+            case THE_CATACLYSM -> this.battleManager.startCataclysmFinalBattle();
         }
         this.pantheon.getDispatcher().resetDelay();
     }

@@ -13,6 +13,8 @@ import org.cataclysm.game.events.pantheon.PantheonBosses;
 import org.cataclysm.game.events.pantheon.PantheonLevels;
 import org.cataclysm.game.events.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.events.pantheon.bosses.PantheonBoss;
+import org.cataclysm.game.events.pantheon.bosses.the_cataclysm.TheCataclysm;
+import org.cataclysm.game.events.pantheon.bosses.the_cataclysm.TheCataclysmPhases;
 import org.cataclysm.game.events.pantheon.bosses.void_lord.VoidLord;
 import org.cataclysm.game.events.pantheon.orchestrator.PantheonOrchestrator;
 import org.cataclysm.game.events.pantheon.utils.PantheonTimer;
@@ -108,6 +110,17 @@ public class PantheonCommand extends BaseCommand {
         pantheon.getOrchestrator().startLevel(autoElapse, level);
 
         broadcastToStaff(sender, "/pantheon level start" + level.name() + " " + autoElapse);
+    }
+
+    @Subcommand("manage finalBoss")
+    private void manageFinalBossAction(CommandSender commandSender, TheCataclysmPhases phase) {
+        PantheonOfCataclysm pantheon = Cataclysm.getPantheon();
+        if (pantheon == null) return;
+
+        PantheonBoss boss = pantheon.getBoss();
+        if (!(boss instanceof TheCataclysm cataclysm)) return;
+
+        cataclysm.changePhase(phase);
     }
 
     @Subcommand("manage timer")

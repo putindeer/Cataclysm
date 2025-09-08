@@ -6,16 +6,20 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.GameMode;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.game.events.pantheon.PantheonLevels;
 import org.cataclysm.game.events.pantheon.bosses.PantheonBoss;
+import org.cataclysm.game.events.pantheon.bosses.the_cataclysm.abilities.*;
 import org.cataclysm.game.events.pantheon.bosses.the_ragnarok.TheRagnarok;
-import org.cataclysm.game.events.pantheon.bosses.the_cataclysm.utils.TheCataclysmEvents;
-import org.cataclysm.game.events.pantheon.bosses.the_cataclysm.utils.TheCataclysmPhases;
 
-@Getter
+@Getter @Setter
 public class TheCataclysm extends PantheonBoss {
+    private boolean chat = true;
+    private boolean vulnerable = false;
+
     private @Setter TheRagnarok ragnarok;
 
     private final TheCataclysmEvents eventManager;
@@ -32,6 +36,13 @@ public class TheCataclysm extends PantheonBoss {
     public void onStart() {
         this.eventManager.handleSetup();
         this.changePhase(TheCataclysmPhases.INTRO);
+        this.updateModel(EntityType.SKELETON, "The Cataclysm");
+        this.controller.setGameMode(GameMode.SPECTATOR);
+    }
+
+    @Override
+    public void onStop() {
+
     }
 
     public void changePhase(TheCataclysmPhases phase) {
@@ -49,12 +60,17 @@ public class TheCataclysm extends PantheonBoss {
     public void registerSoundtrack() {
         soundtrack.addTrack("THUNDERCLAP", Key.key("cataclysm.cataclysm.thunderclap"));
         soundtrack.addTrack("PANDEMONIUM", Key.key("cataclysm.cataclysm.pandemonium"));
-        soundtrack.addTrack("RAGNAROK", Key.key("cataclysm.ragnarok.theme"));
+        soundtrack.addTrack("POWER_OF_FRIENDSHIP", Key.key("cataclysm.cataclysm.power_of_friendship"));
         soundtrack.addTrack("DEFEATABLE", Key.key("cataclysm.cataclysm.defeatable"));
     }
 
     @Override
     public void registerAbilities() {
+        super.getAbilityManager().addAbility(new CataclysmAbility(this));
+        super.getAbilityManager().addAbility(new YouSeeBIGGIRLAbility(this));
+        super.getAbilityManager().addAbility(new NoGodToSaveYouAbility(this));
+        super.getAbilityManager().addAbility(new AnnihilationBeamAbility(this));
+        super.getAbilityManager().addAbility(new InfernalRingAbility(this));
     }
 
     @Override

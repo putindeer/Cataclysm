@@ -44,6 +44,13 @@ public class PantheonWarper {
                 player.teleport(zone.getLocation().clone().add(0, 10, 0)), 4500 / 50);
     }
 
+    public static void teleport(@NotNull Player player, Location location) {
+        playTeleportSound(player);
+        showWhitescreen(player, 1000, 4500, 1500);
+        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () ->
+                player.teleport(location.clone().add(0, 10, 0)), 4500 / 50);
+    }
+
     private static void playTeleportSound(Player player) {
         World world = player.getWorld();
         world.playSound(player, Sound.ITEM_TRIDENT_RETURN, 1f, .75f);

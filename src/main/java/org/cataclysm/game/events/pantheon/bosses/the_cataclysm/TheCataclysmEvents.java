@@ -1,4 +1,4 @@
-package org.cataclysm.game.events.pantheon.bosses.the_cataclysm.utils;
+package org.cataclysm.game.events.pantheon.bosses.the_cataclysm;
 
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
@@ -6,10 +6,12 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.SoundCategory;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.Soundtrack;
-import org.cataclysm.game.events.pantheon.bosses.the_cataclysm.TheCataclysm;
 import org.cataclysm.game.events.pantheon.utils.PantheonDispatcher;
 
 import java.time.Duration;
@@ -30,7 +32,51 @@ public class TheCataclysmEvents {
         if (phase == TheCataclysmPhases.INTRO) this.castCataclysmDialogue();
         if (phase == TheCataclysmPhases.THUNDERCLAP) this.castThunderclap();
         if (phase == TheCataclysmPhases.PANDEMONIUM) this.castCataclysmPandemonium();
+        if (phase == TheCataclysmPhases.DEFEATABLE) this.castDefeatablePhase();
         dispatcher.resetDelay();
+    }
+
+    public void castDefeatablePhase() {
+        this.cataclysm.getPantheon().getExecutor().schedule(() -> {
+            this.soundtrack.loop("DEFEATABLE", 127);
+        }, 63, TimeUnit.SECONDS);
+
+        this.cataclysm.setChat(false); //programar desabilitar chat
+        this.soundtrack.stopAll();
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, PotionEffect.INFINITE_DURATION, 255));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 0));
+        }
+        this.soundtrack.play(this.soundtrack.getSound("POWER_OF_FRIENDSHIP"));
+        dispatcher.addDelay(3000);
+        dispatcher.sendActionBar("Parece que vuestra aventura está llegando a un final");
+        dispatcher.sendActionBar("Las opciones parecen acabarse");
+        dispatcher.sendActionBar("Los jugadores van disminuyendo");
+        dispatcher.sendActionBar("Los recursos se están agotando");
+        dispatcher.sendActionBar("Definitivamente, no parece haber lugar para la esperanza");
+        dispatcher.sendActionBar("No parece quedar nada...");
+        dispatcher.addDelay(10000);
+        dispatcher.sendActionBar("Aún así...");
+        dispatcher.sendActionBar("Hay algo a lo que aun os podéis aferrar");
+        dispatcher.sendActionBar("A lo que todos nos podemos aferrar");
+        dispatcher.sendActionBar("¿Lo oís, supervivientes?");
+
+        dispatcher.schedule(() -> cataclysm.setChat(true));
+        dispatcher.schedule(() -> dispatcher.sendMessage("¡Ahora los espectadores pueden ayudar a los supervivientes pronunciando su nombre por el chat!"));
+
+        dispatcher.addDelay(10000);
+        dispatcher.sendActionBar("Ellos siguen ahí");
+        dispatcher.sendActionBar("Todos ellos");
+        dispatcher.sendActionBar("No siempre tiene que acabar mal");
+        dispatcher.sendActionBar("Acabar con este Cataclismo de una vez por todas");
+        dispatcher.schedule(() -> dispatcher.sendMessage("La defensa de Cataclysm ha caído a 0."));
+        this.dispatcher.schedule(this::startVulnerable);
+    }
+
+    public void startVulnerable() {
+        Bukkit.getOnlinePlayers().forEach(LivingEntity::clearActivePotionEffects);
+        this.cataclysm.setVulnerable(true);
     }
 
     public void castCataclysmDialogue() {
@@ -90,6 +136,9 @@ public class TheCataclysmEvents {
     }
 
     public void castThunderclap() {
+        dispatcher.schedule(()
+                -> this.soundtrack.loop(this.soundtrack.getSound("PANDEMONIUM"), 290), 205000);
+
         cataclysm.getBossBar().name(cataclysm.getBarName(false));
         cataclysm.health = cataclysm.maxHealth;
         cataclysm.updateBar();

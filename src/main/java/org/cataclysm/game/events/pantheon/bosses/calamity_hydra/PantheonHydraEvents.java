@@ -13,7 +13,7 @@ import java.time.Duration;
 public record PantheonHydraEvents(PantheonHydra hydra) {
 
     public void handlePhaseElapse(int currentPhase, double currentHealth) {
-        if (currentPhase == 0) this.castPhase(1);
+        if (currentPhase == 0 && currentHealth == 20000) this.castPhase(1);
         if (currentPhase == 1 && currentHealth <= 0) this.castPhase(2);
         if (currentPhase == 2 && currentHealth < 18000) this.castPhase(3);
     }

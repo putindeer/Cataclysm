@@ -128,9 +128,18 @@ public enum CataclysmItems {
 
     REGENERATE_STRUCTURE(new CataclysmItem(Material.GOLD_NUGGET, ItemFamily.ARCANE_TOOLS).setDisplay("REGENERATE STRUCTURE").setUnbreakable(true)),
 
-    OVERWORLDS_CHALICE(new CataclysmItem(Material.CARROT_ON_A_STICK, CataclysmColor.PANTHEON).setDisplay("Overworld's Chalice").setGlint(true)),
-    NETHERS_CHALICE(new CataclysmItem(Material.CARROT_ON_A_STICK, CataclysmColor.PANTHEON).setDisplay("Nether's Chalice").setGlint(true)),
-    ENDS_CHALICE(new CataclysmItem(Material.CARROT_ON_A_STICK, CataclysmColor.PANTHEON).setDisplay("End's Chalice").setGlint(true)),
+    OVERWORLDS_CHALICE(new CataclysmItem(Material.CARROT_ON_A_STICK, CataclysmColor.PANTHEON)
+            .setDisplay("<#3CB043>Overworld's Chalice")
+    ),
+    NETHERS_CHALICE(new CataclysmItem(Material.CARROT_ON_A_STICK, CataclysmColor.PANTHEON)
+            .setDisplay("<#B22222>Nether's Chalice")
+            .setGlint(true)
+    ),
+    ENDS_CHALICE(new CataclysmItem(Material.CARROT_ON_A_STICK, CataclysmColor.PANTHEON)
+            .setDisplay("<#4B0082>End's Chalice")
+            .setGlint(true)
+    ),
+
     GRYMPESITO_TOTEM(new CataclysmItem(Material.TOTEM_OF_UNDYING, CataclysmColor.PARAGON).setDisplay("Grympesito Totem").setDescription("Superstes Numisma").setAbility("Postmortalis", "Se activa incluso con Mortem. No reduce la mortalidad y otorga inmunidad por 7 segundos.").setGlint(true)),
 
     ;

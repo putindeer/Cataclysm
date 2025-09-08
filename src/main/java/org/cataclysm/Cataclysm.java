@@ -100,6 +100,7 @@ public final class Cataclysm extends JavaPlugin {
         //Pantheon Commands
         paperCommandManager.registerCommand(new PantheonCommand());
         paperCommandManager.registerCommand(new ProfileCommand());
+        paperCommandManager.registerCommand(new FinaleCommand());
 
         if (isMainHost()) {
             Bukkit.getPluginManager().registerEvents(new DiscordListener(), this);

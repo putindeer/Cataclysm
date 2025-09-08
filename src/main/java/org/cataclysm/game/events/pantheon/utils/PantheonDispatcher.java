@@ -19,7 +19,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class PantheonDispatcher {
-    private @Getter @Setter int acumulatedMillis;
+    private @Getter @Setter long acumulatedMillis;
 
     private final ScheduledExecutorService executor;
     private final Audience audience;
@@ -119,6 +119,10 @@ public class PantheonDispatcher {
         }, this.acumulatedMillis, TimeUnit.MILLISECONDS);
     }
 
+    public void addDelay(long millis) {
+        this.acumulatedMillis += millis;
+    }
+
     public void addDelay(int millis) {
         this.acumulatedMillis += millis;
     }
@@ -126,6 +130,30 @@ public class PantheonDispatcher {
     public void resetDelay() {
         this.acumulatedMillis = 0;
     }
+
+    /**
+     * Ejecuta un Runnable en el hilo principal de Bukkit de forma segura.
+     *
+     * @param task la tarea a ejecutar
+     */
+    public void runSync(Runnable task) {
+        executor.schedule(() -> {
+            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), task);
+        }, this.acumulatedMillis, TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * Ejecuta un Runnable en el hilo principal de Bukkit después de un retraso adicional.
+     *
+     * @param task la tarea a ejecutar
+     * @param delayMillis retraso adicional en milisegundos
+     */
+    public void runSync(Runnable task, long delayMillis) {
+        executor.schedule(() -> {
+            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), task);
+        }, this.acumulatedMillis + delayMillis, TimeUnit.MILLISECONDS);
+    }
+
 
     /**
      * Wraps the given prefix string in a formatted tag for display.
