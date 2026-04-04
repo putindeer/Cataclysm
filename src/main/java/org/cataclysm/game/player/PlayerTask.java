@@ -31,6 +31,7 @@ import org.cataclysm.game.mob.utils.TeleportUtils;
 import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
 import org.cataclysm.game.world.Dimensions;
 
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayerTask {
@@ -105,7 +106,15 @@ public class PlayerTask {
         //Twisted Relic's + 4 hearts
         var inventory = player.getInventory();
         var itemStack = day < 21 ? CataclysmItems.TWISTED_RELIC.build() : CataclysmItems.MIDWAY_RELIC.build();
-        if (inventory.contains(itemStack.getType())) defaultHealth += 8.0;
+        boolean hasRelic = false;
+        for (ItemStack item : inventory.getContents()) {
+            if (item == null) continue;
+            if (item.getItemMeta().displayName() != null && Objects.equals(item.getItemMeta().displayName(), itemStack.getItemMeta().displayName())) {
+                hasRelic = true;
+                break;
+            }
+        }
+        if (hasRelic) defaultHealth += 8.0;
 
         //End incursion extra health
         if (Boolean.TRUE.equals(PersistentData.get(player, "END_INCURSION_HEALTH", PersistentDataType.BOOLEAN))) {

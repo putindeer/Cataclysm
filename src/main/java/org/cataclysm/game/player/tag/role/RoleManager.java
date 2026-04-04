@@ -22,5 +22,4 @@ public record RoleManager(PlayerData data) {
     public RoleType getRole() {
         return RoleType.valueOf(this.data.getRoleType());
     }
-
 }

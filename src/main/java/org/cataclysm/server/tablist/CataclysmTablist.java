@@ -2,6 +2,7 @@ package org.cataclysm.server.tablist;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.player.CataclysmPlayer;
@@ -38,9 +39,13 @@ public class CataclysmTablist {
 
     public static void organizePlayer(Player player) {
         var data = CataclysmPlayer.getCataclysmPlayer(player).getData();
-        var role = new RoleManager(data).getRole();
+        if (data.getRoleType() == null) data.setRoleType("MEMBER");
+        var manager = new RoleManager(data);
+        var role = manager.getRole();
 
-        if (role == null) return;
+        if (role == null) {
+            return;
+        }
 
         TablistUtils.setScoreboardTeam(player, role.ordinal() + "-" + role.name());
         updatePlayerName(player);

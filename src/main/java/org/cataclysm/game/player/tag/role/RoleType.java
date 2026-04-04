@@ -6,15 +6,12 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public enum RoleType {
-
     ADMIN("#D5B56E"),
     STAFF("#ab8dd9"),
     VIP("#8dcaf6"),
     MEMBER("#76b254"),
     TURKEY("#a47854"),
-    SURVIVOR("#AB958A"), //Pantheon's participant
-
-    ;
+    SURVIVOR("#AB958A");
 
     private final String hex;
 

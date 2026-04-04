@@ -230,6 +230,7 @@ public class Paragon extends CataclysmMob {
         @EventHandler
         public void onCoreBlockBreak(BlockBreakEvent event) {
             Location location = event.getBlock().getLocation();
+            if (this.paragon.coreLocation == null) return;
             if (location.equals(this.paragon.coreLocation.getBlock().getLocation())) {
                 this.paragon.death();
                 event.setDropItems(false);
