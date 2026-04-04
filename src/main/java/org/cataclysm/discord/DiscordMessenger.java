@@ -18,6 +18,7 @@ public class DiscordMessenger {
                 .setDescription(PlainTextComponentSerializer.plainText().serialize(message));
 
         var channel = DiscordChannels.CHAT_LOG.getTextChannel();
+        if (channel == null) return;
         channel.sendMessageEmbeds(embedMessage.build()).queue();
     }
 
@@ -29,8 +30,14 @@ public class DiscordMessenger {
                 .addField(":skull: Causa: ", PlainTextComponentSerializer.plainText().serialize(deathMessage), true)
                 .addField(":compass: Coords: ", "[" + location.getWorld().getName() + "] | X: " + location.getBlockX() + " | Y: " + location.getBlockY() + " | Z:" + location.getBlockZ(), true);
 
-        DiscordChannels.CHAT_LOG.getTextChannel().sendMessageEmbeds(embedMessage.build()).queue();
-        DiscordChannels.DEATH_LOG.getTextChannel().sendMessageEmbeds(embedMessage.build()).queue();
+        var channel = DiscordChannels.CHAT_LOG.getTextChannel();
+        if (channel != null) {
+            channel.sendMessageEmbeds(embedMessage.build()).queue();
+        }
+        var channel2 = DiscordChannels.DEATH_LOG.getTextChannel();
+        if (channel2 != null) {
+            channel2.sendMessageEmbeds(embedMessage.build()).queue();
+        }
     }
 
     public static void sendTotemMessage(@NotNull Player player, Component cause, @NotNull String totemID, int totemNumber, String moratlity, @NotNull Location location) {
@@ -44,8 +51,14 @@ public class DiscordMessenger {
                 .addField(":skull: Causa: ", PlainTextComponentSerializer.plainText().serialize(cause), true)
                 .addField(":compass: Coords: ", "[" + location.getWorld().getName() + "] | X: " + location.getBlockX() + " | Y: " + location.getBlockY() + " | Z:" + location.getBlockZ(), true);
 
-        DiscordChannels.CHAT_LOG.getTextChannel().sendMessageEmbeds(embedMessage.build()).queue();
-        DiscordChannels.TOTEM_LOG.getTextChannel().sendMessageEmbeds(embedMessage.build()).queue();
+        var channel = DiscordChannels.CHAT_LOG.getTextChannel();
+        if (channel != null) {
+            channel.sendMessageEmbeds(embedMessage.build()).queue();
+        }
+        var channel2 = DiscordChannels.TOTEM_LOG.getTextChannel();
+        if (channel2 != null) {
+            channel2.sendMessageEmbeds(embedMessage.build()).queue();
+        }
     }
 
     private static @NotNull String getTotemImage(@NotNull String totemID) {

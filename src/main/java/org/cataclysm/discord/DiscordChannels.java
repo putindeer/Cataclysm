@@ -1,5 +1,6 @@
 package org.cataclysm.discord;
 
+import lombok.Getter;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.cataclysm.Cataclysm;
 
@@ -9,13 +10,17 @@ public enum DiscordChannels {
     CHAT_LOG("discord_chat_channel_id");
 
     private final String path;
+    @Getter private final TextChannel textChannel;
 
     DiscordChannels(String path) {
         this.path = path;
+        this.textChannel = textChannel();
     }
 
-    public TextChannel getTextChannel() {
-        return Cataclysm.getDiscord().getJda().getTextChannelById(getID());
+    private TextChannel textChannel() {
+        String ID = getID();
+        if (ID == null) return null;
+        return Cataclysm.getDiscord().getJda().getTextChannelById(ID);
     }
 
     public String getID() {
