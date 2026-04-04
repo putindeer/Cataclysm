@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Cataclysm-PaperMC.Cataclysm.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Cataclysm-PaperMC.Cataclysm.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Cataclysm-PaperMC.Cataclysm.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Cataclysm-PaperMC.Cataclysm.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Cataclysm.TheCataclysmSMP.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Cataclysm.TheCataclysmSMP.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Cataclysm.TheCataclysmSMP.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Cataclysm.TheCataclysmSMP.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Cataclysm.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Cataclysm.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Cataclysm.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Cataclysm.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Cataclysm-PaperMC.Cataclysm.main.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Cataclysm-PaperMC.Cataclysm.main.iml" />

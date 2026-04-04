@@ -1,18 +1,18 @@
-package org.cataclysm.game.events.raids.structures.pale_palace;
+package org.cataclysm.game.events.raids.structures.hydras_dungeon;
 
 import org.bukkit.Location;
 import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.structure.raid.RaidStructure;
 import org.cataclysm.game.world.Dimensions;
 
-public class PalePalace extends RaidStructure {
-    public PalePalace() {
-        super("THE_ABYSS");
+public class HydrasDungeon extends RaidStructure {
+    public HydrasDungeon() {
+        super("HYDRAS_DUNGEON");
     }
 
     @Override
     public CataclysmArea getArea() {
-        return new CataclysmArea(new Location(Dimensions.THE_END.createWorld(), -145, 30, -648), 200);
+        return new CataclysmArea(Dimensions.THE_END.getWorld().getSpawnLocation(), 170);
     }
 
     @Override

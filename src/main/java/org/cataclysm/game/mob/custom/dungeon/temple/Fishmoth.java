@@ -60,6 +60,7 @@ public class Fishmoth extends CataclysmMob {
 
         @EventHandler
         public void onAttack(EntityDamageByEntityEvent event) {
+            if (Cataclysm.getDay() < 28) return;
             if (!(event.getDamager() instanceof LivingEntity damager)) return;
 
             CataclysmToken token = CataclysmMob.getToken(damager);

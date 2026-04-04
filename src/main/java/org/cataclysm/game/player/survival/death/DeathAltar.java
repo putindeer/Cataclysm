@@ -30,28 +30,22 @@ public class DeathAltar {
         this.location.clone().getBlock().setType(Material.NETHER_BRICK_FENCE);
         this.location.clone().add(0, -1, 0).getBlock().setType(Material.BEDROCK);
 
-        var block = this.location.clone().add(0, 1, 0).getBlock();
-        block.setType(Material.PLAYER_HEAD, false);
-        var state = block.getState();
-        if (!(state instanceof Skull skull)) return;
-
-        skull.setOwningPlayer(Bukkit.getOfflinePlayer(this.player.getName()));
-        skull.update(true);
-
-        if (Boolean.TRUE.equals(player.getWorld().getGameRuleValue(GameRule.KEEP_INVENTORY))) return;
-        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
-            this.generateDoubleChestWithPlayerInventory(this.player, this.location.clone().add(1, 0, 0));
-            this.player.getInventory().clear();
-        }, 40L);
+        placeHead();
     }
 
     public void placeComplex() {
-        if (this.schematicLoader.getFile() == null) return;
-        if (!this.schematicLoader.getFile().exists()) return;
-        if (!this.schematicLoader.getFile().isFile()) return;
-        if (!this.schematicLoader.getFile().canRead()) return;
-        this.schematicLoader.pasteSchematic(this.location, true);
+        if (Cataclysm.getDay() < 21 || this.schematicLoader.getFile() == null || !this.schematicLoader.getFile().exists()
+                || !this.schematicLoader.getFile().isFile() || !this.schematicLoader.getFile().canRead()) {
+            this.location.clone().getBlock().setType(Material.NETHER_BRICK_FENCE);
+            this.location.clone().add(0, -1, 0).getBlock().setType(Material.BEDROCK);
+        } else {
+            this.schematicLoader.pasteSchematic(this.location, true);
+        }
 
+        placeHead();
+    }
+
+    private void placeHead() {
         var block = this.location.clone().add(0, 1, 0).getBlock();
         block.setType(Material.PLAYER_HEAD, false);
         var state = block.getState();

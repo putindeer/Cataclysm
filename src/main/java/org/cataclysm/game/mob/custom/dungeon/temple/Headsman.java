@@ -26,6 +26,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
 import org.bukkit.persistence.PersistentDataType;
+import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.mob.MobUtils;
@@ -39,8 +40,10 @@ public class Headsman extends CataclysmMob {
         super.setItem(EquipmentSlot.MAINHAND, Items.IRON_AXE);
         super.setHealth(20);
         super.setAttribute(Attributes.SCALE, 1.3f);
-        super.setAttribute(Attributes.ATTACK_DAMAGE, 42);
+        super.setAttribute(Attributes.ATTACK_DAMAGE, 13);
         super.amplifyAttribute(Attributes.MOVEMENT_SPEED, 1.17f);
+        if (Cataclysm.getDay() >= 7) super.amplifyAttribute(Attributes.ATTACK_DAMAGE, 1.5);
+        if (Cataclysm.getDay() >= 28) super.amplifyAttribute(Attributes.ATTACK_DAMAGE, 2);
     }
 
     static class HeadsmanEntity extends Vindicator {

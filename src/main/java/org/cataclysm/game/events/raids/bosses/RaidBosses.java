@@ -10,13 +10,11 @@ import org.cataclysm.game.events.raids.bosses.twisted_warden.TwistedWarden;
 public enum RaidBosses {
     TWISTED_WARDEN(new TwistedWarden("Twisted Warden", 15000)),
     CALAMITY_HYDRA(new CalamityHydra("Calamity Hydra", 30000)),
-    PALE_KING(new PaleKing("Pale King", 20000)),
-
-    ;
+    PALE_KING(new PaleKing("Pale King", 20000));
 
     private final CataclysmBoss manager;
 
-    RaidBosses(CataclysmBoss manager) {
-        this.manager = manager;
+    RaidBosses(CataclysmBoss boss) {
+        this.manager = boss;
     }
 }

@@ -109,6 +109,7 @@ public class Sentinel extends CataclysmMob {
 
             if (!(event.getEntity() instanceof org.bukkit.entity.Player player)) return;
             player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS, 200, 2));
+            if (day < 28) return;
             if (player.getWorld() == Dimensions.PALE_VOID.createWorld()) {
                 player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 100, 0));
                 player.addPotionEffect(new PotionEffect(PaleCorrosionEffect.EFFECT_TYPE, 100, 0));

@@ -74,7 +74,16 @@ public final class Cataclysm extends JavaPlugin {
         CataclysmMob.initializeMobConstructors();
         instance = this;
         store = new MobStore();
-        if (isMainHost()) discord = new DiscordConnection();
+        saveDefaultConfig();
+        String token = Cataclysm.getInstance().getConfig().getString("discord-token");
+        if (token == null) {
+            discordIsNotEnabled = true;
+        } else if (!token.isEmpty()) {
+            discordIsNotEnabled = false;
+        }
+        if (!discordIsNotEnabled) {
+            discord = new DiscordConnection();
+        }
         try {
             StructureLoader.loadAll();
             PlayerLoader.loadAll();
@@ -102,7 +111,7 @@ public final class Cataclysm extends JavaPlugin {
         paperCommandManager.registerCommand(new ProfileCommand());
         paperCommandManager.registerCommand(new FinaleCommand());
 
-        if (isMainHost()) {
+        if (!discordIsNotEnabled) {
             Bukkit.getPluginManager().registerEvents(new DiscordListener(), this);
         }
 
@@ -171,6 +180,8 @@ public final class Cataclysm extends JavaPlugin {
      * @return If the server is Cataclysm's main host.
      */
     public static boolean isMainHost() {
-        return Bukkit.getServer().getMaxPlayers() >= 135;
+        return Cataclysm.getInstance().getConfig().getBoolean("testing");
     }
+
+    public static boolean discordIsNotEnabled;
 }

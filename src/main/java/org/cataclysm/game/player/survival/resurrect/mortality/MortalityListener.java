@@ -149,15 +149,12 @@ public class MortalityListener implements Listener {
         effects.put(0.80f, () -> player.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE, 400, 1)));
         effects.put(0.75f, () -> player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, 0)));
         effects.put(0.60f, () -> {
-
             player.addPotionEffect(new PotionEffect(MortemEffect.EFFECT_TYPE, 200, 0));
             if (Cataclysm.getDay() >= 35) {
                 if (player.getAttribute(Attribute.SCALE) != null) {
                     player.getAttribute(Attribute.SCALE).setBaseValue(0.45);
                 }
             }
-
-
         });
 
         effects.put(0.50f, () -> player.addPotionEffect(new PotionEffect(DisperEffect.EFFECT_TYPE, 200, 0)));

@@ -109,7 +109,7 @@ public class BossListener implements Listener {
 
         event.setDamage(0);
 
-        //if (bossFight.health <= 0) bossFight.stopFight();
+        if (bossFight.health <= 0) bossFight.stopFight();
     }
 
     @EventHandler

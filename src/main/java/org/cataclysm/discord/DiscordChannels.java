@@ -1,21 +1,24 @@
 package org.cataclysm.discord;
 
-import lombok.Getter;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.cataclysm.Cataclysm;
 
-@Getter
 public enum DiscordChannels {
-    COMBAT_LOG("1368957736640839742"),
-    DEATH_LOG("1367592200833204436"),
-    TOTEM_LOG("1367592242264408154"),
-    CHAT_LOG("1368957651337085039"),
+    DEATH_LOG("discord_death_channel_id"),
+    TOTEM_LOG("discord_totem_channel_id"),
+    CHAT_LOG("discord_chat_channel_id");
 
-    ;
+    private final String path;
 
-    private final TextChannel textChannel;
+    DiscordChannels(String path) {
+        this.path = path;
+    }
 
-    DiscordChannels(String channelId) {
-        this.textChannel = Cataclysm.getDiscord().getJda().getTextChannelById(channelId);
+    public TextChannel getTextChannel() {
+        return Cataclysm.getDiscord().getJda().getTextChannelById(getID());
+    }
+
+    public String getID() {
+        return Cataclysm.getInstance().getConfig().getString(path);
     }
 }

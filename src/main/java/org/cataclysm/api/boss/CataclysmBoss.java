@@ -219,6 +219,8 @@ public abstract class CataclysmBoss implements Cloneable {
 
     public void updateBar() {
         float progress = (float) ((float) this.health/this.maxHealth);
+        if (progress > 1) progress = 1;
+        if (progress < 0) progress = 0;
         this.bossBar.progress(progress);
         this.healthBar.name(this.getHealthBarName());
     }

@@ -16,9 +16,8 @@ java {
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://repo.md-5.net/content/groups/public/"
-    }
+    maven {url "https://repo.md-5.net/content/groups/public/"}
+    maven {url = "https://mvn.lib.co.nz/public"}
     maven { url = "https://repo.aikar.co/content/groups/aikar/" }
     maven { url = "https://repo.papermc.io/repository/maven-public/" }
     maven { url = "https://oss.sonatype.org/content/groups/public/" }
@@ -56,7 +55,7 @@ dependencies {
 
     // Protocol Lib
     compileOnly "com.comphenix.protocol:ProtocolLib:5.1.0"
-    compileOnly 'me.libraryaddict.disguises:libsdisguises:11.0.7'
+    implementation "me.libraryaddict.disguises:libsdisguises:11.0.7"
 
     // Lombok
     compileOnly 'org.projectlombok:lombok:1.18.30'

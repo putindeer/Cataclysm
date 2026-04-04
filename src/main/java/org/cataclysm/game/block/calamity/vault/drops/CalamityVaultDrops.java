@@ -31,9 +31,8 @@ public enum CalamityVaultDrops {
     ENCHANTED_CALAMITY_APPLE(CalamityVaultRarity.EPIC, CataclysmItems.ENCHANTED_CALAMITY_APPLE.cloneBuilder().setAmount(3).build()),
     ARCANE_CORE(CalamityVaultRarity.EPIC, CataclysmItems.ARCANE_CORE.build()),
 
-    CALAMITY_TOTEM(CalamityVaultRarity.LEGENDARY, CataclysmItems.PARAGON_BLESSING.build()),
-    PARAGONS_BLESSING(CalamityVaultRarity.LEGENDARY, CataclysmItems.CALAMITY_TOTEM.build()),
-    ;
+    CALAMITY_TOTEM(CalamityVaultRarity.LEGENDARY, CataclysmItems.CALAMITY_TOTEM.build()),
+    PARAGONS_BLESSING(CalamityVaultRarity.LEGENDARY, CataclysmItems.PARAGON_BLESSING.build());
 
     private final ItemStack stack;
     private final CalamityVaultRarity rarity;

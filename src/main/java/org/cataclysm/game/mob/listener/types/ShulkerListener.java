@@ -21,6 +21,7 @@ public class ShulkerListener implements Listener {
 
     @EventHandler
     public void onBulletHit(ProjectileHitEvent event) {
+        if (Cataclysm.getDay() < 21) return;
         if (!(event.getEntity() instanceof ShulkerBullet bullet && bullet.getShooter() instanceof Shulker shulker)) return;
         var color = shulker.getColor();
         if (color == null) return;

@@ -85,7 +85,7 @@ public class PlayerTask {
 
         // -2 hearts on days 14+
         if (day >= 14) defaultHealth-= 4.0;
-        if (day >= 21) defaultHealth-=4.0;
+        if (day >= 21) defaultHealth-= 4.0;
         // Custom Armor
         if (PlayerUtils.hasArmor(ItemFamily.CALAMITY_ARMOR, player)) defaultHealth += 8.0;
         if (PlayerUtils.hasArmor(ItemFamily.PALE_ARMOR, player)) defaultHealth += 16.0;
@@ -133,11 +133,13 @@ public class PlayerTask {
         var noExtraHealth = PersistentData.get(player, "NO_INCURSION_EXTRA_HEALTH", PersistentDataType.INTEGER);
         if (noExtraHealth != null) defaultHealth += noExtraHealth * 4.0;
 
-        int overworldKeys = handleFinaleKeys(CataclysmItems.OVERWORLDS_CHALICE.build());
-        int netherKeys = handleFinaleKeys(CataclysmItems.NETHERS_CHALICE.build());
-        int endKeys = handleFinaleKeys(CataclysmItems.ENDS_CHALICE.build());
+        if (day >= 35) {
+            int overworldKeys = handleFinaleKeys(CataclysmItems.OVERWORLDS_CHALICE.build());
+            int netherKeys = handleFinaleKeys(CataclysmItems.NETHERS_CHALICE.build());
+            int endKeys = handleFinaleKeys(CataclysmItems.ENDS_CHALICE.build());
 
             defaultHealth -= (overworldKeys + netherKeys + endKeys);
+        }
 
         if (PlayerUtils.getMaxHealth(player) != defaultHealth) PlayerUtils.setMaxHealth(player, defaultHealth);
     }
@@ -353,5 +355,4 @@ public class PlayerTask {
 
         } else PersistentData.set(player, "SPAWN_MOB_TIMER", PersistentDataType.INTEGER, 15);
     }
-
 }

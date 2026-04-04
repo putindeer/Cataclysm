@@ -1,10 +1,8 @@
 package org.cataclysm.global.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Description;
-import co.aikar.commands.annotation.Subcommand;
+import co.aikar.commands.annotation.*;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -12,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.boss.CataclysmBoss;
@@ -49,12 +49,34 @@ public class RaidCommand extends BaseCommand {
     }
 
     @Subcommand("boss start")
-    private void start(CommandSender commandSender, RaidBosses boss) {
+    @CommandCompletion(" true|false")
+    private void start(CommandSender commandSender, RaidBosses boss, boolean pasteArena) {
         if (!(commandSender instanceof Player player)) return;
 
-        CataclysmBoss manager = boss.getManager();
-        manager.setController(player);
-        manager.startFight();
+        if (pasteArena) {
+            RaidStructures structure = switch (boss) {
+                case TWISTED_WARDEN -> RaidStructures.TWISTED_NEST;
+                case CALAMITY_HYDRA -> RaidStructures.HYDRAS_DUNGEON;
+                case PALE_KING -> RaidStructures.PALE_PALACE;
+            };
+            RaidStructure instance = structure.getStructure();
+            instance.pasteStructure(false);
+            ChatMessenger.sendStaffMessage(player, "Se ha pegado la arena " + instance.getName().toUpperCase() + ": ");
+            player.sendMessage(instance.getArea().toString());
+        }
+
+        for (Player players : Bukkit.getOnlinePlayers()) {
+            players.teleport(boss.getManager().getArena().center());
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 100, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 100, 0));
+        }
+
+        ChatMessenger.sendStaffMessage(player, "El jefe iniciará en 5 segundos");
+        Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {
+            CataclysmBoss manager = boss.getManager();
+            manager.setController(player);
+            manager.startFight();
+        }, 100);
     }
 
     @Subcommand("boss stop")
@@ -145,7 +167,7 @@ public class RaidCommand extends BaseCommand {
     private void testHydraSetFury(CommandSender commandSender) {
         RaidStructure structure = RaidStructures.MOTHER.getStructure();
 
-        CataclysmArea arena = structure.getBossArena();
+        CataclysmArea arena = structure.getArea();
         Location center = arena.center();
 
         World world = center.getWorld();

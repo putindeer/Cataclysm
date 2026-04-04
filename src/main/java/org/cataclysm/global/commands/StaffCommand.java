@@ -13,17 +13,23 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
+import org.cataclysm.api.boss.CataclysmBoss;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.item.ItemCatalogue;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.structure.CataclysmStructure;
 import org.cataclysm.api.structure.data.StructureLoader;
+import org.cataclysm.api.structure.raid.RaidStructure;
 import org.cataclysm.game.block.arcane.table.ArcaneTableMob;
 import org.cataclysm.game.events.limited.CataclysmEvents;
 import org.cataclysm.game.effect.ImmunityEffect;
 import org.cataclysm.game.effect.MortemEffect;
 import org.cataclysm.game.effect.PaleCorrosionEffect;
+import org.cataclysm.game.events.pantheon.PantheonBosses;
+import org.cataclysm.game.events.raids.bosses.RaidBosses;
+import org.cataclysm.game.events.raids.structures.RaidStructures;
 import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.mob.custom.block.CalamityVault;
 import org.cataclysm.game.player.CataclysmPlayer;
@@ -44,10 +50,11 @@ import org.cataclysm.server.tablist.CataclysmTablist;
 import java.time.Duration;
 import java.util.UUID;
 
+import static org.cataclysm.game.events.raids.bosses.RaidBosses.PALE_KING;
+
 @CommandAlias("staff")
 @CommandPermission("admin.perms")
 public class StaffCommand extends BaseCommand {
-
     @Subcommand("palevoid entrance")
     @CommandCompletion("@players true|false")
     private void palevoidEntrance(Player player, boolean entrance) {
