@@ -23,46 +23,41 @@ public class DiscordMessenger {
     }
 
     public static void sendDeathMessage(@NotNull Player player, Component deathMessage, @NotNull Location location) {
+        var causeText = deathMessage != null
+                ? PlainTextComponentSerializer.plainText().serialize(deathMessage)
+                : "Muerte desconocida";
+
         var embedMessage = new EmbedBuilder()
                 .setAuthor(player.getName())
                 .setColor(Color.RED)
                 .addField(":watch: Fecha:", "[ <t:" + System.currentTimeMillis() / 1000 + ":R> ]", true)
-                .addField(":skull: Causa: ", PlainTextComponentSerializer.plainText().serialize(deathMessage), true)
-                .addField(":compass: Coords: ", "[" + location.getWorld().getName() + "] | X: " + location.getBlockX() + " | Y: " + location.getBlockY() + " | Z:" + location.getBlockZ(), true);
+                .addField(":skull: Causa:", causeText, true)
+                .addField(":compass: Coords:", "[" + location.getWorld().getName() + "] | X: " + location.getBlockX() + " | Y: " + location.getBlockY() + " | Z: " + location.getBlockZ(), true);
 
-        var channel = DiscordChannels.CHAT_LOG.getTextChannel();
-        if (channel != null) {
-            channel.sendMessageEmbeds(embedMessage.build()).queue();
-        }
-        var channel2 = DiscordChannels.DEATH_LOG.getTextChannel();
-        if (channel2 != null) {
-            channel2.sendMessageEmbeds(embedMessage.build()).queue();
-        }
+        var death = DiscordChannels.DEATH_LOG.getTextChannel();
+        if (death != null) death.sendMessageEmbeds(embedMessage.build()).queue();
+
+        var chat = DiscordChannels.CHAT_LOG.getTextChannel();
+        if (chat != null) chat.sendMessageEmbeds(embedMessage.build()).queue();
     }
 
-    public static void sendTotemMessage(@NotNull Player player, Component cause, @NotNull String totemID, int totemNumber, String moratlity, @NotNull Location location) {
-        var totemImage = getTotemImage(totemID);
-
+    public static void sendTotemMessage(@NotNull Player player, Component cause, @NotNull String totemID, int totemNumber, String mortality, @NotNull Location location) {
         var embedMessage = new EmbedBuilder()
-                .setAuthor(player.getName() + " • #" + totemNumber + ". " + moratlity)
-                .setThumbnail(totemImage)
+                .setAuthor(player.getName() + " • #" + totemNumber + ". " + mortality)
+                .setThumbnail(getTotemImage(totemID))
                 .setColor(Color.YELLOW)
-                .addField(":watch: Fecha: ", "[ <t:" + System.currentTimeMillis() / 1000 + ":R> ]", true)
-                .addField(":skull: Causa: ", PlainTextComponentSerializer.plainText().serialize(cause), true)
-                .addField(":compass: Coords: ", "[" + location.getWorld().getName() + "] | X: " + location.getBlockX() + " | Y: " + location.getBlockY() + " | Z:" + location.getBlockZ(), true);
+                .addField(":watch: Fecha:", "[ <t:" + System.currentTimeMillis() / 1000 + ":R> ]", true)
+                .addField(":skull: Causa:", PlainTextComponentSerializer.plainText().serialize(cause), true)
+                .addField(":compass: Coords:", "[" + location.getWorld().getName() + "] | X: " + location.getBlockX() + " | Y: " + location.getBlockY() + " | Z: " + location.getBlockZ(), true);
 
-        var channel = DiscordChannels.CHAT_LOG.getTextChannel();
-        if (channel != null) {
-            channel.sendMessageEmbeds(embedMessage.build()).queue();
-        }
-        var channel2 = DiscordChannels.TOTEM_LOG.getTextChannel();
-        if (channel2 != null) {
-            channel2.sendMessageEmbeds(embedMessage.build()).queue();
-        }
+        var totem = DiscordChannels.TOTEM_LOG.getTextChannel();
+        if (totem != null) totem.sendMessageEmbeds(embedMessage.build()).queue();
+
+        var chat = DiscordChannels.CHAT_LOG.getTextChannel();
+        if (chat != null) chat.sendMessageEmbeds(embedMessage.build()).queue();
     }
 
     private static @NotNull String getTotemImage(@NotNull String totemID) {
-        Bukkit.getConsoleSender().sendMessage(totemID);
         return switch (totemID) {
             case "totem_of_undying" -> "https://cdn.discordapp.com/attachments/1367310545685970954/1394849105875832963/latest.png?ex=68784df5&is=6876fc75&hm=54366da110a422392f25059f5b67daaa5f2837ce873d0419a66e3c3ecda7dbd2&";
             case "arcane_totem" -> "https://cdn.discordapp.com/attachments/1367310545685970954/1394852638570450975/image.png?ex=68785140&is=6876ffc0&hm=83c2b02055a8eaaec7a2ebd0045797960646c3e4b22afc73535bc4780fed14b3&";

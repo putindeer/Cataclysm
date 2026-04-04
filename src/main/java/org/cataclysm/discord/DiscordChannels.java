@@ -1,7 +1,7 @@
 package org.cataclysm.discord;
 
 import lombok.Getter;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.cataclysm.Cataclysm;
 
 public enum DiscordChannels {
@@ -10,20 +10,26 @@ public enum DiscordChannels {
     CHAT_LOG("discord_chat_channel_id");
 
     private final String path;
-    @Getter private final TextChannel textChannel;
+    @Getter private TextChannel textChannel;
 
     DiscordChannels(String path) {
         this.path = path;
-        this.textChannel = textChannel();
-    }
-
-    private TextChannel textChannel() {
-        String ID = getID();
-        if (ID == null) return null;
-        return Cataclysm.getDiscord().getJda().getTextChannelById(ID);
     }
 
     public String getID() {
         return Cataclysm.getInstance().getConfig().getString(path);
+    }
+
+    public static void reload() {
+        for (DiscordChannels channel : values()) {
+            String id = channel.getID();
+            if (id == null || id.isBlank()) {
+                channel.textChannel = null;
+                continue;
+            }
+            channel.textChannel = Cataclysm.getDiscord()
+                    .getJda()
+                    .getTextChannelById(id);
+        }
     }
 }

@@ -77,7 +77,7 @@ public class DeathListener implements Listener {
         event.deathMessage(null);
         event.setCancelled(true);
 
-        if (!Cataclysm.isMainHost()) return;
+        if (Cataclysm.isTesting()) return;
         if (player.isOp()) return;
 
         Bukkit.getScheduler().runTaskLater(Cataclysm.getInstance(), () -> {

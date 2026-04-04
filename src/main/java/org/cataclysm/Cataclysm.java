@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.cataclysm.api.boss.CataclysmBoss;
+import org.cataclysm.discord.DiscordChannels;
 import org.cataclysm.game.events.finale.CataclysmFinale;
 import org.cataclysm.game.events.limited.EventManager;
 import org.cataclysm.game.events.limited.data.EventLoader;
@@ -75,15 +76,14 @@ public final class Cataclysm extends JavaPlugin {
         instance = this;
         store = new MobStore();
         saveDefaultConfig();
-        String token = Cataclysm.getInstance().getConfig().getString("discord-token");
-        if (token == null) {
-            discordIsNotEnabled = true;
-        } else if (!token.isEmpty()) {
-            discordIsNotEnabled = false;
-        }
+        String token = Cataclysm.getInstance().getConfig().getString("discord_token");
+        discordIsNotEnabled = (token == null || token.isBlank());
+
         if (!discordIsNotEnabled) {
             discord = new DiscordConnection();
+            DiscordChannels.reload();
         }
+
         try {
             StructureLoader.loadAll();
             PlayerLoader.loadAll();
@@ -179,9 +179,9 @@ public final class Cataclysm extends JavaPlugin {
      * Verifies if the server is the main Cataclysm's host or the BETA.
      * @return If the server is Cataclysm's main host.
      */
-    public static boolean isMainHost() {
+    public static boolean isTesting() {
         return Cataclysm.getInstance().getConfig().getBoolean("testing");
     }
 
-    public static boolean discordIsNotEnabled;
+    public static boolean discordIsNotEnabled = true;
 }

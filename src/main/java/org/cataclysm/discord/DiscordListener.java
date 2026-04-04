@@ -8,13 +8,11 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.player.survival.resurrect.totems.events.PlayerUseTotemEvent;
 
-import java.util.Objects;
-
 //This listener is registered in the main class if Cataclysm.isMainHost() is true.
 public class DiscordListener implements Listener {
-    private final boolean broadcastDeath = Cataclysm.getInstance().getConfig().getBoolean("broadcast-death-discord");
-    private final boolean broadcastChat = Cataclysm.getInstance().getConfig().getBoolean("broadcast-chat-discord");
-    private final boolean broadcastTotem = Cataclysm.getInstance().getConfig().getBoolean("broadcast-totem-discord");
+    private final boolean broadcastDeath = Cataclysm.getInstance().getConfig().getBoolean("discord_broadcast_death");
+    private final boolean broadcastChat = Cataclysm.getInstance().getConfig().getBoolean("discord_broadcast_chat");
+    private final boolean broadcastTotem = Cataclysm.getInstance().getConfig().getBoolean("discord_broadcast_totem");
 
     @EventHandler(priority = EventPriority.LOWEST)
     private void onPlayerDeath(PlayerDeathEvent event) {

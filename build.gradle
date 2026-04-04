@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.github.OGminso:ChatHeadFont:API-v0.0.4'
 
     // JDA
-    implementation("net.dv8tion:JDA:5.0.0-alpha.12")
+    implementation("net.dv8tion:JDA:6.4.0")
 
     // Protocol Lib
     compileOnly "com.comphenix.protocol:ProtocolLib:5.1.0"
