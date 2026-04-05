@@ -2,11 +2,9 @@ package org.cataclysm.game.events.pantheon.orchestrator.fountain;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.kyori.adventure.key.Key;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.Soundtrack;
 import org.cataclysm.game.events.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.events.pantheon.config.player.PantheonProfile;
 import org.cataclysm.game.events.pantheon.orchestrator.fountain.gui.InteractableMob;

@@ -1,7 +1,6 @@
 package org.cataclysm.api.mob.store;
 
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.HandlerList;

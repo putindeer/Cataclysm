@@ -2,7 +2,6 @@ package org.cataclysm.game.player;
 
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -20,7 +19,6 @@ import org.cataclysm.game.items.ItemFamily;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Iterator;
 import java.util.Objects;
 
 public class PlayerUtils {

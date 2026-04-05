@@ -2,7 +2,6 @@ package org.cataclysm.game.events.pantheon.bosses.the_cataclysm.abilities;
 
 import org.bukkit.*;
 import org.bukkit.craftbukkit.CraftWorld;
-import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.ParticleHandler;
 import org.cataclysm.api.mob.CataclysmMob;
@@ -39,7 +38,7 @@ public class CataclysmAbility extends PantheonAbility {
     public void channel() {
         var controller = cataclysm.getController();
         var location = controller.getLocation();
-        cataclysm.getArena().getPlayersInArena().forEach(player -> {;
+        cataclysm.getArena().getPlayersInArena().forEach(player -> {
             playSound(player, location, Sound.ENTITY_WARDEN_ROAR, 8F, 0.5F);
             playSound(player, location, Sound.ITEM_GOAT_HORN_SOUND_6, 8F, 0.6F);
         });

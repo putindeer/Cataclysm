@@ -27,7 +27,7 @@ public class StructureLoot {
             case TRAPPED_CHEST -> this.trappedChestLoot = lootContainer;
             case BARREL -> this.barrelLoot = lootContainer;
             case VAULT -> this.vaultLoot = lootContainer;
-        };
+        }
     }
 
     public void apply(@NotNull BlockInventoryHolder blockInventoryHolder) {

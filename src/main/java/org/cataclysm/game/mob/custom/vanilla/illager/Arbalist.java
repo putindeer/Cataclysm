@@ -9,17 +9,9 @@ import net.minecraft.world.entity.monster.Pillager;
 import net.minecraft.world.level.Level;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.potion.PotionType;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.mob.CataclysmMob;
-import org.cataclysm.global.utils.security.CataclysmToken;
 import org.jetbrains.annotations.NotNull;
 
 public class Arbalist extends CataclysmMob {

@@ -8,8 +8,8 @@ import org.bukkit.entity.Ravager;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.api.ParticleHandler;
-import org.cataclysm.game.mob.utils.EffectUtils;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.CalamityHydra;
+import org.cataclysm.game.mob.utils.EffectUtils;
 
 public class CalamityExplosion {
     public enum Type {SMALL, MACRO, MAGIC}

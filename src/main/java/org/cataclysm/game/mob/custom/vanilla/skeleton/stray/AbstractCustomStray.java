@@ -4,7 +4,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.Stray;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;

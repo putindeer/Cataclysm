@@ -1,6 +1,5 @@
 package org.cataclysm.game.events.raids.structures.hydras_dungeon;
 
-import org.bukkit.Location;
 import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.structure.raid.RaidStructure;
 import org.cataclysm.game.world.Dimensions;

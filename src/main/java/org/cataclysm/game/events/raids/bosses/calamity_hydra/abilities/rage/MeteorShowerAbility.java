@@ -2,8 +2,8 @@ package org.cataclysm.game.events.raids.bosses.calamity_hydra.abilities.rage;
 
 import org.bukkit.*;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.ParticleHandler;
+import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.CalamityHydra;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.attacks.CalamityCharge;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.rage.RageAbility;

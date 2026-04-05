@@ -2,9 +2,6 @@ package org.cataclysm.game.events.pantheon.config.context;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.cataclysm.game.events.pantheon.config.player.PantheonProfile;
-
-import java.util.HashMap;
 
 @Getter @Setter
 public class PantheonContext {

@@ -17,8 +17,8 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.structure.CataclysmStructure;
-import org.cataclysm.api.structure.data.StructureLevel;
 import org.cataclysm.api.structure.StructureUtils;
+import org.cataclysm.api.structure.data.StructureLevel;
 
 import java.util.List;
 

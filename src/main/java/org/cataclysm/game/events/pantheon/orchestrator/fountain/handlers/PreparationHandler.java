@@ -8,8 +8,8 @@ import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.game.events.pantheon.PantheonOfCataclysm;
 import org.cataclysm.game.events.pantheon.config.player.PantheonProfile;
-import org.cataclysm.game.events.pantheon.orchestrator.fountain.gui.InteractableMob;
 import org.cataclysm.game.events.pantheon.orchestrator.fountain.gui.FountainGUI;
+import org.cataclysm.game.events.pantheon.orchestrator.fountain.gui.InteractableMob;
 
 @Registrable
 public class PreparationHandler implements Listener {

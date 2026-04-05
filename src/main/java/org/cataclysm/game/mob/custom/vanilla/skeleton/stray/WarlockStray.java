@@ -1,8 +1,6 @@
 package org.cataclysm.game.mob.custom.vanilla.skeleton.stray;
 
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.monster.Stray;
 import net.minecraft.world.level.Level;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;

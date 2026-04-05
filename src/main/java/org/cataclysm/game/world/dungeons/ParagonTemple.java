@@ -9,8 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.BookMeta;
 import org.cataclysm.api.structure.CataclysmStructure;
-import org.cataclysm.api.structure.data.StructureLevel;
 import org.cataclysm.api.structure.StructureUtils;
+import org.cataclysm.api.structure.data.StructureLevel;
 import org.cataclysm.game.items.CataclysmItems;
 import org.cataclysm.game.player.survival.advancement.CataclysmAdvancement;
 

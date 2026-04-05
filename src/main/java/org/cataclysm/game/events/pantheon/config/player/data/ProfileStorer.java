@@ -5,7 +5,6 @@ import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.json.JsonConfig;
 import org.cataclysm.game.events.pantheon.config.player.PantheonProfile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

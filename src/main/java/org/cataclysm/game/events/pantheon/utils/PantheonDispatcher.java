@@ -11,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.game.events.pantheon.PantheonOfCataclysm;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 

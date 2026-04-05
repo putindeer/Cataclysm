@@ -10,7 +10,6 @@ import org.bukkit.craftbukkit.entity.CraftAreaEffectCloud;
 import org.bukkit.entity.*;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-import org.cataclysm.Cataclysm;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

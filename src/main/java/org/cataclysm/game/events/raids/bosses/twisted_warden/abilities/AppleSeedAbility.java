@@ -7,8 +7,8 @@ import org.bukkit.Sound;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.boss.ability.Ability;
 import org.cataclysm.api.ParticleHandler;
+import org.cataclysm.api.boss.ability.Ability;
 import org.cataclysm.game.events.raids.bosses.twisted_warden.TwistedWarden;
 
 import java.util.concurrent.TimeUnit;

@@ -2,15 +2,18 @@ package org.cataclysm.global.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
-import org.cataclysm.game.player.CataclysmPlayer;
-import org.cataclysm.game.player.data.PlayerData;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @CommandAlias("podium")
 @CommandPermission("admin.perms")
@@ -54,7 +57,7 @@ public class PodiumCommand extends BaseCommand {
     @Subcommand("totem no-logro")
     @Description("Muestra la lista de jugadores que no tienen el logro Postmortal y no estén baneados.")
     public void onTotemNoLogro(@NotNull Player sender) {
-        var players = Arrays.asList(Bukkit.getOfflinePlayers());
+        var players = Bukkit.getOfflinePlayers();
         List<String> sinLogro = new ArrayList<>();
 
         Advancement postmortal = Bukkit.getAdvancement(NamespacedKey.minecraft("adventure/totem_of_undying"));

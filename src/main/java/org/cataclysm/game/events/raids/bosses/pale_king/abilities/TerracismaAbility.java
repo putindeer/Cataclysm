@@ -10,10 +10,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.ParticleHandler;
-import org.cataclysm.game.player.PlayerUtils;
+import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
+import org.cataclysm.game.player.PlayerUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -80,7 +80,7 @@ public class TerracismaAbility extends PaleAbility {
                 Bukkit.getScheduler().cancelTask(Cataclysm.getTasks().get(uuid));
                 this.castEarthquake(location, 20);
                 super.king.damage(livingEntity, 180);
-            };
+            }
         }, 2, 1);
         Cataclysm.getTasks().put(uuid, task);
     }

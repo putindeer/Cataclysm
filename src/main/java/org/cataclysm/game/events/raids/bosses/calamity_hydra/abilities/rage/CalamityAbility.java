@@ -3,8 +3,8 @@ package org.cataclysm.game.events.raids.bosses.calamity_hydra.abilities.rage;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.ParticleHandler;
+import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.CalamityHydra;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.rage.RageAbility;
 

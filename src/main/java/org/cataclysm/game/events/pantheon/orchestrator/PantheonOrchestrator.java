@@ -2,9 +2,9 @@ package org.cataclysm.game.events.pantheon.orchestrator;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.cataclysm.game.events.pantheon.PantheonBosses;
 import org.cataclysm.game.events.pantheon.PantheonLevels;
 import org.cataclysm.game.events.pantheon.PantheonOfCataclysm;
-import org.cataclysm.game.events.pantheon.PantheonBosses;
 import org.cataclysm.game.events.pantheon.utils.PantheonDispatcher;
 
 @Getter @Setter

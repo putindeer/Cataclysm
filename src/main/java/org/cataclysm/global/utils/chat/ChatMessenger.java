@@ -1,11 +1,9 @@
 package org.cataclysm.global.utils.chat;
 
 import lombok.Getter;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;

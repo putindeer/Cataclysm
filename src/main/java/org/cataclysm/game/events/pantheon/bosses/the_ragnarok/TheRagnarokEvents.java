@@ -5,7 +5,6 @@ import net.kyori.adventure.sound.Sound;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.cataclysm.api.Soundtrack;
-import org.cataclysm.game.events.pantheon.bosses.the_ragnarok.TheRagnarok;
 import org.cataclysm.game.events.pantheon.utils.PantheonDispatcher;
 
 public class TheRagnarokEvents {

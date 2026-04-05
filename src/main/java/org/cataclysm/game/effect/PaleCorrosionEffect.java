@@ -8,6 +8,7 @@ import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.cataclysm.Cataclysm;
 import org.cataclysm.api.data.PersistentData;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.game.items.ItemFamily;
@@ -32,6 +33,7 @@ public class PaleCorrosionEffect implements Listener {
 
     @EventHandler
     public void playerPotionEffect(EntityPotionEffectEvent event) {
+        if (Cataclysm.getDay() < 21) return;
         PotionEffect newEffect = event.getNewEffect();
         if (newEffect == null) return;
         if (!(event.getEntity() instanceof Player player)) return;
@@ -40,7 +42,5 @@ public class PaleCorrosionEffect implements Listener {
         if (newEffect.getType().equals(EFFECT_TYPE)) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.POISON, newEffect.getDuration(), 0));
         }
-
     }
-
 }

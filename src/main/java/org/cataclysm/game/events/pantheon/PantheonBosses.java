@@ -2,10 +2,10 @@ package org.cataclysm.game.events.pantheon;
 
 import lombok.Getter;
 import org.cataclysm.game.events.pantheon.bosses.PantheonBoss;
-import org.cataclysm.game.events.pantheon.bosses.the_cataclysm.TheCataclysm;
-import org.cataclysm.game.events.pantheon.bosses.void_lord.VoidLord;
 import org.cataclysm.game.events.pantheon.bosses.calamity_hydra.PantheonHydra;
+import org.cataclysm.game.events.pantheon.bosses.the_cataclysm.TheCataclysm;
 import org.cataclysm.game.events.pantheon.bosses.twisted_warden.PantheonWarden;
+import org.cataclysm.game.events.pantheon.bosses.void_lord.VoidLord;
 
 @Getter
 public enum PantheonBosses {

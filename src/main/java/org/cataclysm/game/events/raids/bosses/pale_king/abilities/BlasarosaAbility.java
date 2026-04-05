@@ -3,10 +3,10 @@ package org.cataclysm.game.events.raids.bosses.pale_king.abilities;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.ParticleHandler;
-import org.cataclysm.game.player.PlayerUtils;
+import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
+import org.cataclysm.game.player.PlayerUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

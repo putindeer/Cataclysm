@@ -1,28 +1,26 @@
 package org.cataclysm.game.events.pantheon.bosses.twisted_warden;
 
-import io.papermc.paper.datacomponent.item.PaperBannerPatternLayers;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.title.Title;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
+import org.cataclysm.api.boss.BossUtils;
 import org.cataclysm.api.boss.CataclysmArea;
-import org.cataclysm.game.events.pantheon.PantheonBosses;
 import org.cataclysm.game.events.pantheon.PantheonLevels;
 import org.cataclysm.game.events.pantheon.bosses.PantheonBoss;
-import org.cataclysm.api.boss.BossUtils;
 import org.cataclysm.game.events.pantheon.bosses.twisted_warden.abilities.*;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class PantheonWarden extends PantheonBoss {

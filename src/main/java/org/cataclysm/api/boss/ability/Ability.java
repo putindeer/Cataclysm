@@ -3,7 +3,6 @@ package org.cataclysm.api.boss.ability;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.global.utils.text.TextUtils;

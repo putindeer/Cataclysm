@@ -8,13 +8,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.game.mob.utils.EffectUtils;
-
-import java.util.Set;
 
 @Registrable
 public class CalamityMobsListener implements Listener {

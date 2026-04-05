@@ -3,7 +3,6 @@ package org.cataclysm.game.world;
 import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.util.NumberConversions;
-import org.cataclysm.game.world.generator.VoidGenerator;
 
 @Getter
 public enum Dimensions {

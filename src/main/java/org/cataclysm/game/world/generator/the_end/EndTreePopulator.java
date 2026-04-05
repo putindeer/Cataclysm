@@ -1,12 +1,15 @@
 package org.cataclysm.game.world.generator.the_end;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.TreeType;
 import org.bukkit.generator.BlockPopulator;
-import org.jetbrains.annotations.NotNull;
-import java.util.Random;
-import org.bukkit.*;
 import org.bukkit.generator.LimitedRegion;
 import org.bukkit.generator.WorldInfo;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Random;
 
 public class EndTreePopulator extends BlockPopulator {
 

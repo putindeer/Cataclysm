@@ -1,7 +1,6 @@
 package org.cataclysm.game.events.pantheon.bosses.the_cataclysm.abilities;
 
 import org.bukkit.*;
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;

@@ -1,6 +1,9 @@
 package org.cataclysm.game.events.raids.bosses.calamity_hydra.abilities;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.cataclysm.Cataclysm;

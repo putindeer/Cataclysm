@@ -13,11 +13,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.boss.CataclysmBoss;
 import org.cataclysm.api.CataclysmColor;
-import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.ParticleHandler;
-import org.cataclysm.game.events.raids.structures.RaidStructures;
+import org.cataclysm.api.boss.CataclysmBoss;
+import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.game.events.raids.bosses.pale_king.abilities.BlasarosaAbility;
 import org.cataclysm.game.events.raids.bosses.pale_king.abilities.EmbraceTheVoidAbility;
 import org.cataclysm.game.events.raids.bosses.pale_king.abilities.KingsoulAbility;
@@ -25,6 +24,7 @@ import org.cataclysm.game.events.raids.bosses.pale_king.abilities.TerracismaAbil
 import org.cataclysm.game.events.raids.bosses.pale_king.attacks.PaleDashAttack;
 import org.cataclysm.game.events.raids.bosses.pale_king.attacks.PaleScourageAttack;
 import org.cataclysm.game.events.raids.bosses.pale_king.attacks.PaleTeleportAttack;
+import org.cataclysm.game.events.raids.structures.RaidStructures;
 import org.cataclysm.global.utils.text.font.TinyCaps;
 
 import java.util.concurrent.TimeUnit;

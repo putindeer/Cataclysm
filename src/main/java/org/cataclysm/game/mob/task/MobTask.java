@@ -11,7 +11,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.game.mob.custom.dungeon.temple.Enchanter;
 import org.cataclysm.game.mob.utils.MobUtils;
-import org.cataclysm.game.world.Dimensions;
 
 public class MobTask {
     public void startTickTask(int tick) {

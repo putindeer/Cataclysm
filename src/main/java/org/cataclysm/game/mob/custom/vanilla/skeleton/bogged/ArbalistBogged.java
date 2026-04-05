@@ -1,8 +1,5 @@
 package org.cataclysm.game.mob.custom.vanilla.skeleton.bogged;
 
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.Level;
 import org.bukkit.Material;

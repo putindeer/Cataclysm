@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
-import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.ParticleHandler;
+import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.game.effect.DisperEffect;
 import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
 
@@ -62,7 +62,7 @@ public class EmbraceTheVoidAbility extends PaleAbility {
             for (int i = 0; i < locations.size(); i++) {
                 Location location = locations.get(i);
                 service.schedule(() -> {
-                    Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> this.spawnSphere(location, 4.0, (int) (this.channelTime + this.delay)));
+                    Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> this.spawnSphere(location, 4.0, this.channelTime + this.delay));
                 }, 250L * i, TimeUnit.MILLISECONDS);
             }
         }, 30);
@@ -82,7 +82,7 @@ public class EmbraceTheVoidAbility extends PaleAbility {
                     });
                 }, j * 600, TimeUnit.MILLISECONDS);
             }
-        }, (int) this.channelTime, TimeUnit.SECONDS);
+        }, this.channelTime, TimeUnit.SECONDS);
 
         service.schedule(() -> {
             Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
@@ -118,9 +118,7 @@ public class EmbraceTheVoidAbility extends PaleAbility {
         service.schedule(() -> {
             for (int i = 0; i < this.delay * 2; i++) {
                 service.schedule(() -> {
-                    Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-                        this.summonVoidSphere(particleCenter, radius);
-                    });
+                    Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> this.summonVoidSphere(particleCenter, radius));
                 }, i * 500, TimeUnit.MILLISECONDS);
             }
         }, this.channelTime + 1, TimeUnit.SECONDS);
@@ -135,9 +133,7 @@ public class EmbraceTheVoidAbility extends PaleAbility {
         handler.sphere(Particle.SMOKE, radius, radius);
         location.getWorld().playSound(location, Sound.ENTITY_ILLUSIONER_PREPARE_MIRROR, 5, .5F);
         location.getWorld().playSound(location, Sound.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, 5, .5F);
-        location.getNearbyLivingEntities(radius).forEach(livingEntity -> {
-            livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 40, 4));
-        });
+        location.getNearbyLivingEntities(radius).forEach(livingEntity -> livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, 40, 4)));
     }
 
     private void summonExplosion(Location location, double radius) {

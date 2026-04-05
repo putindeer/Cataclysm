@@ -134,12 +134,10 @@ public class HydraPhase {
         this.hydra.getSoundtrack().stopAll();
 
         service.schedule(() -> {
-            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-                this.hydra.getArena().getPlayersInArena().forEach(player -> {
-                    player.showTitle(this.getTitle(2));
-                    player.playSound(player, Sound.BLOCK_END_PORTAL_SPAWN, 1.57F, 0.65F);
-                });
-            });
+            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> this.hydra.getArena().getPlayersInArena().forEach(player -> {
+                player.showTitle(this.getTitle(2));
+                player.playSound(player, Sound.BLOCK_END_PORTAL_SPAWN, 1.57F, 0.65F);
+            }));
         }, 3, TimeUnit.SECONDS);
 
         service.schedule(() -> {
@@ -169,12 +167,10 @@ public class HydraPhase {
         this.hydra.getSoundtrack().loop("PHASE_1", 251);
 
         service.schedule(() -> {
-            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> {
-                this.hydra.getArena().getPlayersInArena().forEach(player -> {
-                    player.showTitle(this.getTitle(1));
-                    player.playSound(player, Sound.BLOCK_END_PORTAL_SPAWN, 1.57F, 0.65F);
-                });
-            });
+            Bukkit.getScheduler().runTask(Cataclysm.getInstance(), () -> this.hydra.getArena().getPlayersInArena().forEach(player -> {
+                player.showTitle(this.getTitle(1));
+                player.playSound(player, Sound.BLOCK_END_PORTAL_SPAWN, 1.57F, 0.65F);
+            }));
         }, 3, TimeUnit.SECONDS);
     }
 
@@ -208,7 +204,7 @@ public class HydraPhase {
     }
 
     private double getHeadHealth() {
-        return ((double) this.hydra.maxHealth / this.hydra.heads);
+        return (this.hydra.maxHealth / this.hydra.heads);
     }
 
     private @NotNull Title getTitle(int ordinal) {

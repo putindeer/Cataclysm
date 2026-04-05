@@ -17,12 +17,12 @@ import org.cataclysm.api.boss.CataclysmArea;
 import org.cataclysm.api.boss.CataclysmBoss;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.structure.raid.RaidStructure;
-import org.cataclysm.game.mob.custom.cataclysm.mirage.MirageShulker;
 import org.cataclysm.game.events.raids.bosses.RaidBosses;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.CalamityHydra;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.HydraPhase;
 import org.cataclysm.game.events.raids.bosses.calamity_hydra.entity.SleepingHydra;
 import org.cataclysm.game.events.raids.structures.RaidStructures;
+import org.cataclysm.game.mob.custom.cataclysm.mirage.MirageShulker;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 
 import java.util.List;

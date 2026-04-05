@@ -9,20 +9,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.piglin.Piglin;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.cataclysm.Cataclysm;
 import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.game.mob.utils.MobUtils;
-import org.cataclysm.global.utils.security.CataclysmToken;
 import org.jetbrains.annotations.NotNull;
 
 public class Kamikaze extends CataclysmMob {

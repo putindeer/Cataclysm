@@ -5,10 +5,10 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.cataclysm.Cataclysm;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.data.PlayerData;
 import org.jetbrains.annotations.NotNull;
-import org.cataclysm.Cataclysm;
 
 public class PlayerCooldown {
 

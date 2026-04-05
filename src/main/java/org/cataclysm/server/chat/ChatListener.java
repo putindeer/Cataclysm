@@ -16,11 +16,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
+import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
 import org.cataclysm.game.player.CataclysmPlayer;
 import org.cataclysm.game.player.data.PlayerData;
 import org.cataclysm.game.player.tag.role.RoleManager;
 import org.cataclysm.game.player.tag.team.TeamManager;
-import org.cataclysm.game.events.raids.bosses.pale_king.PaleKing;
 import org.cataclysm.global.utils.chat.ChatMessenger;
 
 @Registrable
