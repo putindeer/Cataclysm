@@ -54,7 +54,7 @@ public enum CataclysmRecipes {
             .setIngredient('G', CataclysmItems.ARCANE_SCUTE.build())
             .setIngredient('H', Material.TUBE_CORAL)
             .setIngredient('I', CataclysmItems.VOID_STONE.build()),
-            10),
+            7),
 
     TWISTED_RELIC(new CustomRecipe("twisted_relic", CataclysmItems.TWISTED_RELIC.build(), 1, true)
             .setShape(
@@ -65,7 +65,7 @@ public enum CataclysmRecipes {
             .setIngredient('R', Material.RESIN_CLUMP)
             .setIngredient('T', CataclysmItems.TWISTED_INGOT.build())
             .setIngredient('V', CataclysmItems.VOID_HEART.build()),
-            10),
+            7),
 
     // Dia 21
 

@@ -19,7 +19,11 @@ public record TeamManager(PlayerData data) {
     }
 
     public Teams getTeam() {
-        return Teams.valueOf(this.data.getTeam());
+        try {
+            return Teams.valueOf(this.data.getTeam());
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return null;
+        }
     }
 
 }

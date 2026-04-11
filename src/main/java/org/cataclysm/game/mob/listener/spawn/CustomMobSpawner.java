@@ -63,7 +63,7 @@ public class CustomMobSpawner {
             return true;
         }
 
-        return spawnTwistedMobs(ctx);
+        return false;
     }
 
     private boolean spawnTwistedMobs(SpawnContext ctx) {
@@ -135,10 +135,6 @@ public class CustomMobSpawner {
         if (ctx.day >= 14 && ctx.entity.getType() == EntityType.BLAZE) {
             basePercentage = 50;
             if (ctx.day >= 21) basePercentage *= 2;
-        }
-
-        if (ctx.entity.getType().equals(EntityType.ZOMBIE) || ctx.entity.getType().equals(EntityType.ZOMBIE_VILLAGER)) {
-            basePercentage *= 2;
         }
 
         return basePercentage;
@@ -236,6 +232,6 @@ public class CustomMobSpawner {
     }
 
     private boolean isOnSlab(Location location) {
-        return location.add(0, -1, 0).getBlock().getType().name().toLowerCase().contains("slab");
+        return location.clone().add(0, -1, 0).getBlock().getType().name().toLowerCase().contains("slab");
     }
 }

@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
+import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.jetbrains.annotations.NotNull;
 
