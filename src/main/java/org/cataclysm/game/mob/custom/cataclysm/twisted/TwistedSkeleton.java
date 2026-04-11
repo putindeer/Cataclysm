@@ -10,6 +10,7 @@ import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.level.Level;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.cataclysm.Cataclysm;
 import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.item.ItemBuilder;
 import org.cataclysm.api.item.loot.LootContainer;
@@ -42,7 +43,7 @@ public class TwistedSkeleton extends CataclysmMob {
         @Override
         public boolean hurtServer(@NotNull ServerLevel level, @NotNull DamageSource damageSource, float amount) {
             if (damageSource.is(DamageTypeTags.IS_EXPLOSION)) return false;
-            if (damageSource.is(DamageTypeTags.IS_PROJECTILE)) return false;
+            if (Cataclysm.getDay() >= 21) if (damageSource.is(DamageTypeTags.IS_PROJECTILE)) return false;
             return super.hurtServer(level, damageSource, amount);
         }
 

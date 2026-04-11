@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public record TeamManager(PlayerData data) {
 
     public @NotNull Component build() {
+        if (this.getTeam() == null) return Component.text("");
         var badge = this.getTeam().getBadge();
         if (badge == null) return Component.text("");
         return MiniMessage.miniMessage().deserialize("<#ffffff>" + this.getTeam().getBadge());

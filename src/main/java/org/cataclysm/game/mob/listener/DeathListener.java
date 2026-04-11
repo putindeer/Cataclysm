@@ -1,5 +1,6 @@
 package org.cataclysm.game.mob.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -12,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scoreboard.Team;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
 import org.cataclysm.api.mob.CataclysmMob;
@@ -31,6 +33,8 @@ public class DeathListener implements Listener {
         Entity entity = event.getEntity();
         Location location = entity.getLocation();
         int day = Cataclysm.getDay();
+
+        if (!event.isCancelled()) cleanTeam(entity);
 
         switch (entity.getType()) {
             case SHULKER -> {
@@ -92,6 +96,18 @@ public class DeathListener implements Listener {
                     if (!entity.getPassengers().isEmpty()) location.createExplosion(entity, 5, false, false);
                 }
             }
+        }
+    }
+
+    private void cleanTeam(Entity entity) {
+        Team team = Bukkit.getScoreboardManager()
+                .getMainScoreboard()
+                .getTeam("no_collision");
+        if (team == null) return;
+
+        String uuid = entity.getUniqueId().toString();
+        if (team.hasEntry(uuid)) {
+            team.removeEntry(uuid);
         }
     }
 }

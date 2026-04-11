@@ -137,6 +137,10 @@ public class CustomMobSpawner {
             if (ctx.day >= 21) basePercentage *= 2;
         }
 
+        if (ctx.entity.getType().equals(EntityType.ZOMBIE) || ctx.entity.getType().equals(EntityType.ZOMBIE_VILLAGER)) {
+            basePercentage *= 2;
+        }
+
         return basePercentage;
     }
 

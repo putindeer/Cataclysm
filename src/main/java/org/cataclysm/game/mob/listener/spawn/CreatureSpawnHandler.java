@@ -48,9 +48,9 @@ public class CreatureSpawnHandler implements Listener {
         if (day < 7) return;
         SpawnContext context = new SpawnContext(entity, location, day, random);
 
+        if (customSpawner.spawnCustomVariant(event, context)) return;
         if (mobTransformer.replace(context)) return;
         if (vanillaTransformer.transform(event, context)) return;
-        if (customSpawner.spawnCustomVariant(event, context)) return;
         biomeSpawner.handleBiomeSpawns(context);
     }
 

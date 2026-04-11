@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Team;
 import org.cataclysm.api.boss.CataclysmBoss;
 import org.cataclysm.api.item.crafting.CataclysmRecipes;
 import org.cataclysm.api.listener.registrable.RegistrableUtils;
@@ -47,6 +48,7 @@ import org.cataclysm.global.commands.StaffCommand;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -144,6 +146,19 @@ public final class Cataclysm extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        Team team = Bukkit.getScoreboardManager().getMainScoreboard().getTeam("nocollision");
+        if (team != null) {
+            for (String entry : new HashSet<>(team.getEntries())) {
+                try {
+                    UUID uuid = UUID.fromString(entry);
+                    if (Bukkit.getEntity(uuid) == null) {
+                        team.removeEntry(entry);
+                    }
+                } catch (IllegalArgumentException ignored) {
+                    team.removeEntry(entry);
+                }
+            }
+        }
         if (pantheon != null) pantheon.getConfigurator().save();
 
         if (ragnarok != null) {
