@@ -2,7 +2,7 @@ name: Cataclysm
 version: '1.0'
 main: org.cataclysm.Cataclysm
 api-version: '1.21'
-authors: [ Pepe3012, Asunder ]
+authors: [ Pepe3012, Asunder, SasuMC ]
 description: A Minecraft plugin that provides an extreme hardcore experience
 depend: [LibsDisguises, ProtocolLib]
 dependencies:
