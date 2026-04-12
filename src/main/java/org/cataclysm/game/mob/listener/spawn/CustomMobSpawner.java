@@ -132,6 +132,10 @@ public class CustomMobSpawner {
             basePercentage *= 2;
         }
 
+        if (ctx.entity.getType().equals(EntityType.CREEPER)) {
+            basePercentage *= 2.5;
+        }
+
         if (ctx.day >= 14 && ctx.entity.getType() == EntityType.BLAZE) {
             basePercentage = 50;
             if (ctx.day >= 21) basePercentage *= 2;

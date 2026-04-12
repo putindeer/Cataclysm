@@ -1,12 +1,17 @@
 package org.cataclysm.game.mob.listener.spawn;
 
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Piglin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
 
@@ -24,8 +29,11 @@ public class CreatureSpawnHandler implements Listener {
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {
+        if (Cataclysm.getDay() >= 7) {
+            event.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, PotionEffect.INFINITE_DURATION, 0));
+        }
         // Skip custom/spawner spawns
-        if (getSkippableSpawnReasons().contains(event.getSpawnReason())) return;
+        if (!event.getEntity().getType().equals(EntityType.BLAZE) && getSkippableSpawnReasons().contains(event.getSpawnReason())) return;
 
         if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.SLIME_SPLIT)) {
             event.getEntity().remove();
@@ -44,6 +52,7 @@ public class CreatureSpawnHandler implements Listener {
             }
         }
 
+
         // Early return if day < 7 (most logic doesn't apply)
         if (day < 7) return;
         SpawnContext context = new SpawnContext(entity, location, day, random);
@@ -52,6 +61,23 @@ public class CreatureSpawnHandler implements Listener {
         if (mobTransformer.replace(context)) return;
         if (vanillaTransformer.transform(event, context)) return;
         biomeSpawner.handleBiomeSpawns(context);
+    }
+
+    @EventHandler
+    public void onPiglinSpawn(CreatureSpawnEvent event) {
+        LivingEntity entity = event.getEntity();
+        Ghast ghast = (Ghast) entity;
+
+        switch (entity.getType()) {
+            case PIGLIN -> {
+                Piglin piglin = (Piglin) entity;
+                piglin.setAggressive(true);
+            }
+            case ZOMBIFIED_PIGLIN -> {
+                ZombifiedPiglin piglin = (ZombifiedPiglin) entity;
+                piglin.setAggressive(true);
+            }
+        }
     }
 
     private List<EntityType> getSkippedTypes() {

@@ -245,7 +245,6 @@ public abstract class CataclysmMob implements Serializable {
 
     public void addFreshEntity(Location location) {
         this.addFreshEntity(location, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        this.getBukkitLivingEntity().addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, PotionEffect.INFINITE_DURATION, 0));
     }
 
     public void addFreshEntity(Location location, CreatureSpawnEvent.SpawnReason spawnReason) {
@@ -265,6 +264,7 @@ public abstract class CataclysmMob implements Serializable {
         ((CraftWorld) location.getWorld()).getHandle().addFreshEntity(this.entity, spawnReason);
 
         store.getStorer().store(this);
+        this.getBukkitLivingEntity().addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, PotionEffect.INFINITE_DURATION, 0));
     }
 
     public void cloneMob(@NotNull Location location) {
