@@ -66,10 +66,10 @@ public class CreatureSpawnHandler implements Listener {
     @EventHandler
     public void onPiglinSpawn(CreatureSpawnEvent event) {
         LivingEntity entity = event.getEntity();
-        Ghast ghast = (Ghast) entity;
 
         switch (entity.getType()) {
             case PIGLIN -> {
+
                 Piglin piglin = (Piglin) entity;
                 piglin.setAggressive(true);
             }
