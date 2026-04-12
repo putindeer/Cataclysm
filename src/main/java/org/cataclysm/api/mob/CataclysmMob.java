@@ -24,8 +24,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.cataclysm.Cataclysm;
@@ -264,7 +262,6 @@ public abstract class CataclysmMob implements Serializable {
         ((CraftWorld) location.getWorld()).getHandle().addFreshEntity(this.entity, spawnReason);
 
         store.getStorer().store(this);
-        this.getBukkitLivingEntity().addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, PotionEffect.INFINITE_DURATION, 0));
     }
 
     public void cloneMob(@NotNull Location location) {

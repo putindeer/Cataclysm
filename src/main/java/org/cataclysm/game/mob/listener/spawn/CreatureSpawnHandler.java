@@ -1,17 +1,15 @@
 package org.cataclysm.game.mob.listener.spawn;
 
-import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Ghast;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Piglin;
+import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
 
@@ -29,9 +27,6 @@ public class CreatureSpawnHandler implements Listener {
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {
-        if (Cataclysm.getDay() >= 7) {
-            event.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, PotionEffect.INFINITE_DURATION, 0));
-        }
         // Skip custom/spawner spawns
         if (!event.getEntity().getType().equals(EntityType.BLAZE) && getSkippableSpawnReasons().contains(event.getSpawnReason())) return;
 
@@ -67,10 +62,19 @@ public class CreatureSpawnHandler implements Listener {
     public void onPiglinSpawn(CreatureSpawnEvent event) {
         LivingEntity entity = event.getEntity();
 
-        if (entity instanceof Piglin piglin) {
-            piglin.setAggressive(true);
-        } else if (entity instanceof ZombifiedPiglin zombifiedPiglin) {
-            zombifiedPiglin.setAggressive(true);
+        if (entity instanceof PigZombie pigZombie) {
+            pigZombie.setAngry(true);
+        }
+    }
+
+    @EventHandler
+    public void onFireDamage(EntityDamageEvent event) {
+        if (Cataclysm.getDay() < 7) return;
+        if (event.getEntity() instanceof Player) return;
+        if (!(event.getEntity() instanceof LivingEntity)) return;
+
+        switch (event.getCause()) {
+            case FIRE, FIRE_TICK, LAVA, HOT_FLOOR -> event.setCancelled(true);
         }
     }
 

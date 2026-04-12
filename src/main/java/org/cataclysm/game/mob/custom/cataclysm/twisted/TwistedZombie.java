@@ -2,16 +2,11 @@ package org.cataclysm.game.mob.custom.cataclysm.twisted;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Husk;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.CataclysmColor;
 import org.cataclysm.api.item.loot.LootContainer;
@@ -20,7 +15,6 @@ import org.cataclysm.api.mob.CataclysmMob;
 import org.cataclysm.api.mob.drops.CataclysmDrops;
 import org.cataclysm.game.items.CataclysmItems;
 import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.Nullable;
 
 public class TwistedZombie extends CataclysmMob {
 

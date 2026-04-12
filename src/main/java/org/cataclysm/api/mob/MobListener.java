@@ -100,7 +100,9 @@ public class MobListener implements Listener {
 
         var file = MobLoader.getMobFile(dungeon, livingEntity);
         if (file == null) return;
-        file.delete();
+        if (!file.delete()) {
+            Cataclysm.debug("Couldn't delete mob file: " + file.getName());
+        }
         var store = dungeon.getMobStore();
         if (store == null || store.getStorer() == null) return;
 
