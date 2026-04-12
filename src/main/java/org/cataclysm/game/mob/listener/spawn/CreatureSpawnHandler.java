@@ -67,16 +67,10 @@ public class CreatureSpawnHandler implements Listener {
     public void onPiglinSpawn(CreatureSpawnEvent event) {
         LivingEntity entity = event.getEntity();
 
-        switch (entity.getType()) {
-            case PIGLIN -> {
-
-                Piglin piglin = (Piglin) entity;
-                piglin.setAggressive(true);
-            }
-            case ZOMBIFIED_PIGLIN -> {
-                ZombifiedPiglin piglin = (ZombifiedPiglin) entity;
-                piglin.setAggressive(true);
-            }
+        if (entity instanceof Piglin piglin) {
+            piglin.setAggressive(true);
+        } else if (entity instanceof ZombifiedPiglin zombifiedPiglin) {
+            zombifiedPiglin.setAggressive(true);
         }
     }
 
