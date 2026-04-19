@@ -81,7 +81,7 @@ public class SpecialMobTransformer {
 
         if (mobToSpawn == null) {
             EntityType type = ctx.random.nextBoolean() ? EntityType.CREAKING : EntityType.DROWNED;
-            livingEntity = (LivingEntity) ctx.location.getWorld().spawnEntity(ctx.location, type, CreatureSpawnEvent.SpawnReason.DEFAULT);
+            livingEntity = (LivingEntity) ctx.location.getWorld().spawnEntity(ctx.location, type, CreatureSpawnEvent.SpawnReason.CUSTOM);
         } else {
             mobToSpawn.addFreshEntity(ctx.location);
             livingEntity = mobToSpawn.getBukkitLivingEntity();

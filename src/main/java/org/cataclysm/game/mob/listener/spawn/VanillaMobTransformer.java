@@ -169,7 +169,7 @@ public class VanillaMobTransformer {
     private boolean transformPiglin(SpawnContext ctx) {
         if (ctx.day >= 14) {
             ctx.entity.remove();
-            var ent = ctx.location.getWorld().spawnEntity(ctx.location, EntityType.PIGLIN_BRUTE, CreatureSpawnEvent.SpawnReason.DEFAULT);
+            var ent = ctx.location.getWorld().spawnEntity(ctx.location, EntityType.PIGLIN_BRUTE, CreatureSpawnEvent.SpawnReason.CUSTOM);
             ent.setPersistent(false);
             SpawnUtils.setMobCap(ent, 5, 2, 1);
             return true;
@@ -180,7 +180,7 @@ public class VanillaMobTransformer {
     private boolean transformPig(SpawnContext ctx) {
         if (ctx.day >= 7 && ctx.random.nextInt(100) < 40) {
             ctx.entity.remove();
-            var ent = ctx.location.getWorld().spawnEntity(ctx.location, EntityType.ZOMBIFIED_PIGLIN, CreatureSpawnEvent.SpawnReason.DEFAULT);
+            var ent = ctx.location.getWorld().spawnEntity(ctx.location, EntityType.ZOMBIFIED_PIGLIN, CreatureSpawnEvent.SpawnReason.CUSTOM);
             SpawnUtils.setMobCap(ent, 25, 3, 1);
             return true;
         }
@@ -416,6 +416,9 @@ public class VanillaMobTransformer {
     }
 
     private boolean transformIronGolem(SpawnContext ctx) {
+        if (ctx.day > 7 && ctx.day < 14) {
+            ctx.entity.damage(300);
+        }
         if (ctx.day < 14) return false;
         ctx.entity.remove();
         return true;
@@ -457,7 +460,7 @@ public class VanillaMobTransformer {
     private boolean transformSquid(SpawnContext ctx) {
         if (ctx.day >= 14) {
             ctx.entity.remove();
-            ctx.location.getWorld().spawnEntity(ctx.location, EntityType.GUARDIAN, CreatureSpawnEvent.SpawnReason.DEFAULT);
+            ctx.location.getWorld().spawnEntity(ctx.location, EntityType.GUARDIAN, CreatureSpawnEvent.SpawnReason.CUSTOM);
         }
 
         return false;

@@ -1,5 +1,6 @@
 package org.cataclysm.game.mob.listener.spawn;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -32,7 +33,8 @@ public class SpawnUtils {
            maxPerChunk = 2;
        }
 
-        int playerCount = (int) entity.getWorld().getPlayers().stream().filter(player -> player.getGameMode() != GameMode.SPECTATOR).count();
+
+        long playerCount = Bukkit.getOnlinePlayers().stream().filter(p -> p.getGameMode() != GameMode.SPECTATOR && p.getWorld().equals(entity.getWorld())).count();
         maxPerPlayer *= (multiplier * playerCount);
 
         if (entity.getEntitySpawnReason() != CreatureSpawnEvent.SpawnReason.SPAWNER) {

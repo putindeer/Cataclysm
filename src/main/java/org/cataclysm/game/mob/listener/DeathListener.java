@@ -65,7 +65,7 @@ public class DeathListener implements Listener {
 
             case BAT -> {
                 if (day >= 14) {
-                    location.getWorld().spawnEntity(location, EntityType.VEX, CreatureSpawnEvent.SpawnReason.DEFAULT);
+                    location.getWorld().spawnEntity(location, EntityType.VEX, CreatureSpawnEvent.SpawnReason.CUSTOM);
                 }
             }
 

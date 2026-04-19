@@ -99,7 +99,7 @@ public class CustomMobSpawner {
 
             if (twistedMob != null) {
                 ctx.entity.remove();
-                twistedMob.addFreshEntity(ctx.location.clone().add(0, 1.5, 0));
+                twistedMob.addFreshEntity(ctx.location.clone().add(0, 1.5, 0), CreatureSpawnEvent.SpawnReason.CUSTOM);
                 SpawnUtils.setMobCap(twistedMob.getBukkitLivingEntity(), 8, 2, 1);
                 return true;
             }

@@ -109,7 +109,7 @@ public class BiomeBasedSpawner {
         Set<EntityType> slimeReplaceable = Set.of(EntityType.ZOMBIE, EntityType.SKELETON, EntityType.CREEPER);
         if (slimeReplaceable.contains(ctx.entity.getType()) && ctx.random.nextInt(100) < 10) {
             ctx.entity.remove();
-            var ent = ctx.location.getWorld().spawnEntity(ctx.location, EntityType.SLIME, CreatureSpawnEvent.SpawnReason.DEFAULT);
+            var ent = ctx.location.getWorld().spawnEntity(ctx.location, EntityType.SLIME, CreatureSpawnEvent.SpawnReason.CUSTOM);
             SpawnUtils.setMobCap(ent, 25, 2, 1);
         }
     }
@@ -120,7 +120,7 @@ public class BiomeBasedSpawner {
         Set<EntityType> magmaReplaceable = Set.of(EntityType.HUSK, EntityType.SKELETON, EntityType.CREEPER);
         if (magmaReplaceable.contains(ctx.entity.getType()) && ctx.random.nextInt(100) < 10) {
             ctx.entity.remove();
-            var ent = ctx.location.getWorld().spawnEntity(ctx.location, EntityType.MAGMA_CUBE, CreatureSpawnEvent.SpawnReason.DEFAULT);
+            var ent = ctx.location.getWorld().spawnEntity(ctx.location, EntityType.MAGMA_CUBE, CreatureSpawnEvent.SpawnReason.CUSTOM);
             SpawnUtils.setMobCap(ent, 10, 2, 1);
         }
     }
