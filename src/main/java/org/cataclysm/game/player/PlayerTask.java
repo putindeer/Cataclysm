@@ -95,7 +95,7 @@ public class PlayerTask {
 
         //Accounting for lemegeton's health blessing
         if (player.hasPotionEffect(PotionEffectType.HEALTH_BOOST)) {
-            int level = player.getPotionEffect(PotionEffectType.HEALTH_BOOST).getAmplifier();
+            int level = Objects.requireNonNull(player.getPotionEffect(PotionEffectType.HEALTH_BOOST)).getAmplifier();
             switch (level) {
                 case 3 -> defaultHealth += 12.0;
                 case 5 -> defaultHealth += 20.0;
@@ -309,10 +309,12 @@ public class PlayerTask {
     private void handleTeleports(int day, Player player) {
         if (day < 14) return;
 
-        for (var enderpearl : player.getEnderPearls()) {
-            int livedTicks = 200;
-            if (day >= 35) livedTicks = 40;
-            if (enderpearl.getTicksLived() >= livedTicks || enderpearl.isInLava() || enderpearl.isInWater() || enderpearl.getFireTicks() > 0) enderpearl.remove();
+        if (day >= 28) {
+            for (var enderpearl : player.getEnderPearls()) {
+                int livedTicks = 200;
+                if (day >= 35) livedTicks = 40;
+                if (enderpearl.getTicksLived() >= livedTicks || enderpearl.isInLava() || enderpearl.isInWater() || enderpearl.getFireTicks() > 0) enderpearl.remove();
+            }
         }
 
         if (day < 21) return;

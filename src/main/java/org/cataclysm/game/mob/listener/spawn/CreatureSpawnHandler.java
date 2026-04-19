@@ -5,11 +5,9 @@ import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.PigZombie;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.cataclysm.Cataclysm;
 import org.cataclysm.api.listener.registrable.Registrable;
 
@@ -64,17 +62,6 @@ public class CreatureSpawnHandler implements Listener {
 
         if (entity instanceof PigZombie pigZombie) {
             pigZombie.setAngry(true);
-        }
-    }
-
-    @EventHandler
-    public void onFireDamage(EntityDamageEvent event) {
-        if (Cataclysm.getDay() < 7) return;
-        if (event.getEntity() instanceof Player) return;
-        if (!(event.getEntity() instanceof LivingEntity)) return;
-
-        switch (event.getCause()) {
-            case FIRE, FIRE_TICK, LAVA, HOT_FLOOR -> event.setCancelled(true);
         }
     }
 

@@ -433,7 +433,7 @@ public class VanillaMobTransformer {
                 var piglinToSpawn = SpawnUtils.getRandomPiglin(ctx);
 
                 if (piglinToSpawn != null) {
-                    piglinToSpawn.addFreshEntity(ctx.location);
+                    piglinToSpawn.addFreshEntity(ctx.location, CreatureSpawnEvent.SpawnReason.CUSTOM);
                     ctx.entity.addPassenger(piglinToSpawn.getBukkitLivingEntity());
                 }
             }
