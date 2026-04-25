@@ -94,7 +94,7 @@ public enum CataclysmRecipes {
             .setIngredient('G', CataclysmItems.GOLDEN_CREAM.build())
             .setIngredient('H', CataclysmItems.GUARDIAN_HEART.build())
             .setIngredient('I', CataclysmItems.PALE_BALL.build()),
-            21),
+            14),
 
     MIRAGE_SCUTE(new CustomRecipe("mirage_scute", CataclysmItems.MIRAGE_SCUTE.build(), 1, true)
             .setShape(

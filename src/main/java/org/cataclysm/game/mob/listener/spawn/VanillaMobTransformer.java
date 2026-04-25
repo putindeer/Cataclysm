@@ -368,7 +368,6 @@ public class VanillaMobTransformer {
         if (ragnarok != null && ragnarok.getData().getLevel() >= 5) probability+=20;
 
         if (ctx.day >= 14 && ctx.biomeName.contains("BASALT") && probability > 90) {
-
             new GoldenMagmaCube(ctx.level).addFreshEntity(ctx.location);
             return true;
         }
@@ -460,7 +459,8 @@ public class VanillaMobTransformer {
     private boolean transformSquid(SpawnContext ctx) {
         if (ctx.day >= 14) {
             ctx.entity.remove();
-            ctx.location.getWorld().spawnEntity(ctx.location, EntityType.GUARDIAN, CreatureSpawnEvent.SpawnReason.CUSTOM);
+            var guardian = ctx.location.getWorld().spawnEntity(ctx.location, EntityType.GUARDIAN, CreatureSpawnEvent.SpawnReason.CUSTOM);
+            SpawnUtils.setMobCap(guardian, 15, 2, 1);
         }
 
         return false;
